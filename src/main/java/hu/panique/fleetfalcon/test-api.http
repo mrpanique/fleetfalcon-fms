@@ -1,11 +1,3 @@
-### Egy konkrét jármű (pl. az 1-es ID-jú)
-GET http://localhost:8080/api/vehicles/1
 
-### 2-es ID-jú jármű törlése
-DELETE http://localhost:8080/api/vehicles/2
-
-### Módosítás (Cseréld ki az ID-t arra, ami létezik nálad!)
-PUT http://localhost:8080/api/vehicles/1
-Content-Type: application/json
-
-{"id":1,"brand":"Ineos","model":"Grenadier","licensePlate":"updated_23984fhd4","vehicleType":"CAR","releaseYear":2022,"dailyPrice":40000.0,"available":true}
+### 6. Törlés teszt (Vigyázz, ez végleges!)
+DELETE http://localhost:8080/api/employees/1
