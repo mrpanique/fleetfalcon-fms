@@ -1,0 +1,14 @@
+"Pool Car System"
+
+Must-have functions:
+    Centralized Booking
+        Approval by admin
+        Cancellation
+    Vehicle maintenance
+    Reporting & Analytics
+        Costs (+ by department)
+        Vehicles by usage
+
+
+Functions to consider:
+    Solution for staffless key management
