@@ -1,3 +1,10 @@
+### 3. Foglalás létrehozása (Ez marad a régi, mert itt ID-kat küldünk)
+POST http://localhost:8080/api/bookings
+Content-Type: application/json
 
-### 6. Törlés teszt (Vigyázz, ez végleges!)
-DELETE http://localhost:8080/api/employees/1
+{
+  "vehicleId": 1,
+  "employeeId": 1,
+  "startDate": "2024-03-10T08:00:00",
+  "endDate": "2024-03-12T18:00:00"
+}
