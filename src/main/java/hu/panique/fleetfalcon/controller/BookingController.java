@@ -31,6 +31,7 @@ public class BookingController {
         return bookingRepository.findAll();
     }
 
+    // CREATING the booking
     @PostMapping
     public Booking createBooking(@RequestBody BookingRequest bookingRequest) {
 
@@ -58,4 +59,22 @@ public class BookingController {
 
         return bookingRepository.save(booking);
     }
+
+    // CHECK-OUT
+    @PostMapping("/{id}/start")
+    public Booking startRental(@PathVariable Long id, @RequestParam Integer mileage) {
+
+        Booking booking = bookingRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Booking not found"));
+
+        if (!"PENDING".equals(booking.getStatus())) {
+            throw new RuntimeException("Booking cannot be started. Current status: " + booking.getStatus());
+        }
+
+        booking.setStartMileage(mileage);
+        booking.setStatus("IN_USE");
+
+        return bookingRepository.save(booking);
+    }
+
 }
