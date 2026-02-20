@@ -55,8 +55,59 @@ public class BookingController {
         booking.setStartDate(bookingRequest.getStartDate());
         booking.setEndDate(bookingRequest.getEndDate());
 
+        // DEFAULT
         booking.setStatus("PENDING");
+        System.out.println("-booking made-");
 
+        return bookingRepository.save(booking);
+    }
+
+    // APPROVAL
+    @PostMapping("/{id}/approve")
+    public Booking approveBooking(@PathVariable Long id) {
+
+        Booking booking = bookingRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Booking not found"));
+
+        if (!"PENDING".equals(booking.getStatus())) {
+            throw new RuntimeException("Only PENDING bookings can be approved. Current status: " + booking.getStatus());
+        }
+
+        booking.setStatus("APPROVED");
+
+        System.out.println("-booking approved-");
+        return bookingRepository.save(booking);
+    }
+
+    // REJECTION
+    @PostMapping("/{id}/reject")
+    public Booking rejectBooking(@PathVariable Long id) {
+
+        Booking booking = bookingRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Booking not found"));
+
+        if (!"PENDING".equals(booking.getStatus())) {
+            throw new RuntimeException("Only PENDING bookings can be rejected. Current status: " + booking.getStatus());
+        }
+
+        booking.setStatus("REJECTED");
+        System.out.println("-booking rejected-");
+        return bookingRepository.save(booking);
+    }
+
+    // CANCELLATION
+    @PostMapping("/{id}/cancel")
+    public Booking cancelBooking(@PathVariable Long id) {
+
+        Booking booking = bookingRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Booking not found"));
+
+        if (!("PENDING".equals(booking.getStatus()) || "APPROVED".equals(booking.getStatus()))) {
+            throw new RuntimeException("Only PENDING or APPROVED bookings can be cancelled. Current status: " + booking.getStatus());
+        }
+
+        booking.setStatus("CANCELLED");
+        System.out.println("-booking cancelled-");
         return bookingRepository.save(booking);
     }
 
@@ -67,14 +118,48 @@ public class BookingController {
         Booking booking = bookingRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Booking not found"));
 
-        if (!"PENDING".equals(booking.getStatus())) {
+        if (!"APPROVED".equals(booking.getStatus())) {
             throw new RuntimeException("Booking cannot be started. Current status: " + booking.getStatus());
         }
 
         booking.setStartMileage(mileage);
-        booking.setStatus("IN_USE");
+        booking.setStatus("ACTIVE");
 
+        Vehicle vehicle = booking.getVehicle();
+        vehicle.setAvailable(false);
+
+        System.out.println("-booking checked out-");
+        vehicleRepository.save(vehicle);
         return bookingRepository.save(booking);
     }
 
+    // CHECK-IN
+    @PostMapping("/{id}/end")
+    public Booking endRental(@PathVariable Long id, @RequestParam Integer mileage) {
+
+        Booking booking = bookingRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Booking not found"));
+
+        if (!"ACTIVE".equals(booking.getStatus())) {
+            throw new RuntimeException("Cannot end rental. Current status is: " + booking.getStatus());
+        }
+
+        if (mileage < booking.getStartMileage()) {
+            throw new RuntimeException("End mileage (" + mileage + ") cannot be less than start mileage (" + booking.getStartMileage() + ")!");
+        }
+
+        booking.setEndMileage(mileage);
+
+        double distance = (mileage - booking.getStartMileage());
+        booking.setDistanceTraveled(distance);
+
+        Vehicle vehicle = booking.getVehicle();
+        vehicle.setAvailable(true);
+
+        booking.setStatus("COMPLETED");
+
+        System.out.println("-booking completed-");
+        vehicleRepository.save(vehicle);
+        return bookingRepository.save(booking);
+    }
 }

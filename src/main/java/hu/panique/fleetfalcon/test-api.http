@@ -1,4 +1,32 @@
-### 3. Foglalás létrehozása (Ez marad a régi, mert itt ID-kat küldünk)
+### 1. add a new vehicle
+POST http://localhost:8080/api/vehicles
+Content-Type: application/json
+
+{
+  "brand": "VolksWagen",
+  "model": "Golf VI",
+  "licensePlate": "ABC-123",
+  "vehicleType": "Car",
+  "releaseYear": 2018,
+  "dailyPrice": 10000,
+  "available": true
+}
+
+### 2. add a new employee
+POST http://localhost:8080/api/employees
+Content-Type: application/json
+
+{
+"firstName": "Sloan",
+"lastName": "Holloway",
+"employeeId": "EMP-2026-0042",
+"email": "s.holloway@company.com",
+"phoneNumber": "+1-555-0198",
+"drivingLicenseNumber": "DL-998877665",
+"department": "Sales"
+}
+
+### 3. Create a booking
 POST http://localhost:8080/api/bookings
 Content-Type: application/json
 
@@ -8,3 +36,8 @@ Content-Type: application/json
   "startDate": "2024-03-10T08:00:00",
   "endDate": "2024-03-12T18:00:00"
 }
+
+### 4. Approve booking
+POST http://localhost:8080/api/bookings/1/approve
+Content-Type: application/json
+

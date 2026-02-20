@@ -37,6 +37,7 @@ public class Booking {
     private LocalDateTime endDate;
 
     // can be: PENDING (waiting for approval), APPROVED, ACTIVE ,REJECTED, COMPLETED, CANCELLED
+    // Default: PENDING
     // ENUM later?
     private String status;
 
