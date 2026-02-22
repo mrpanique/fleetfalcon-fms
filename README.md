@@ -5,7 +5,7 @@
 # FleetFalcon 🚗🦅
 
 ### Enterprise Fleet Management System 
-An enterprise-grade application designed to manage corporate vehicle fleets, handle employee bookings, and optimize resource allocation. This project serves as a deep dive into the **Full-Stack Enterprise Java Ecosystem**, implementing industry-standard architectural patterns and business logic.
+An enterprise-grade application designed to manage shared corporate vehicle fleets, handle employee bookings, and optimize resource allocation. This project serves as a deep dive into the **Full-Stack Enterprise Java Ecosystem**, implementing industry-standard architectural patterns and business logic.
 
 ## 🏗️ Architecture & Design
 
@@ -23,15 +23,15 @@ Controller-Service-Repository pattern.
 * Tracking metadata: Brand, Model, License plate, Type, and Daily Price.
 * Real-time Availability: Automatic synchronization of vehicle availability based on active bookings.
 
-### 2. Booking Lifecycle (State Machine)
-The core of the application features a robust booking engine that manages the full lifecycle of a rental:
-* **Conflict Detection:** Custom database-level logic (SQL/JPQL) to mathematically prevent overlapping reservations for the same vehicle.
-* **Strict State Transitions:** A built-in state machine ensuring logical progression: `PENDING` ➡️ `APPROVED` ➡️ `ACTIVE` ➡️ `COMPLETED` (along with `REJECTED` and `CANCELLED` states).
+### 2. Booking Lifecycle 
+* **Conflict Detection:** Database-level logic (SQL/JPQL) to prevent overlapping reservations for the same vehicle.
+* **Strict State Transitions:** A state machine ensuring logical progression: `PENDING` ➡️ `APPROVED` ➡️ `ACTIVE` ➡️ `COMPLETED` (along with `REJECTED` and `CANCELLED` states).
 * **Check-out / Check-in System:** * Tracks starting and ending mileage.
   * Calculates total distance traveled dynamically.
   * Validates logic (e.g., end mileage cannot be less than start mileage; cannot cancel an active trip).
 
-### 3. User Roles & Security (Planned)
+### 3. User Roles & Security (In progress)
+* CRUD operations for employees.
 * **Admin:** Full access to fleet management, booking approvals, and overriding bookings.
 * **Employee:** Standard access to view availability and request vehicles.
 
@@ -39,13 +39,12 @@ The core of the application features a robust booking engine that manages the fu
 
 While the core backend engine and state machine are functional, the system is actively being expanded with the following modules:
 
-* **🖥️ Frontend Web Application (In Progress):** * Developing a modern Single Page Application (SPA) using **Angular** and TypeScript.
-    * Implementing a responsive "Fleet Dashboard" with real-time status indicators (Available/In Use).
+* **🖥️ Frontend Web Application:** * Developing a modern Single Page Application (SPA) using **Angular** and TypeScript.
+    * Implementing a responsive "Fleet Dashboard" with real-time status indicators.
 * **🛠️ Vehicle Maintenance Module:** * Tracking service intervals and repair logs.
-    * Automatically blocking vehicles (`available = false`) during maintenance periods to prevent conflict in the booking engine.
+    * Blocking vehicles during maintenance periods to prevent conflict in the booking engine.
 * **📊 Reporting & Analytics:**
-    * Calculating and displaying `estimatedCost` based on the vehicle's daily rate and booking duration.
-    * Generating usage statistics (e.g., most frequently booked vehicles, total fleet mileage).
+    * Generating usage and cost statistics.
 
 
 ## 🛠️ Technology Stack
