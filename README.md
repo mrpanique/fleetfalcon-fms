@@ -9,17 +9,12 @@ An enterprise-grade application designed to manage corporate vehicle fleets, han
 
 ## 🏗️ Architecture & Design
 
-The system follows a strict **N-Tier Architecture** to ensure separation of concerns and scalability:
+Controller-Service-Repository pattern.
 
 * **Backend:** Java 17 with Spring Boot 4.0.2
 * **Database:** PostgreSQL with Spring Data JPA (Hibernate)
 * **Frontend:** Angular (SPA) - In Progress
 * **Communication:** RESTful API (DTO pattern)
-
-### Core Architectural Layers
-1.  **Controller Layer:** Handles HTTP requests, path variables, request parameters, and response mapping.
-2.  **Service/Business Layer:** Contains the core business logic, validation rules, and state management.
-3.  **Repository Layer:** Abstracts database interactions with JPQL queries.
 
 ## 🎯 Features
 
