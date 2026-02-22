@@ -52,7 +52,7 @@ While the core backend engine and state machine are functional, the system is ac
 | Component | Technology |
 | :--- | :--- |
 | **Language** | Java 17, TypeScript |
-| **Frameworks** | Spring Boot 3.x, Angular 17+ |
+| **Frameworks** | Spring Boot 4.0.2, Angular 17+ |
 | **Data Access** | Spring Data JPA, Hibernate |
 | **Database** | PostgreSQL |
 | **Build Tools** | Maven, npm |
