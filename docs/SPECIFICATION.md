@@ -34,15 +34,18 @@ Az alkalmazás az alábbi modulokra és mélyebb üzleti logikákra tagolódik:
 * **Architektúra:** Controller-Service-Repository
 * **Backend (Szerveroldal):** Java (Spring Boot), Spring Data JPA, Hibernate ORM, REST API (JSON).
 * **Adatbázis:** PostgreSQL
-* **Frontend (Kliensoldal):** Angular (TypeScript), aszinkron hálózati kommunikációval (RxJS Observables). A stílusozáshoz SCSS.
+* **Frontend (Kliensoldal):** Angular (TypeScript), Tailwind CSS
 * **Teljesítmény és UX-elvárások:**
   * Aszinkron adatbetöltés (SPA).
-  * Reszponzív, letisztult felhasználói felület.
+  * Reszponzív, letisztult és konzisztens felhasználói felület.
   * Azonnali vizuális visszajelzések a felhasználói interakciókról.
+  * Akadálymentesség
+  * Kliens-oldali routing
+  * Komponens-alapú felépítés
 
 ## Felhasználói szerepkörök
 
-A rendszerben legalább két, eltérő jogosultságokkal rendelkező szerepkör található:
+A rendszerben két, eltérő jogosultságokkal rendelkező szerepkör található:
 
 1. **Adminisztrátor:**
   * Teljes körű (CRUD) hozzáféréssel rendelkezik a járművekhez és a felhasználókhoz.
