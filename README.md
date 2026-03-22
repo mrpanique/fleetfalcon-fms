@@ -39,9 +39,11 @@ Controller-Service-Repository pattern.
 
 While the core backend engine and state machine are functional, the system is actively being expanded with the following modules:
 
-* **🖥️ Frontend Web Application:** * Developing a modern Single Page Application (SPA) using **Angular** and TypeScript, designing with Tailwind CSS.
+* **🖥️ Frontend Web Application:**
+    * Developing a modern Single Page Application (SPA) using **Angular** and TypeScript, designing with Tailwind CSS.
     * Implementing a responsive "Fleet Dashboard" with real-time status indicators.
-* **🛠️ Vehicle Maintenance Module:** * Tracking service intervals and repair logs.
+* **🛠️ Vehicle Maintenance Module:**
+    * Tracking service intervals and repair logs.
     * Blocking vehicles during maintenance periods to prevent conflict in the booking engine.
     * Notifying the admins if maintenance of a vehicle is due 
 * **📊 Reporting & Analytics:**
