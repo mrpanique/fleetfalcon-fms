@@ -1,0 +1,4 @@
+
+BACK: 1E1E1E
+
+FORE: Gradient FF0050 - FF0019
