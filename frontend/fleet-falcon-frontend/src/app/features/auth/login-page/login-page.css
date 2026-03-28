@@ -1,0 +1,127 @@
+.login-shell {
+  position: relative;
+}
+
+.login-shell::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 12% 18%, rgba(255, 0, 80, 0.14), transparent 40%),
+    radial-gradient(circle at 88% 72%, rgba(255, 0, 25, 0.12), transparent 42%),
+    linear-gradient(120deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0));
+}
+
+.login-grid {
+  animation: fade-up 420ms ease-out;
+}
+
+.brand-hero {
+  display: inline-flex;
+  align-items: center;
+  padding: 0;
+}
+
+.brand-hero-image {
+  display: block;
+  width: min(240px, 60vw);
+  height: auto;
+}
+
+.form-title {
+  font-family: var(--font-title);
+  font-size: clamp(1.45rem, 2vw + 0.9rem, 2.15rem);
+  line-height: 1.15;
+  color: var(--color-text);
+}
+
+.form-subtitle {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-md);
+  line-height: 1.65;
+}
+
+.field-label {
+  display: inline-block;
+  color: var(--color-text-soft);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+}
+
+.field-input {
+  width: 100%;
+  border: 1px solid var(--color-border-soft);
+  border-radius: var(--radius-md);
+  background: var(--color-surface-strong);
+  padding: 0.78rem 0.9rem;
+  color: var(--color-text);
+  transition: border-color 180ms ease, box-shadow 180ms ease, background-color 180ms ease;
+}
+
+.field-input::placeholder {
+  color: rgba(232, 232, 232, 0.36);
+}
+
+.field-input:hover {
+  border-color: rgba(255, 255, 255, 0.25);
+}
+
+.field-input:focus-visible {
+  outline: none;
+  border-color: rgba(255, 0, 80, 0.65);
+  box-shadow: 0 0 0 4px rgba(255, 0, 68, 0.2);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.checkbox-input {
+  accent-color: rgb(255, 0, 68);
+}
+
+.submit-button {
+  border: 0;
+  border-radius: var(--radius-md);
+  padding: 0.75rem 1rem;
+  color: var(--color-text);
+  font-family: var(--font-title);
+  font-size: var(--font-size-lg);
+  letter-spacing: 0.025em;
+  background: linear-gradient(120deg, var(--color-accent-1), var(--color-accent-2));
+  transition: transform 160ms ease, box-shadow 160ms ease, filter 160ms ease;
+}
+
+.submit-button:hover {
+  filter: brightness(1.5);
+  box-shadow: 0 0px 26px rgba(255, 0, 68, 0.5);
+}
+
+.submit-button:active {
+  transform: translateY(0);
+}
+
+.submit-button:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(255, 0, 68, 0.24), 0 10px 24px rgba(255, 0, 68, 0.32);
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 767px) {
+  .brand-hero {
+    padding: 0;
+  }
+
+  .form-title {
+    font-size: clamp(1.35rem, 4vw + 0.7rem, 1.85rem);
+  }
+}

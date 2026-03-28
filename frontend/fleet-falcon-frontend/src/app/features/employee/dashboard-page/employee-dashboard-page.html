@@ -1,0 +1,49 @@
+<section class="dashboard-shell" aria-labelledby="dashboard-title">
+  <div class="dashboard-wrap">
+    <header class="dashboard-header">
+      <h1 id="dashboard-title" class="dashboard-title">Dashboard</h1>
+    </header>
+
+    <div class="dashboard-grid" role="presentation">
+      <article class="card card-cta" aria-labelledby="book-car-title">
+        <h2 id="book-car-title" class="card-title">Book a car</h2>
+        <p class="card-copy">Create a new booking request in a few steps.</p>
+        <a routerLink="/my-bookings/create" class="action-btn action-btn-primary">Start booking</a>
+      </article>
+
+      <article class="card card-upcoming" aria-labelledby="upcoming-title">
+        <div class="card-title-row">
+          <h2 id="upcoming-title" class="card-title">Upcoming bookings</h2>
+          <a routerLink="/my-bookings" class="inline-link">See all</a>
+        </div>
+
+        <ul class="booking-list" aria-label="Upcoming booking summary">
+          <li class="booking-item">
+            <a routerLink="/my-bookings/1001" class="booking-item-link" aria-label="Booking details for Toyota Corolla, approved booking">
+              <div>
+                <p class="booking-date">2026.03.31 09:00 - 2026.04.01 18:00</p>
+                <p class="booking-vehicle">Toyota Corolla</p>
+              </div>
+              <span class="status-pill">Approved</span>
+            </a>
+          </li>
+          <li class="booking-item">
+            <a routerLink="/my-bookings/1002" class="booking-item-link" aria-label="Booking details for Skoda Octavia, pending booking">
+              <div>
+                <p class="booking-date">2026.04.03 07:30 - 2026.04.03 15:30</p>
+                <p class="booking-vehicle">Skoda Octavia</p>
+              </div>
+              <span class="status-pill pending">Pending</span>
+            </a>
+          </li>
+        </ul>
+      </article>
+
+      <article class="card card-info" aria-labelledby="info-title">
+        <h2 id="info-title" class="card-title">Need a quick guide?</h2>
+        <p class="card-copy">Open the how-it-works page for booking lifecycle and rules.</p>
+        <a routerLink="/how-it-works" class="action-btn action-btn-secondary">Open info page</a>
+      </article>
+    </div>
+  </div>
+</section>

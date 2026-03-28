@@ -1,1 +1,68 @@
-<p>navbar works!</p>
+<header class="navbar-shell">
+	<div class="navbar-inner">
+		<a class="brand-link" routerLink="/dashboard" aria-label="FleetFalcon home">
+			<img src="/ff_colorful.png" alt="FleetFalcon" class="brand-logo" />
+		</a>
+
+		<nav class="desktop-nav" aria-label="Primary navigation">
+			@for (item of navItems(); track item.route) {
+				<a
+					class="nav-link"
+					[routerLink]="item.route"
+					routerLinkActive="is-active"
+					[routerLinkActiveOptions]="{ exact: true }"
+				>
+					{{ item.label }}
+				</a>
+			}
+		</nav>
+
+		<div class="navbar-actions">
+			<div class="role-switch" aria-label="Switch active role preview">
+				<button
+					type="button"
+					class="role-btn"
+					[class.is-selected]="role() === 'EMPLOYEE'"
+					(click)="switchRole('EMPLOYEE')"
+				>
+					Employee
+				</button>
+				<button
+					type="button"
+					class="role-btn"
+					[class.is-selected]="role() === 'ADMIN'"
+					(click)="switchRole('ADMIN')"
+				>
+					Admin
+				</button>
+			</div>
+
+			<button
+				type="button"
+				class="mobile-toggle"
+				(click)="toggleMobileMenu()"
+				[attr.aria-expanded]="mobileMenuOpen()"
+				aria-controls="mobile-nav"
+				aria-label="Open navigation menu"
+			>
+				<span aria-hidden="true">☰</span>
+			</button>
+		</div>
+	</div>
+
+	@if (mobileMenuOpen()) {
+		<nav id="mobile-nav" class="mobile-nav" aria-label="Mobile primary navigation">
+			@for (item of navItems(); track item.route) {
+				<a
+					class="mobile-nav-link"
+					[routerLink]="item.route"
+					routerLinkActive="is-active"
+					[routerLinkActiveOptions]="{ exact: true }"
+					(click)="closeMobileMenu()"
+				>
+					{{ item.label }}
+				</a>
+			}
+		</nav>
+	}
+</header>
