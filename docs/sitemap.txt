@@ -7,7 +7,7 @@ FleetFalcon FMS
 │   │   └── Book a car button, upcoming bookings, Button to info page
 │   │
 │   ├── /vehicles
-│   │   ├── /browse (list view + filter and search)
+│   │   ├── / (list view + filter and search)
 │   │   └── /{id} (detail view)
 │   │
 │   ├── /my-bookings
