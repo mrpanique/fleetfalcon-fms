@@ -45,6 +45,8 @@ While the core backend engine and state machine are functional, the system is ac
     * Blocking vehicles during maintenance periods to prevent conflict in the booking engine.
 * **📊 Reporting & Analytics:**
     * Generating usage and cost statistics.
+* **📷 Picture upload:**
+    * The possibility of uploading pictures of vehicles.
 
 
 ## 🛠️ Technology Stack

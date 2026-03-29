@@ -1,0 +1,74 @@
+<section class="admin-employees-shell" aria-labelledby="admin-employees-title">
+  <div class="admin-employees-wrap">
+    <header class="admin-employees-header">
+      <h1 id="admin-employees-title" class="admin-employees-title">Employees</h1>
+    </header>
+
+    <article class="admin-employees-card" aria-labelledby="employees-filters-title">
+      <div class="card-top-row">
+        <h2 id="employees-filters-title" class="card-title">Filters</h2>
+        <a routerLink="/admin/employees/new" class="add-btn">Add new employee</a>
+      </div>
+
+      <form class="filters-form" aria-label="Employee filters" novalidate>
+        <div class="filter-row">
+          <label for="employee-name-filter" class="filter-label">Name</label>
+          <input
+            id="employee-name-filter"
+            type="text"
+            class="filter-input"
+            placeholder="e.g. John Smith"
+            [ngModel]="nameFilter()"
+            (ngModelChange)="setNameFilter($event)"
+            name="nameFilter"
+          />
+        </div>
+
+        <div class="filter-row">
+          <label for="employee-id-filter" class="filter-label">Employee ID</label>
+          <input
+            id="employee-id-filter"
+            type="text"
+            class="filter-input"
+            placeholder="e.g. EMP-001"
+            [ngModel]="employeeIdFilter()"
+            (ngModelChange)="setEmployeeIdFilter($event)"
+            name="employeeIdFilter"
+          />
+        </div>
+      </form>
+    </article>
+
+    <article class="admin-employees-card" aria-labelledby="employees-list-title">
+      <h2 id="employees-list-title" class="card-title">Employee list</h2>
+
+      <ul class="employee-list" aria-label="All employees">
+        @if (filteredEmployees().length > 0) {
+          @for (employee of filteredEmployees(); track employee.id) {
+            <li class="employee-item">
+              <div class="employee-item-panel" role="group" [attr.aria-label]="'Employee ' + employee.name">
+                <div class="employee-main">
+                  <p class="employee-name">{{ employee.name }}</p>
+                  <p class="employee-meta">
+                    <span [ngClass]="['role-pill', employee.role === 'ADMIN' ? 'admin' : 'employee']">{{ employee.role }}</span>
+                    <span class="meta-divider">•</span>
+                    <span>{{ employee.employeeId }}</span>
+                  </p>
+                  <p class="employee-details">Department: {{ employee.department }}</p>
+                  <p class="employee-details">Phone: {{ employee.phoneNumber }}</p>
+                  <p class="employee-details">Driving license: {{ employee.drivingLicenseNumber }}</p>
+                </div>
+
+                <a [routerLink]="['/admin/employees', employee.id, 'edit']" class="edit-btn">Edit</a>
+              </div>
+            </li>
+          }
+        } @else {
+          <div class="empty-state">
+            <p>No employees found for the selected filters</p>
+          </div>
+        }
+      </ul>
+    </article>
+  </div>
+</section>

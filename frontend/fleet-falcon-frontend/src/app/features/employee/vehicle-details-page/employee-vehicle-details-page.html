@@ -1,0 +1,48 @@
+<section class="vehicle-details-shell" aria-labelledby="vehicle-details-title">
+  <div class="vehicle-details-wrap">
+    <header class="vehicle-details-header">
+      <h1 id="vehicle-details-title" class="vehicle-details-title">Vehicle details</h1>
+      <p class="vehicle-id">Vehicle ID: {{ vehicleId() }}</p>
+    </header>
+
+    <article class="vehicle-card" aria-label="Vehicle data">
+      <h2 class="vehicle-name">Toyota Corolla</h2>
+
+      <dl class="vehicle-data-grid">
+        <div><dt>Brand</dt><dd>Toyota</dd></div>
+        <div><dt>Model</dt><dd>Corolla</dd></div>
+        <div><dt>Vehicle type</dt><dd>CAR</dd></div>
+        <div><dt>Fuel type</dt><dd>HYBRID</dd></div>
+        <div><dt>Release year</dt><dd>2022</dd></div>
+        <div><dt>Daily price</dt><dd>18 000 Ft</dd></div>
+        <div><dt>Seats</dt><dd>5</dd></div>
+        <div><dt>License plate</dt><dd>ABC-123</dd></div>
+        @if (isAdmin()) {
+          <div><dt>Current status</dt><dd>AVAILABLE</dd></div>
+          <div><dt>Current mileage</dt><dd>42 800 km</dd></div>
+          <div><dt>Inspection valid until</dt><dd>2027-03-15</dd></div>
+          <div><dt>Next service mileage</dt><dd>50 000 km</dd></div>
+          <div><dt>Next service date</dt><dd>2026-09-01</dd></div>
+        }
+      </dl>
+
+      <section class="vehicle-description" aria-labelledby="description-title">
+        <h3 id="description-title" class="description-title">Description</h3>
+        <p class="description-copy">
+          Comfortable hybrid sedan for city and intercity travel.
+          Includes rear camera, parking sensors, and automatic climate control.
+        </p>
+      </section>
+
+      <div class="actions-row">
+        <a routerLink="/my-bookings/create" class="book-btn">Book</a>
+        @if (isAdmin()) {
+          <div class="admin-right-actions">
+            <a [routerLink]="['/admin/vehicles', vehicleId(), 'service-log']" class="service-log-btn">Service log</a>
+            <a [routerLink]="['/admin/vehicles', vehicleId(), 'edit']" class="edit-btn">Edit vehicle</a>
+          </div>
+        }
+      </div>
+    </article>
+  </div>
+</section>

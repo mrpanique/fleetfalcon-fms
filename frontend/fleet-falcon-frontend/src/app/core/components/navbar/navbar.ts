@@ -20,7 +20,7 @@ export class Navbar {
 
   protected readonly employeeNavItems: NavItem[] = [
     { label: 'Dashboard', route: '/dashboard' },
-    { label: 'Vehicles', route: '/vehicles' },
+    { label: 'Book a vehicle', route: '/vehicles' },
     { label: 'My bookings', route: '/my-bookings' },
     { label: 'Info', route: '/how-it-works' },
     { label: 'Profile', route: '/profile' }

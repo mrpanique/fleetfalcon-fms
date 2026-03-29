@@ -1,0 +1,89 @@
+<section class="booking-details-shell" aria-labelledby="booking-details-title">
+  <div class="booking-details-wrap">
+    <header class="booking-details-header">
+      <h1 id="booking-details-title" class="booking-details-title">Booking details</h1>
+      <p class="booking-id">Booking ID: {{ bookingId() }}</p>
+    </header>
+
+    <div class="booking-details-grid">
+      <article class="booking-card" aria-labelledby="booking-info-title">
+        <h2 id="booking-info-title" class="section-title">Booking information</h2>
+
+        <dl class="booking-data-grid">
+          <div>
+            <dt>Status</dt>
+            <dd><span class="status-pill approved">Approved</span></dd>
+          </div>
+          <div>
+            <dt>Cost</dt>
+            <dd>54 000 Ft</dd>
+          </div>
+          <div>
+            <dt>Time period</dt>
+            <dd>2026.03.31 09:00 - 2026.04.01 18:00</dd>
+          </div>
+        </dl>
+
+        @if (isAdmin()) {
+          <div class="admin-actions" aria-label="Admin booking actions">
+            <button type="button" class="action-btn approve-btn">Approve</button>
+            <button type="button" class="action-btn reject-btn">Reject</button>
+            <button type="button" class="action-btn cancel-btn">Cancel (own booking)</button>
+            <button type="button" class="action-btn checkout-btn" (click)="openMileageModal('checkout')">Check-out</button>
+            <button type="button" class="action-btn checkin-btn" (click)="openMileageModal('checkin')">Check-in</button>
+          </div>
+        } @else {
+          <button type="button" class="cancel-btn">Cancel booking</button>
+        }
+      </article>
+
+      <article class="vehicle-card" aria-labelledby="vehicle-card-title">
+        <h2 id="vehicle-card-title" class="vehicle-title">Toyota Corolla</h2>
+        <dl class="vehicle-meta">
+          <div><dt>Vehicle type</dt><dd>CAR</dd></div>
+          <div><dt>Fuel type</dt><dd>HYBRID</dd></div>
+          <div><dt>Seats</dt><dd>5</dd></div>
+          <div><dt>Price/day</dt><dd>18 000 Ft</dd></div>
+        </dl>
+        <a routerLink="/vehicles/1001" class="details-btn">Vehicle details</a>
+      </article>
+    </div>
+
+    @if (isAdmin()) {
+      <article class="owner-card" aria-labelledby="owner-title">
+        <h2 id="owner-title" class="section-title">Booking owner</h2>
+
+        <ul class="owner-list" aria-label="Booking owner details">
+          <li class="owner-item">
+            <div class="employee-item-panel" role="group" [attr.aria-label]="'Employee ' + bookingOwner.name">
+              <div class="employee-main">
+                <p class="employee-name">{{ bookingOwner.name }}</p>
+                <p class="employee-meta">
+                  <span [ngClass]="['role-pill', bookingOwner.role === 'ADMIN' ? 'admin' : 'employee']">{{ bookingOwner.role }}</span>
+                  <span class="meta-divider">•</span>
+                  <span>{{ bookingOwner.employeeId }}</span>
+                </p>
+                <p class="employee-details">Department: {{ bookingOwner.department }}</p>
+                <p class="employee-details">Phone: {{ bookingOwner.phoneNumber }}</p>
+                <p class="employee-details">Driving license: {{ bookingOwner.drivingLicenseNumber }}</p>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </article>
+    }
+
+    @if (isAdmin() && isMileageModalOpen()) {
+      <app-mileage-modal
+        [title]="mileageModalTitle()"
+        [subtitle]="'Enter vehicle ' + mileageFieldLabel().toLowerCase() + '.'"
+        [fieldLabel]="mileageFieldLabel()"
+        [confirmLabel]="mileageConfirmLabel()"
+        [mileageValue]="mileageInput()"
+        (mileageValueChange)="onMileageInputValue($event)"
+        (close)="closeMileageModal()"
+        (confirm)="confirmMileageAction()"
+      />
+    }
+  </div>
+</section>

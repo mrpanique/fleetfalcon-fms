@@ -1,0 +1,20 @@
+<div class="service-log-shell">
+  <div class="service-log-wrap">
+    <header class="service-log-header">
+      <div class="header-content">
+        <h1>Service Log</h1>
+        <p class="vehicle-subtitle">Vehicle ID: {{ vehicleId() }}</p>
+      </div>
+      <div class="header-actions">
+        <button type="button" class="add-btn" (click)="addNewServiceRecord()">Add new service record</button>
+      </div>
+    </header>
+
+    <app-service-log-list
+      [records]="serviceRecords()"
+      [expandedRecordId]="expandedItemId()"
+      (toggle)="toggleExpand($event)"
+      (edit)="editServiceRecord($event)"
+    />
+  </div>
+</div>

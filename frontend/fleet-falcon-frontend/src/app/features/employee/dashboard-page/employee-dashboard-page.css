@@ -181,7 +181,7 @@
 }
 
 .inline-link {
-  color: var(--color-accent-2);
+  color: var(--color-accent-1);
   text-decoration: none;
   font-size: 0.88rem;
   transition: color 150ms ease, text-shadow 150ms ease;

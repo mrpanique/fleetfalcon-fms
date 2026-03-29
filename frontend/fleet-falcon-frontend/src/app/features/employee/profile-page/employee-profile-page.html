@@ -1,0 +1,38 @@
+<section class="profile-shell" aria-labelledby="profile-title">
+  <div class="profile-wrap">
+    <header class="profile-header">
+      <h1 id="profile-title" class="profile-title">Profile</h1>
+    </header>
+
+    <article class="profile-card" aria-labelledby="account-info-title">
+      <h2 id="account-info-title" class="section-title">Account</h2>
+      <div class="email-block">
+        <p class="label">Email</p>
+        <p class="email-value">employee@fleetfalcon.hu</p>
+      </div>
+    </article>
+
+    <article class="profile-card" aria-labelledby="change-password-title">
+      <h2 id="change-password-title" class="section-title">Change password</h2>
+
+      <form class="password-form" aria-label="Change password form" novalidate>
+        <div class="field-row">
+          <label for="old-password" class="field-label">Old password</label>
+          <input id="old-password" type="password" class="field-input" autocomplete="current-password" />
+        </div>
+
+        <div class="field-row">
+          <label for="new-password" class="field-label">New password</label>
+          <input id="new-password" type="password" class="field-input" autocomplete="new-password" />
+        </div>
+
+        <div class="field-row">
+          <label for="new-password-confirm" class="field-label">Repeat new password</label>
+          <input id="new-password-confirm" type="password" class="field-input" autocomplete="new-password" />
+        </div>
+
+        <button type="button" class="change-password-btn">Change password</button>
+      </form>
+    </article>
+  </div>
+</section>

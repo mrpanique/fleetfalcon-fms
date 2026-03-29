@@ -1,0 +1,30 @@
+<div [class.expanded]="expanded" class="service-item">
+  <div class="service-item-header" (click)="onToggle()">
+    <div class="service-item-info">
+      <h3 class="service-type">{{ record.type }}</h3>
+      <div class="service-meta">
+        <span class="service-date">{{ record.startDate }}</span>
+        <span class="service-separator">-</span>
+        <span class="service-date">{{ record.endDate }}</span>
+      </div>
+    </div>
+    <div class="service-cost">
+      <span class="cost-label">Cost:</span>
+      <span class="cost-value" [class.free]="record.cost === 0">
+        {{ record.cost === 0 ? 'No charge' : '$' + record.cost.toFixed(2) }}
+      </span>
+    </div>
+    <button type="button" class="service-edit-btn" (click)="onEdit($event)" title="Edit service record">
+      Edit
+    </button>
+    <button class="expand-btn" [class.expanded]="expanded" type="button" aria-label="Expand service details">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+  </div>
+
+  <div class="service-item-description" *ngIf="expanded">
+    <p>{{ record.description }}</p>
+  </div>
+</div>

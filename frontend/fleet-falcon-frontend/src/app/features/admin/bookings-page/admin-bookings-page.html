@@ -1,0 +1,87 @@
+<section class="admin-bookings-shell" aria-labelledby="admin-bookings-title">
+  <div class="admin-bookings-wrap">
+    <header class="admin-bookings-header">
+      <h1 id="admin-bookings-title" class="admin-bookings-title">Bookings</h1>
+    </header>
+
+    <article class="admin-bookings-card" aria-labelledby="filters-title">
+      <h2 id="filters-title" class="card-title">Filters</h2>
+
+      <form class="filters-form" aria-label="Bookings filters" novalidate>
+        <div class="filter-row">
+          <label for="status-filter" class="filter-label">Status</label>
+          <select
+            id="status-filter"
+            class="filter-input"
+            [ngModel]="draftStatusFilter()"
+            (ngModelChange)="setDraftStatusFilter($event)"
+            name="draftStatusFilter"
+          >
+            <option value="all">All</option>
+            <option value="pending">Pending</option>
+            <option value="approved">Approved</option>
+            <option value="active">Active</option>
+            <option value="completed">Completed</option>
+            <option value="rejected">Rejected</option>
+            <option value="cancelled">Cancelled</option>
+          </select>
+        </div>
+
+        <div class="filter-row">
+          <label for="employee-name-filter" class="filter-label">Employee name</label>
+          <input
+            id="employee-name-filter"
+            type="text"
+            class="filter-input"
+            placeholder="e.g. John Smith"
+            [ngModel]="draftEmployeeNameFilter()"
+            (ngModelChange)="setDraftEmployeeNameFilter($event)"
+            name="draftEmployeeNameFilter"
+          />
+        </div>
+
+        <div class="filter-row">
+          <label for="employee-id-filter" class="filter-label">Employee ID</label>
+          <input
+            id="employee-id-filter"
+            type="text"
+            class="filter-input"
+            placeholder="e.g. EMP-001"
+            [ngModel]="draftEmployeeIdFilter()"
+            (ngModelChange)="setDraftEmployeeIdFilter($event)"
+            name="draftEmployeeIdFilter"
+          />
+        </div>
+
+        <button type="button" class="search-btn" (click)="applyFilters()">Search</button>
+      </form>
+    </article>
+
+    <article class="admin-bookings-card" aria-labelledby="booking-list-title">
+      <h2 id="booking-list-title" class="card-title">All bookings</h2>
+
+      <ul class="booking-list" aria-label="All bookings list">
+        @if (filteredBookings().length > 0) {
+          @for (booking of filteredBookings(); track booking.id) {
+            <li class="booking-item">
+              <a [routerLink]="['/admin/bookings', booking.id]" class="booking-item-link" [attr.aria-label]="'Booking of ' + booking.employeeName + ' for ' + booking.vehicleName">
+                <div>
+                  <p class="booking-employee">{{ booking.employeeName }} ({{ booking.employeeId }})</p>
+                  <p class="booking-vehicle">{{ booking.vehicleName }}</p>
+                  <p class="booking-date">{{ booking.startDate }} - {{ booking.endDate }}</p>
+                </div>
+                <span [ngClass]="['status-pill', getStatusClass(booking.status)]">
+                  {{ getStatusLabel(booking.status) }}
+                </span>
+              </a>
+            </li>
+          }
+        } @else {
+          <div class="empty-state">
+            <p>No bookings found for the selected filters</p>
+          </div>
+        }
+      </ul>
+    </article>
+  </div>
+</section>

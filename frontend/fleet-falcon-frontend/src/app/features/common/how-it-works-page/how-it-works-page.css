@@ -1,0 +1,166 @@
+.how-shell {
+  min-height: calc(100vh - 84px);
+  padding: clamp(1rem, 2vw, 2rem);
+}
+
+.how-wrap {
+  width: min(1080px, 100%);
+  margin: 0 auto;
+  display: grid;
+  gap: 1rem;
+}
+
+.how-header {
+  margin-bottom: 0.2rem;
+}
+
+.how-title {
+  margin: 0;
+  font-family: var(--font-title);
+  font-size: clamp(1.6rem, 2.7vw, 2.4rem);
+  line-height: 1.08;
+}
+
+.how-subtitle {
+  margin: 0.65rem 0 0;
+  max-width: 74ch;
+  color: var(--color-text-muted);
+  line-height: 1.6;
+}
+
+.how-card {
+  border: 1px solid var(--color-border-soft);
+  border-radius: var(--radius-xl);
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0)),
+    var(--color-surface);
+  padding: clamp(1rem, 1.7vw, 1.35rem);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.18);
+}
+
+.card-title {
+  margin: 0;
+  font-family: var(--font-title);
+  font-size: clamp(1.15rem, 1.3vw, 1.4rem);
+}
+
+.step-list {
+  margin: 0.9rem 0 0;
+  padding-left: 1.1rem;
+  display: grid;
+  gap: 0.75rem;
+}
+
+.step-list li {
+  padding: 0.72rem 0.8rem;
+  border: 1px solid var(--color-border-soft);
+  border-radius: var(--radius-md);
+  background: var(--color-surface-strong);
+}
+
+.step-list h3 {
+  margin: 0;
+  font-size: 0.96rem;
+  color: var(--color-text);
+}
+
+.step-list p {
+  margin: 0.36rem 0 0;
+  color: var(--color-text-muted);
+  line-height: 1.55;
+}
+
+.lifecycle-grid {
+  margin-top: 0.9rem;
+  display: grid;
+  gap: 0.7rem;
+  grid-template-columns: 1fr;
+}
+
+.stage {
+  border: 1px solid var(--color-border-soft);
+  border-radius: var(--radius-md);
+  background: var(--color-surface-strong);
+  padding: 0.72rem 0.8rem;
+}
+
+.stage h3 {
+  margin: 0;
+  font-size: 0.84rem;
+  letter-spacing: 0.04em;
+}
+
+.stage p {
+  margin: 0.35rem 0 0;
+  color: var(--color-text-muted);
+  line-height: 1.5;
+  font-size: 0.9rem;
+}
+
+.stage.pending {
+  border-color: rgba(255, 178, 40, 0.45);
+}
+
+.stage.approved {
+  border-color: rgba(0, 214, 143, 0.34);
+}
+
+.stage.active {
+  border-color: rgba(74, 172, 255, 0.45);
+}
+
+.stage.completed {
+  border-color: rgba(170, 170, 170, 0.4);
+}
+
+.stage.rejected,
+.stage.cancelled {
+  border-color: rgba(244, 67, 54, 0.34);
+}
+
+.roles-grid {
+  margin-top: 0.9rem;
+  display: grid;
+  gap: 0.75rem;
+  grid-template-columns: 1fr;
+}
+
+.role-panel {
+  border: 1px solid var(--color-border-soft);
+  border-radius: var(--radius-md);
+  background: var(--color-surface-strong);
+  padding: 0.75rem;
+}
+
+.role-panel h3 {
+  margin: 0;
+  font-size: 0.98rem;
+}
+
+.role-panel ul {
+  margin: 0.55rem 0 0;
+  padding-left: 1rem;
+  display: grid;
+  gap: 0.4rem;
+}
+
+.role-panel li {
+  color: var(--color-text-muted);
+  line-height: 1.5;
+}
+
+@media (min-width: 780px) {
+  .lifecycle-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .roles-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .lifecycle-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}

@@ -27,6 +27,8 @@ Az alkalmazás relációs adatbázist (PostgreSQL) használ, amely 5 entitásbó
 * **fuelType** (Enum) - `PETROL`, `DIESEL`, `ELECTRIC`, `HYBRID`, `OTHER`
 * **releaseYear** (Integer) 
 * **dailyPrice** (Integer) 
+* **seatingCapacity** (Integer) - A jármű hivatalos férőhelyeinek száma
+* **description** (Text) - Szabad szöveges leírás a járműről (felszereltség, megjegyzés, egyéb információ)
 * **status** (Enum) - `AVAILABLE`, `IN_USE`, `MAINTENANCE`, `OUT_OF_SERVICE`
 * **currentMileage** (Integer) - Minden lezárt utazás után frissül, illetve az admin manuálisan frissítheti
 * **inspectionValidUntil** (Date) - Műszaki érvényessége
@@ -46,7 +48,7 @@ A foglalás életciklusa és utazási adatok.
 * **startMileage** (Integer) - Check-outnál rögzítve
 * **endMileage** (Integer) - Check-innél rögzítve, >= startMileage
 * **distanceTraveled** (Integer) - Dinamikusan számolva
-* **estimatedCost** (Integer)
+* **cost** (Integer)
 
 ## 5. MaintenanceLog
 Megtörtént szervizelések

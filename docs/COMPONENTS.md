@@ -32,7 +32,6 @@ App
 │   │   ├── MyBookingsPage
 │   │   ├── BookingCreatePage
 │   │   ├── BookingDetailPage
-│   │   └── BookingEditPage
 │   └── EmployeeProfilePage
 ├── Admin
 │   ├── AdminDashboardPage

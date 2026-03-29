@@ -1,0 +1,26 @@
+<section class="employee-form-shell" aria-labelledby="employee-edit-title">
+  <div class="employee-form-wrap">
+    <header class="employee-form-header">
+      <h1 id="employee-edit-title" class="employee-form-title">Edit employee</h1>
+      <p class="employee-form-subtitle">Employee ID in route: {{ employeeIdFromRoute() }}</p>
+    </header>
+
+    <article class="employee-card" aria-label="Editable employee data">
+      <h2 class="employee-name">{{ employee.firstName }} {{ employee.lastName }}</h2>
+
+      <form class="employee-form" novalidate>
+        <div class="field"><label for="employeeId">Employee ID</label><input id="employeeId" type="text" [(ngModel)]="employee.employeeId" name="employeeId" /></div>
+        <div class="field"><label for="firstName">First name</label><input id="firstName" type="text" [(ngModel)]="employee.firstName" name="firstName" /></div>
+        <div class="field"><label for="lastName">Last name</label><input id="lastName" type="text" [(ngModel)]="employee.lastName" name="lastName" /></div>
+        <div class="field"><label for="department">Department</label><input id="department" type="text" [(ngModel)]="employee.department" name="department" /></div>
+        <div class="field"><label for="phoneNumber">Phone number</label><input id="phoneNumber" type="text" [(ngModel)]="employee.phoneNumber" name="phoneNumber" /></div>
+        <div class="field"><label for="drivingLicenseNumber">Driving license number</label><input id="drivingLicenseNumber" type="text" [(ngModel)]="employee.drivingLicenseNumber" name="drivingLicenseNumber" /></div>
+      </form>
+
+      <div class="actions-row">
+        <a routerLink="/admin/employees" class="back-btn">Back</a>
+        <button type="button" class="save-btn" (click)="saveEmployee()">Save</button>
+      </div>
+    </article>
+  </div>
+</section>
