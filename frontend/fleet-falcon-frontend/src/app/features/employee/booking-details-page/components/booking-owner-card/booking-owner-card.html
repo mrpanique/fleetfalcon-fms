@@ -1,0 +1,21 @@
+<article class="owner-card" aria-labelledby="owner-title">
+  <h2 id="owner-title" class="section-title">Booking owner</h2>
+
+  <ul class="owner-list" aria-label="Booking owner details">
+    <li class="owner-item">
+      <div class="employee-item-panel" role="group" [attr.aria-label]="'Employee ' + owner.name">
+        <div class="employee-main">
+          <p class="employee-name">{{ owner.name }}</p>
+          <p class="employee-meta">
+            <span [ngClass]="['role-pill', owner.role === 'ADMIN' ? 'admin' : 'employee']">{{ owner.role }}</span>
+            <span class="meta-divider">-</span>
+            <span>{{ owner.employeeId }}</span>
+          </p>
+          <p class="employee-details">Department: {{ owner.department }}</p>
+          <p class="employee-details">Phone: {{ owner.phoneNumber }}</p>
+          <p class="employee-details">Driving license: {{ owner.drivingLicenseNumber }}</p>
+        </div>
+      </div>
+    </li>
+  </ul>
+</article>

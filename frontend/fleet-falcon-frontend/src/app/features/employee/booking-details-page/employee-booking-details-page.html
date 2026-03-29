@@ -6,36 +6,11 @@
     </header>
 
     <div class="booking-details-grid">
-      <article class="booking-card" aria-labelledby="booking-info-title">
-        <h2 id="booking-info-title" class="section-title">Booking information</h2>
-
-        <dl class="booking-data-grid">
-          <div>
-            <dt>Status</dt>
-            <dd><span class="status-pill approved">Approved</span></dd>
-          </div>
-          <div>
-            <dt>Cost</dt>
-            <dd>54 000 Ft</dd>
-          </div>
-          <div>
-            <dt>Time period</dt>
-            <dd>2026.03.31 09:00 - 2026.04.01 18:00</dd>
-          </div>
-        </dl>
-
-        @if (isAdmin()) {
-          <div class="admin-actions" aria-label="Admin booking actions">
-            <button type="button" class="action-btn approve-btn">Approve</button>
-            <button type="button" class="action-btn reject-btn">Reject</button>
-            <button type="button" class="action-btn cancel-btn">Cancel (own booking)</button>
-            <button type="button" class="action-btn checkout-btn" (click)="openMileageModal('checkout')">Check-out</button>
-            <button type="button" class="action-btn checkin-btn" (click)="openMileageModal('checkin')">Check-in</button>
-          </div>
-        } @else {
-          <button type="button" class="cancel-btn">Cancel booking</button>
-        }
-      </article>
+      <app-booking-info-card
+        [isAdmin]="isAdmin()"
+        (checkout)="openMileageModal('checkout')"
+        (checkin)="openMileageModal('checkin')"
+      />
 
       <article class="vehicle-card" aria-labelledby="vehicle-card-title">
         <h2 id="vehicle-card-title" class="vehicle-title">Toyota Corolla</h2>
@@ -50,27 +25,7 @@
     </div>
 
     @if (isAdmin()) {
-      <article class="owner-card" aria-labelledby="owner-title">
-        <h2 id="owner-title" class="section-title">Booking owner</h2>
-
-        <ul class="owner-list" aria-label="Booking owner details">
-          <li class="owner-item">
-            <div class="employee-item-panel" role="group" [attr.aria-label]="'Employee ' + bookingOwner.name">
-              <div class="employee-main">
-                <p class="employee-name">{{ bookingOwner.name }}</p>
-                <p class="employee-meta">
-                  <span [ngClass]="['role-pill', bookingOwner.role === 'ADMIN' ? 'admin' : 'employee']">{{ bookingOwner.role }}</span>
-                  <span class="meta-divider">•</span>
-                  <span>{{ bookingOwner.employeeId }}</span>
-                </p>
-                <p class="employee-details">Department: {{ bookingOwner.department }}</p>
-                <p class="employee-details">Phone: {{ bookingOwner.phoneNumber }}</p>
-                <p class="employee-details">Driving license: {{ bookingOwner.drivingLicenseNumber }}</p>
-              </div>
-            </div>
-          </li>
-        </ul>
-      </article>
+      <app-booking-owner-card [owner]="bookingOwner" />
     }
 
     @if (isAdmin() && isMileageModalOpen()) {

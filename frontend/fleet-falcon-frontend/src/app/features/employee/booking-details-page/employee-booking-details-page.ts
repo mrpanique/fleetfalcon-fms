@@ -4,23 +4,15 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { map } from 'rxjs/operators';
 import { MileageModalComponent } from '../../../core/components/mileage-modal/mileage-modal';
-
-type EmployeeRole = 'EMPLOYEE' | 'ADMIN';
-
-interface BookingOwner {
-  name: string;
-  role: EmployeeRole;
-  employeeId: string;
-  department: string;
-  phoneNumber: string;
-  drivingLicenseNumber: string;
-}
+import { BookingInfoCardComponent } from './components/booking-info-card/booking-info-card';
+import { BookingOwnerCardComponent } from './components/booking-owner-card/booking-owner-card';
+import { BookingOwner } from './components/booking-owner-card/booking-owner.model';
 
 type MileageModalMode = 'checkout' | 'checkin' | null;
 
 @Component({
   selector: 'app-employee-booking-details-page',
-  imports: [CommonModule, RouterLink, MileageModalComponent],
+  imports: [CommonModule, RouterLink, MileageModalComponent, BookingInfoCardComponent, BookingOwnerCardComponent],
   templateUrl: './employee-booking-details-page.html',
   styleUrl: './employee-booking-details-page.css'
 })
@@ -63,11 +55,6 @@ export class EmployeeBookingDetailsPageComponent {
 
   protected closeMileageModal(): void {
     this.mileageModalMode.set(null);
-  }
-
-  protected onMileageInput(event: Event): void {
-    const target = event.target as HTMLInputElement;
-    this.mileageInput.set(target.value);
   }
 
   protected onMileageInputValue(value: string): void {
