@@ -1,10 +1,10 @@
 .vehicles-shell {
   min-height: calc(100vh - 84px);
-  padding: clamp(1rem, 2vw, 2rem);
+  padding: var(--page-shell-padding);
 }
 
 .vehicles-wrap {
-  width: min(1240px, 100%);
+  width: min(var(--page-content-max-width), 100%);
   margin: 0 auto;
 }
 

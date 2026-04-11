@@ -1,10 +1,10 @@
 .my-bookings-shell {
   min-height: calc(100vh - 84px);
-  padding: clamp(1rem, 2vw, 2rem);
+  padding: var(--page-shell-padding);
 }
 
 .my-bookings-wrap {
-  width: min(1080px, 100%);
+  width: min(var(--page-content-max-width), 100%);
   margin: 0 auto;
 }
 
