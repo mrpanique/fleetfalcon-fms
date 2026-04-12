@@ -5,14 +5,14 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { map } from 'rxjs/operators';
 import { MileageModalComponent } from '../../../core/components/mileage-modal/mileage-modal';
 import { BookingInfoCardComponent } from './components/booking-info-card/booking-info-card';
-import { BookingOwnerCardComponent } from './components/booking-owner-card/booking-owner-card';
-import { BookingOwner } from './components/booking-owner-card/booking-owner.model';
+import { AdminEmployeeListItemComponent } from '../../admin/components/employee-list-item/employee-list-item';
+import { AdminEmployeeListItem } from '../../admin/components/employee-list-item/employee-list-item.model';
 
 type MileageModalMode = 'checkout' | 'checkin' | null;
 
 @Component({
   selector: 'app-employee-booking-details-page',
-  imports: [CommonModule, RouterLink, MileageModalComponent, BookingInfoCardComponent, BookingOwnerCardComponent],
+  imports: [CommonModule, RouterLink, MileageModalComponent, BookingInfoCardComponent, AdminEmployeeListItemComponent],
   templateUrl: './employee-booking-details-page.html',
   styleUrl: './employee-booking-details-page.css'
 })
@@ -39,14 +39,15 @@ export class EmployeeBookingDetailsPageComponent {
     this.mileageModalMode() === 'checkin' ? 'Confirm check-in' : 'Confirm check-out'
   );
 
-  protected readonly bookingOwner: BookingOwner = {
+  protected readonly bookingOwner = signal<AdminEmployeeListItem>({
+    id: 'u1',
     name: 'John Smith',
     role: 'EMPLOYEE',
     employeeId: 'EMP-001',
     department: 'Logistics',
     phoneNumber: '+36 30 123 4567',
     drivingLicenseNumber: 'DL-458721'
-  };
+  });
 
   protected openMileageModal(mode: Exclude<MileageModalMode, null>): void {
     this.mileageInput.set('');

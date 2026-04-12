@@ -2,23 +2,13 @@ import { Component, computed, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
-
-type EmployeeRole = 'EMPLOYEE' | 'ADMIN';
-
-interface EmployeeListItem {
-  id: string;
-  name: string;
-  role: EmployeeRole;
-  employeeId: string;
-  department: string;
-  phoneNumber: string;
-  drivingLicenseNumber: string;
-}
+import { AdminEmployeeListComponent } from '../components/employee-list/employee-list';
+import { AdminEmployeeListItem } from '../components/employee-list-item/employee-list-item.model';
 
 @Component({
   selector: 'app-admin-employees-page',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink],
+  imports: [CommonModule, FormsModule, RouterLink, AdminEmployeeListComponent],
   templateUrl: './admin-employees-page.html',
   styleUrl: './admin-employees-page.css'
 })
@@ -26,7 +16,7 @@ export class AdminEmployeesPageComponent {
   protected readonly nameFilter = signal('');
   protected readonly employeeIdFilter = signal('');
 
-  protected readonly employees = signal<EmployeeListItem[]>([
+  protected readonly employees = signal<AdminEmployeeListItem[]>([
     {
       id: 'u1',
       name: 'John Smith',

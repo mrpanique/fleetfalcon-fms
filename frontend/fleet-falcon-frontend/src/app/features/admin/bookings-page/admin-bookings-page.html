@@ -60,28 +60,11 @@
     <article class="admin-bookings-card" aria-labelledby="booking-list-title">
       <h2 id="booking-list-title" class="card-title">All bookings</h2>
 
-      <ul class="booking-list" aria-label="All bookings list">
-        @if (filteredBookings().length > 0) {
-          @for (booking of filteredBookings(); track booking.id) {
-            <li class="booking-item">
-              <a [routerLink]="['/admin/bookings', booking.id]" class="booking-item-link" [attr.aria-label]="'Booking of ' + booking.employeeName + ' for ' + booking.vehicleName">
-                <div>
-                  <p class="booking-employee">{{ booking.employeeName }} ({{ booking.employeeId }})</p>
-                  <p class="booking-vehicle">{{ booking.vehicleName }}</p>
-                  <p class="booking-date">{{ booking.startDate }} - {{ booking.endDate }}</p>
-                </div>
-                <span [ngClass]="['status-pill', getStatusClass(booking.status)]">
-                  {{ getStatusLabel(booking.status) }}
-                </span>
-              </a>
-            </li>
-          }
-        } @else {
-          <div class="empty-state">
-            <p>No bookings found for the selected filters</p>
-          </div>
-        }
-      </ul>
+      <app-admin-booking-list
+        [items]="filteredBookingListItems()"
+        ariaLabel="All bookings list"
+        emptyMessage="No bookings found for the selected filters"
+      />
     </article>
   </div>
 </section>

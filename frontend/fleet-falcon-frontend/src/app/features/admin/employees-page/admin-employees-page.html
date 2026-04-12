@@ -42,33 +42,7 @@
     <article class="admin-employees-card" aria-labelledby="employees-list-title">
       <h2 id="employees-list-title" class="card-title">Employee list</h2>
 
-      <ul class="employee-list" aria-label="All employees">
-        @if (filteredEmployees().length > 0) {
-          @for (employee of filteredEmployees(); track employee.id) {
-            <li class="employee-item">
-              <div class="employee-item-panel" role="group" [attr.aria-label]="'Employee ' + employee.name">
-                <div class="employee-main">
-                  <p class="employee-name">{{ employee.name }}</p>
-                  <p class="employee-meta">
-                    <span [ngClass]="['role-pill', employee.role === 'ADMIN' ? 'admin' : 'employee']">{{ employee.role }}</span>
-                    <span class="meta-divider">•</span>
-                    <span>{{ employee.employeeId }}</span>
-                  </p>
-                  <p class="employee-details">Department: {{ employee.department }}</p>
-                  <p class="employee-details">Phone: {{ employee.phoneNumber }}</p>
-                  <p class="employee-details">Driving license: {{ employee.drivingLicenseNumber }}</p>
-                </div>
-
-                <a [routerLink]="['/admin/employees', employee.id, 'edit']" class="edit-btn">Edit</a>
-              </div>
-            </li>
-          }
-        } @else {
-          <div class="empty-state">
-            <p>No employees found for the selected filters</p>
-          </div>
-        }
-      </ul>
+      <app-admin-employee-list [employees]="filteredEmployees()" />
     </article>
   </div>
 </section>

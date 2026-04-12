@@ -1,7 +1,8 @@
 import { Component, computed, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { AdminBookingListComponent } from '../components/booking-list/booking-list';
+import { AdminBookingListItem } from '../components/booking-list-item/booking-list-item.model';
 
 type BookingStatus = 'pending' | 'approved' | 'active' | 'completed' | 'rejected' | 'cancelled';
 
@@ -18,7 +19,7 @@ interface AdminBookingItem {
 @Component({
   selector: 'app-admin-bookings-page',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink],
+  imports: [CommonModule, FormsModule, AdminBookingListComponent],
   templateUrl: './admin-bookings-page.html',
   styleUrl: './admin-bookings-page.css'
 })
@@ -92,6 +93,19 @@ export class AdminBookingsPageComponent {
     });
   });
 
+  protected readonly filteredBookingListItems = computed<AdminBookingListItem[]>(() =>
+    this.filteredBookings().map((booking) => ({
+      id: booking.id,
+      detailsRoute: `/admin/bookings/${booking.id}`,
+      ariaLabel: `Booking of ${booking.employeeName} for ${booking.vehicleName}`,
+      employeeName: booking.employeeName,
+      employeeId: booking.employeeId,
+      vehicleName: booking.vehicleName,
+      dateRange: `${booking.startDate} - ${booking.endDate}`,
+      status: booking.status
+    }))
+  );
+
   protected setDraftStatusFilter(value: 'all' | BookingStatus): void {
     this.draftStatusFilter.set(value);
   }
@@ -110,26 +124,4 @@ export class AdminBookingsPageComponent {
     this.employeeIdFilter.set(this.draftEmployeeIdFilter());
   }
 
-  protected getStatusClass(status: BookingStatus): string {
-    switch (status) {
-      case 'approved':
-        return 'status-approved';
-      case 'pending':
-        return 'status-pending';
-      case 'rejected':
-        return 'status-rejected';
-      case 'completed':
-        return 'status-completed';
-      case 'active':
-        return 'status-active';
-      case 'cancelled':
-        return 'status-cancelled';
-      default:
-        return '';
-    }
-  }
-
-  protected getStatusLabel(status: BookingStatus): string {
-    return status.charAt(0).toUpperCase() + status.slice(1);
-  }
 }

@@ -17,26 +17,7 @@
           <a routerLink="/my-bookings" class="inline-link">See all</a>
         </div>
 
-        <ul class="booking-list" aria-label="Upcoming booking summary">
-          <li class="booking-item">
-            <a routerLink="/my-bookings/1001" class="booking-item-link" aria-label="Booking details for Toyota Corolla, approved booking">
-              <div>
-                <p class="booking-date">2026.03.31 09:00 - 2026.04.01 18:00</p>
-                <p class="booking-vehicle">Toyota Corolla</p>
-              </div>
-              <span class="status-pill">Approved</span>
-            </a>
-          </li>
-          <li class="booking-item">
-            <a routerLink="/my-bookings/1002" class="booking-item-link" aria-label="Booking details for Skoda Octavia, pending booking">
-              <div>
-                <p class="booking-date">2026.04.03 07:30 - 2026.04.03 15:30</p>
-                <p class="booking-vehicle">Skoda Octavia</p>
-              </div>
-              <span class="status-pill pending">Pending</span>
-            </a>
-          </li>
-        </ul>
+        <app-booking-list [items]="upcomingBookings" ariaLabel="Upcoming booking summary" />
       </article>
 
       <article class="card card-info" aria-labelledby="info-title">

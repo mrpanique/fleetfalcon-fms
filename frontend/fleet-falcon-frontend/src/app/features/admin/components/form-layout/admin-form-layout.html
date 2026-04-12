@@ -1,0 +1,11 @@
+<section class="admin-form-shell" [attr.aria-labelledby]="headingId">
+  <div class="admin-form-wrap">
+    <header class="admin-form-header">
+      <h1 [id]="headingId" class="admin-form-title">{{ title }}</h1>
+    </header>
+
+    <article class="admin-form-card" [attr.aria-label]="cardAriaLabel">
+      <ng-content />
+    </article>
+  </div>
+</section>

@@ -1,0 +1,21 @@
+.booking-list {
+  list-style: none;
+  margin: 0.9rem 0 0;
+  padding: 0;
+  display: grid;
+  gap: 0.7rem;
+}
+
+.empty-state {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+  text-align: center;
+  color: var(--color-text-muted);
+  min-height: 120px;
+}
+
+.empty-state p {
+  margin: 0;
+}

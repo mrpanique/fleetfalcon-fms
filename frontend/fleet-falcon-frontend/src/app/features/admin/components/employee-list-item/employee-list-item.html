@@ -1,0 +1,15 @@
+<div class="employee-item-panel" role="group" [attr.aria-label]="'Employee ' + item.name">
+  <div class="employee-main">
+    <p class="employee-name">{{ item.name }}</p>
+    <p class="employee-meta">
+      <span [ngClass]="['role-pill', item.role === 'ADMIN' ? 'admin' : 'employee']">{{ item.role }}</span>
+      <span class="meta-divider">•</span>
+      <span>{{ item.employeeId }}</span>
+    </p>
+    <p class="employee-details">Department: {{ item.department }}</p>
+    <p class="employee-details">Phone: {{ item.phoneNumber }}</p>
+    <p class="employee-details">Driving license: {{ item.drivingLicenseNumber }}</p>
+  </div>
+
+  <a [routerLink]="['/admin/employees', item.id, 'edit']" class="edit-btn">Edit</a>
+</div>

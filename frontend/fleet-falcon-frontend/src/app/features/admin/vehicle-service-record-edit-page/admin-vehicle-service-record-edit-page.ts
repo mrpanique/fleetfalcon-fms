@@ -4,11 +4,12 @@ import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { map } from 'rxjs/operators';
+import { AdminFormLayoutComponent } from '../components/form-layout/admin-form-layout';
 
 @Component({
   selector: 'app-admin-vehicle-service-record-edit-page',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink],
+  imports: [CommonModule, FormsModule, RouterLink, AdminFormLayoutComponent],
   templateUrl: './admin-vehicle-service-record-edit-page.html',
   styleUrl: './admin-vehicle-service-record-edit-page.css'
 })

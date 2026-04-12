@@ -1,13 +1,8 @@
-<section class="vehicle-edit-shell" aria-labelledby="vehicle-create-title">
-  <div class="vehicle-edit-wrap">
-    <header class="vehicle-edit-header">
-      <h1 id="vehicle-create-title" class="vehicle-edit-title">Add new vehicle</h1>
-      <p class="vehicle-id">New vehicle form</p>
-    </header>
-
-    <article class="vehicle-card" aria-label="Editable vehicle data">
-      <h2 class="vehicle-name">New vehicle</h2>
-
+<app-admin-form-layout
+  headingId="vehicle-create-title"
+  title="Add new vehicle"
+  cardAriaLabel="Editable vehicle data"
+>
       <form class="vehicle-form" novalidate>
         <div class="field"><label for="brand">Brand</label><input id="brand" type="text" [(ngModel)]="vehicle.brand" name="brand" /></div>
         <div class="field"><label for="model">Model</label><input id="model" type="text" [(ngModel)]="vehicle.model" name="model" /></div>
@@ -33,6 +28,4 @@
         <a routerLink="/admin/vehicles" class="back-btn">Back</a>
         <button type="button" class="save-btn" (click)="saveVehicle()">Save</button>
       </div>
-    </article>
-  </div>
-</section>
+</app-admin-form-layout>

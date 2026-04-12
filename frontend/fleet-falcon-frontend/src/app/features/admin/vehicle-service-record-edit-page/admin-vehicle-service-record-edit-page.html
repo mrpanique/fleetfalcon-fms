@@ -1,13 +1,8 @@
-<section class="record-form-shell" aria-labelledby="record-edit-title">
-  <div class="record-form-wrap">
-    <header class="record-form-header">
-      <h1 id="record-edit-title" class="record-form-title">Edit service record</h1>
-      <p class="record-form-subtitle">Service Record ID: {{ recordId() }}</p>
-    </header>
-
-    <article class="record-card" aria-label="Editable service record data">
-      <h2 class="record-name">{{ record.type }}</h2>
-
+<app-admin-form-layout
+  headingId="record-edit-title"
+  title="Edit service record"
+  cardAriaLabel="Editable service record data"
+>
       <form class="record-form" novalidate>
         <div class="field"><label for="type">Service type</label><input id="type" type="text" [(ngModel)]="record.type" name="type" /></div>
         <div class="field"><label for="startDate">Start date</label><input id="startDate" type="date" [(ngModel)]="record.startDate" name="startDate" /></div>
@@ -20,6 +15,4 @@
         <a [routerLink]="['/admin/vehicles', vehicleId(), 'service-log']" class="back-btn">Back</a>
         <button type="button" class="save-btn" (click)="saveRecord()">Save</button>
       </div>
-    </article>
-  </div>
-</section>
+</app-admin-form-layout>

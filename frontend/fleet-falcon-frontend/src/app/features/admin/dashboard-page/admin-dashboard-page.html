@@ -8,55 +8,22 @@
     <article class="admin-dashboard-card" aria-labelledby="pending-list-title">
       <h2 id="pending-list-title" class="card-title">Pending Bookings</h2>
 
-      <ul class="booking-list" aria-label="Pending bookings to review">
-        @if (pendingBookings.length > 0) {
-          @for (booking of pendingBookings; track booking.id) {
-            <li class="booking-item">
-              <a [routerLink]="['/admin/bookings', booking.id]" class="booking-item-link pending-link" [attr.aria-label]="'Pending booking from ' + booking.employeeName + ' for ' + booking.vehicleName">
-                <div>
-                  <p class="booking-employee">{{ booking.employeeName }}</p>
-                  <p class="booking-vehicle">{{ booking.vehicleName }}</p>
-                  <p class="booking-date">{{ booking.startDate }} - {{ booking.endDate }}</p>
-                </div>
-                <span [ngClass]="['status-pill', getStatusClass(booking.status)]">
-                  {{ getStatusLabel(booking.status) }}
-                </span>
-              </a>
-            </li>
-          }
-        } @else {
-          <div class="empty-state">
-            <p>No pending bookings at the moment</p>
-          </div>
-        }
-      </ul>
+      <app-admin-booking-list
+        [items]="pendingBookings"
+        ariaLabel="Pending bookings to review"
+        emptyMessage="No pending bookings at the moment"
+      />
     </article>
 
     <!-- Admin's Upcoming Bookings Section -->
     <article class="admin-dashboard-card" aria-labelledby="my-bookings-list-title">
       <h2 id="my-bookings-list-title" class="card-title">My Upcoming Bookings</h2>
 
-      <ul class="booking-list" aria-label="Your upcoming bookings">
-        @if (adminBookings.length > 0) {
-          @for (booking of adminBookings; track booking.id) {
-            <li class="booking-item">
-              <a [routerLink]="['/admin/my-bookings', booking.id]" class="booking-item-link" [attr.aria-label]="'Booking for ' + booking.vehicleName">
-                <div>
-                  <p class="booking-date">{{ booking.startDate }} - {{ booking.endDate }}</p>
-                  <p class="booking-vehicle">{{ booking.vehicleName }}</p>
-                </div>
-                <span [ngClass]="['status-pill', getStatusClass(booking.status)]">
-                  {{ getStatusLabel(booking.status) }}
-                </span>
-              </a>
-            </li>
-          }
-        } @else {
-          <div class="empty-state">
-            <p>No upcoming bookings scheduled</p>
-          </div>
-        }
-      </ul>
+      <app-admin-booking-list
+        [items]="adminBookings"
+        ariaLabel="Your upcoming bookings"
+        emptyMessage="No upcoming bookings scheduled"
+      />
     </article>
   </div>
 </section>

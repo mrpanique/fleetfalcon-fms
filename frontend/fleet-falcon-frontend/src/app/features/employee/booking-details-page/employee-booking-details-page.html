@@ -25,7 +25,10 @@
     </div>
 
     @if (isAdmin()) {
-      <app-booking-owner-card [owner]="bookingOwner" />
+      <section class="owner-section" aria-labelledby="owner-title">
+        <h2 id="owner-title" class="owner-title">Owner</h2>
+        <app-admin-employee-list-item [item]="bookingOwner()" />
+      </section>
     }
 
     @if (isAdmin() && isMileageModalOpen()) {

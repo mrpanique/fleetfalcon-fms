@@ -1,0 +1,11 @@
+<ul class="booking-list" [attr.aria-label]="ariaLabel">
+  @if (items.length > 0) {
+    @for (item of items; track item.id) {
+      <app-admin-booking-list-item [item]="item" />
+    }
+  } @else {
+    <div class="empty-state">
+      <p>{{ emptyMessage }}</p>
+    </div>
+  }
+</ul>

@@ -1,13 +1,8 @@
-<section class="employee-form-shell" aria-labelledby="employee-edit-title">
-  <div class="employee-form-wrap">
-    <header class="employee-form-header">
-      <h1 id="employee-edit-title" class="employee-form-title">Edit employee</h1>
-      <p class="employee-form-subtitle">Employee ID in route: {{ employeeIdFromRoute() }}</p>
-    </header>
-
-    <article class="employee-card" aria-label="Editable employee data">
-      <h2 class="employee-name">{{ employee.firstName }} {{ employee.lastName }}</h2>
-
+<app-admin-form-layout
+  headingId="employee-edit-title"
+  title="Edit employee"
+  cardAriaLabel="Editable employee data"
+>
       <form class="employee-form" novalidate>
         <div class="field"><label for="employeeId">Employee ID</label><input id="employeeId" type="text" [(ngModel)]="employee.employeeId" name="employeeId" /></div>
         <div class="field"><label for="firstName">First name</label><input id="firstName" type="text" [(ngModel)]="employee.firstName" name="firstName" /></div>
@@ -21,6 +16,4 @@
         <a routerLink="/admin/employees" class="back-btn">Back</a>
         <button type="button" class="save-btn" (click)="saveEmployee()">Save</button>
       </div>
-    </article>
-  </div>
-</section>
+</app-admin-form-layout>
