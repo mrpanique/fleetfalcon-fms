@@ -1,0 +1,47 @@
+<section class="booking-details-shell" aria-labelledby="booking-details-title">
+  <div class="booking-details-wrap">
+    <header class="booking-details-header">
+      <h1 id="booking-details-title" class="booking-details-title">Booking details</h1>
+      <p class="booking-id">Booking ID: {{ bookingId() }}</p>
+    </header>
+
+    <div class="booking-details-grid">
+      <app-booking-info-card
+        [isAdmin]="isAdmin()"
+        (checkout)="openMileageModal('checkout')"
+        (checkin)="openMileageModal('checkin')"
+      />
+
+      <article class="vehicle-card" aria-labelledby="vehicle-card-title">
+        <h2 id="vehicle-card-title" class="vehicle-title">Toyota Corolla</h2>
+        <dl class="vehicle-meta">
+          <div><dt>Vehicle type</dt><dd>CAR</dd></div>
+          <div><dt>Fuel type</dt><dd>HYBRID</dd></div>
+          <div><dt>Seats</dt><dd>5</dd></div>
+          <div><dt>Price/day</dt><dd>18 000 Ft</dd></div>
+        </dl>
+        <a routerLink="/vehicles/1001" class="details-btn">Vehicle details</a>
+      </article>
+    </div>
+
+    @if (isAdmin()) {
+      <section class="owner-section" aria-labelledby="owner-title">
+        <h2 id="owner-title" class="owner-title">Owner</h2>
+        <app-admin-employee-list-item [item]="bookingOwner()" />
+      </section>
+    }
+
+    @if (isAdmin() && isMileageModalOpen()) {
+      <app-mileage-modal
+        [title]="mileageModalTitle()"
+        [subtitle]="'Enter vehicle ' + mileageFieldLabel().toLowerCase() + '.'"
+        [fieldLabel]="mileageFieldLabel()"
+        [confirmLabel]="mileageConfirmLabel()"
+        [mileageValue]="mileageInput()"
+        (mileageValueChange)="onMileageInputValue($event)"
+        (close)="closeMileageModal()"
+        (confirm)="confirmMileageAction()"
+      />
+    }
+  </div>
+</section>

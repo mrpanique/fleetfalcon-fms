@@ -48,6 +48,8 @@ While the core backend engine and state machine are functional, the system is ac
     * Notifying the admins if maintenance of a vehicle is due 
 * **📊 Reporting & Analytics:**
     * Generating usage and cost statistics.
+* **📷 Picture upload:**
+    * The possibility of uploading pictures of vehicles.
 
 
 ## 🛠️ Technology Stack

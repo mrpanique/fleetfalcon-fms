@@ -1,5 +1,5 @@
-import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component } from '@angular/core';
+import { Router, RouterOutlet } from '@angular/router';
 import { Navbar } from './core/components/navbar/navbar';
 
 @Component({
@@ -9,5 +9,9 @@ import { Navbar } from './core/components/navbar/navbar';
   styleUrl: './app.css'
 })
 export class App {
-  protected readonly title = signal('fleet-falcon-frontend');
+  constructor(private readonly router: Router) {}
+
+  protected showNavbar(): boolean {
+    return !this.router.url.startsWith('/login');
+  }
 }

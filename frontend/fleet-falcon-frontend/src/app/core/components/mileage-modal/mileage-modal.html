@@ -1,0 +1,23 @@
+<div class="modal-overlay" (click)="close.emit()" aria-hidden="true"></div>
+<section class="mileage-modal" role="dialog" aria-modal="true" aria-labelledby="mileage-modal-title">
+  <h2 id="mileage-modal-title" class="mileage-modal-title">{{ title }}</h2>
+  <p class="mileage-modal-subtitle">{{ subtitle }}</p>
+
+  <div class="mileage-field">
+    <label for="mileageInput">{{ fieldLabel }}</label>
+    <input
+      id="mileageInput"
+      type="number"
+      min="0"
+      inputmode="numeric"
+      [value]="mileageValue"
+      (input)="onMileageInput($event)"
+      placeholder="e.g. 51230"
+    />
+  </div>
+
+  <div class="mileage-actions">
+    <button type="button" class="modal-cancel-btn" (click)="close.emit()">Cancel</button>
+    <button type="button" class="modal-confirm-btn" (click)="confirm.emit()">{{ confirmLabel }}</button>
+  </div>
+</section>

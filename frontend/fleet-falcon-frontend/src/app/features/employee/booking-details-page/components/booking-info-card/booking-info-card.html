@@ -1,0 +1,27 @@
+<article class="booking-card" aria-labelledby="booking-info-title">
+  <h2 id="booking-info-title" class="section-title">Booking information</h2>
+
+  <dl class="booking-data-grid">
+    <div>
+      <dt>Status</dt>
+      <dd><span class="status-pill approved">{{ status }}</span></dd>
+    </div>
+    <div>
+      <dt>Cost</dt>
+      <dd>{{ cost }}</dd>
+    </div>
+    <div>
+      <dt>Time period</dt>
+      <dd>{{ timePeriod }}</dd>
+    </div>
+  </dl>
+
+  @if (isAdmin) {
+    <app-booking-admin-actions
+      (checkout)="checkout.emit()"
+      (checkin)="checkin.emit()"
+    />
+  } @else {
+    <button type="button" class="cancel-btn">Cancel booking</button>
+  }
+</article>

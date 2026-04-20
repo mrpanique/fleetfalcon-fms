@@ -1,0 +1,58 @@
+<section class="create-booking-shell" aria-labelledby="create-booking-title">
+  <div class="create-booking-wrap">
+    <header class="create-booking-header">
+      <h1 id="create-booking-title" class="create-booking-title">Create booking</h1>
+    </header>
+
+    <div class="create-booking-grid">
+      <article class="booking-form-card" aria-labelledby="booking-form-title">
+        <h2 id="booking-form-title" class="section-title">Booking period</h2>
+
+        <form class="booking-form" aria-label="Create booking form" novalidate>
+          <div class="field-row">
+            <label for="booking-start" class="field-label">Start date</label>
+            <input
+              id="booking-start"
+              type="datetime-local"
+              class="field-input"
+              [value]="startDate()"
+              (input)="onStartDateInput($any($event.target).value)"
+            />
+          </div>
+
+          <div class="field-row">
+            <label for="booking-end" class="field-label">End date</label>
+            <input
+              id="booking-end"
+              type="datetime-local"
+              class="field-input"
+              [value]="endDate()"
+              (input)="onEndDateInput($any($event.target).value)"
+            />
+          </div>
+
+          <p class="price-label" aria-live="polite">
+            @if (dayCount() > 0) {
+              Estimated price: <strong>{{ estimatedCost().toLocaleString('hu-HU') }} Ft</strong> ({{ dayCount() }} day)
+            } @else {
+              Estimated price: <strong>-</strong>
+            }
+          </p>
+
+          <button type="button" class="book-btn">Book</button>
+        </form>
+      </article>
+
+      <article class="vehicle-card" aria-labelledby="vehicle-card-title">
+        <h2 id="vehicle-card-title" class="vehicle-title">Toyota Corolla</h2>
+        <dl class="vehicle-meta">
+          <div><dt>Vehicle type</dt><dd>CAR</dd></div>
+          <div><dt>Fuel type</dt><dd>HYBRID</dd></div>
+          <div><dt>Seats</dt><dd>5</dd></div>
+          <div><dt>Price/day</dt><dd>{{ dailyPrice.toLocaleString('hu-HU') }} Ft</dd></div>
+        </dl>
+        <a routerLink="/vehicles/1001" class="details-btn">Vehicle details</a>
+      </article>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,48 @@
+<section class="admin-employees-shell" aria-labelledby="admin-employees-title">
+  <div class="admin-employees-wrap">
+    <header class="admin-employees-header">
+      <h1 id="admin-employees-title" class="admin-employees-title">Employees</h1>
+    </header>
+
+    <article class="admin-employees-card" aria-labelledby="employees-filters-title">
+      <div class="card-top-row">
+        <h2 id="employees-filters-title" class="card-title">Filters</h2>
+        <a routerLink="/admin/employees/new" class="add-btn">Add new employee</a>
+      </div>
+
+      <form class="filters-form" aria-label="Employee filters" novalidate>
+        <div class="filter-row">
+          <label for="employee-name-filter" class="filter-label">Name</label>
+          <input
+            id="employee-name-filter"
+            type="text"
+            class="filter-input"
+            placeholder="e.g. John Smith"
+            [ngModel]="nameFilter()"
+            (ngModelChange)="setNameFilter($event)"
+            name="nameFilter"
+          />
+        </div>
+
+        <div class="filter-row">
+          <label for="employee-id-filter" class="filter-label">Employee ID</label>
+          <input
+            id="employee-id-filter"
+            type="text"
+            class="filter-input"
+            placeholder="e.g. EMP-001"
+            [ngModel]="employeeIdFilter()"
+            (ngModelChange)="setEmployeeIdFilter($event)"
+            name="employeeIdFilter"
+          />
+        </div>
+      </form>
+    </article>
+
+    <article class="admin-employees-card" aria-labelledby="employees-list-title">
+      <h2 id="employees-list-title" class="card-title">Employee list</h2>
+
+      <app-admin-employee-list [employees]="filteredEmployees()" />
+    </article>
+  </div>
+</section>

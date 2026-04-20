@@ -1,0 +1,17 @@
+<li class="booking-item">
+  <a
+    [routerLink]="item.detailsRoute"
+    class="booking-item-link"
+    [class.pending-link]="item.highlightPending"
+    [attr.aria-label]="item.ariaLabel"
+  >
+    <div>
+      <p class="booking-employee">{{ item.employeeName }} ({{ item.employeeId }})</p>
+      <p class="booking-vehicle">{{ item.vehicleName }}</p>
+      <p class="booking-date">{{ item.dateRange }}</p>
+    </div>
+    <span [ngClass]="['status-pill', statusClass(item.status)]">
+      {{ statusLabel(item.status) }}
+    </span>
+  </a>
+</li>

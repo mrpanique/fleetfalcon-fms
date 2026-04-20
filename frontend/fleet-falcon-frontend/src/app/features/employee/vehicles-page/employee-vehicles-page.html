@@ -1,0 +1,154 @@
+<section class="vehicles-shell" aria-labelledby="vehicles-title">
+  <div class="vehicles-wrap">
+    <header class="vehicles-header">
+      <h1 id="vehicles-title" class="vehicles-title">Vehicles</h1>
+      @if (isAdmin()) {
+        <a routerLink="/admin/vehicles/new" class="add-vehicle-btn">Add new vehicle</a>
+      }
+    </header>
+
+    <div class="vehicles-layout">
+      <aside class="filters-panel" aria-labelledby="filters-title">
+        <h2 id="filters-title" class="panel-title">Filters</h2>
+
+        <form class="filters-form" aria-label="Vehicle filters" novalidate>
+          <div class="filter-group">
+            <label for="vehicle-search" class="filter-label">Search</label>
+            <input id="vehicle-search" type="search" class="filter-input" placeholder="by brand or model" />
+            <button type="button" class="filter-action-btn filter-search-btn">Search</button>
+          </div>
+
+          <fieldset class="filter-group">
+            <legend class="filter-label">Brand</legend>
+            <label class="check-row"><input type="checkbox" /> Toyota</label>
+            <label class="check-row"><input type="checkbox" /> Skoda</label>
+            <label class="check-row"><input type="checkbox" /> Ford</label>
+            <label class="check-row"><input type="checkbox" /> Volkswagen</label>
+          </fieldset>
+
+          <fieldset class="filter-group">
+            <legend class="filter-label">Vehicle type</legend>
+            <label class="check-row"><input type="checkbox" /> CAR</label>
+            <label class="check-row"><input type="checkbox" /> VAN</label>
+            <label class="check-row"><input type="checkbox" /> MINIVAN</label>
+            <label class="check-row"><input type="checkbox" /> TRUCK</label>
+          </fieldset>
+
+          <fieldset class="filter-group">
+            <legend class="filter-label">Fuel type</legend>
+            <label class="check-row"><input type="checkbox" /> PETROL</label>
+            <label class="check-row"><input type="checkbox" /> DIESEL</label>
+            <label class="check-row"><input type="checkbox" /> HYBRID</label>
+            <label class="check-row"><input type="checkbox" /> ELECTRIC</label>
+          </fieldset>
+
+          <fieldset class="filter-group two-col">
+            <legend class="filter-label">Daily price</legend>
+            <div>
+              <label for="price-min" class="mini-label">Min</label>
+              <input id="price-min" type="number" class="filter-input" placeholder="0" />
+            </div>
+            <div>
+              <label for="price-max" class="mini-label">Max</label>
+              <input id="price-max" type="number" class="filter-input" placeholder="999" />
+            </div>
+          </fieldset>
+
+          <fieldset class="filter-group two-col">
+            <legend class="filter-label">Seating capacity</legend>
+            <div>
+              <label for="seat-min" class="mini-label">Min</label>
+              <input id="seat-min" type="number" class="filter-input" placeholder="1" />
+            </div>
+            <div>
+              <label for="seat-max" class="mini-label">Max</label>
+              <input id="seat-max" type="number" class="filter-input" placeholder="9" />
+            </div>
+          </fieldset>
+
+          <fieldset class="filter-group two-col">
+            <legend class="filter-label">Availability window</legend>
+            <div>
+              <label for="available-from" class="mini-label">From</label>
+              <input id="available-from" type="datetime-local" class="filter-input" />
+            </div>
+            <div>
+              <label for="available-to" class="mini-label">To</label>
+              <input id="available-to" type="datetime-local" class="filter-input" />
+            </div>
+          </fieldset>
+
+          <button type="button" class="filter-action-btn filter-apply-btn">Apply filters</button>
+        </form>
+      </aside>
+
+      <section class="results-panel" aria-label="Vehicle cards">
+        <article class="vehicle-card">
+          <h3 class="vehicle-title">Toyota Corolla</h3>
+          <dl class="vehicle-meta">
+            <div><dt>Vehicle type</dt><dd>CAR</dd></div>
+            <div><dt>Fuel type</dt><dd>HYBRID</dd></div>
+            <div><dt>Seats</dt><dd>5</dd></div>
+            <div><dt>Price/day</dt><dd>18 000 Ft</dd></div>
+          </dl>
+          <a [routerLink]="vehicleDetailsRoute('1001')" class="details-btn">Details</a>
+        </article>
+
+        <article class="vehicle-card">
+          <h3 class="vehicle-title">Skoda Octavia</h3>
+          <dl class="vehicle-meta">
+            <div><dt>Vehicle type</dt><dd>CAR</dd></div>
+            <div><dt>Fuel type</dt><dd>DIESEL</dd></div>
+            <div><dt>Seats</dt><dd>5</dd></div>
+            <div><dt>Price/day</dt><dd>16 500 Ft</dd></div>
+          </dl>
+          <a [routerLink]="vehicleDetailsRoute('1002')" class="details-btn">Details</a>
+        </article>
+
+        <article class="vehicle-card">
+          <h3 class="vehicle-title">Ford Transit</h3>
+          <dl class="vehicle-meta">
+            <div><dt>Vehicle type</dt><dd>VAN</dd></div>
+            <div><dt>Fuel type</dt><dd>DIESEL</dd></div>
+            <div><dt>Seats</dt><dd>8</dd></div>
+            <div><dt>Price/day</dt><dd>24 000 Ft</dd></div>
+          </dl>
+          <a [routerLink]="vehicleDetailsRoute('1003')" class="details-btn">Details</a>
+        </article>
+
+        <article class="vehicle-card">
+          <h3 class="vehicle-title">Volkswagen ID.4</h3>
+          <dl class="vehicle-meta">
+            <div><dt>Vehicle type</dt><dd>CAR</dd></div>
+            <div><dt>Fuel type</dt><dd>ELECTRIC</dd></div>
+            <div><dt>Seats</dt><dd>5</dd></div>
+            <div><dt>Price/day</dt><dd>22 000 Ft</dd></div>
+          </dl>
+          <a [routerLink]="vehicleDetailsRoute('1004')" class="details-btn">Details</a>
+        </article>
+
+        <article class="vehicle-card">
+          <h3 class="vehicle-title">Renault Trafic</h3>
+          <dl class="vehicle-meta">
+            <div><dt>Vehicle type</dt><dd>MINIVAN</dd></div>
+            <div><dt>Fuel type</dt><dd>DIESEL</dd></div>
+            <div><dt>Seats</dt><dd>9</dd></div>
+            <div><dt>Price/day</dt><dd>26 000 Ft</dd></div>
+          </dl>
+          <a [routerLink]="vehicleDetailsRoute('1005')" class="details-btn">Details</a>
+        </article>
+
+        <article class="vehicle-card">
+          <h3 class="vehicle-title">Nissan Leaf</h3>
+          <dl class="vehicle-meta">
+            <div><dt>Vehicle type</dt><dd>CAR</dd></div>
+            <div><dt>Fuel type</dt><dd>ELECTRIC</dd></div>
+            <div><dt>Seats</dt><dd>5</dd></div>
+            <div><dt>Price/day</dt><dd>19 000 Ft</dd></div>
+          </dl>
+          <a [routerLink]="vehicleDetailsRoute('1006')" class="details-btn">Details</a>
+        </article>
+      </section>
+    </div>
+  </div>
+</section>

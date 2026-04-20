@@ -1,0 +1,61 @@
+FleetFalcon FMS
+├── Public Pages
+│   └── /login
+│
+├── Employee Dashboard/Home
+│   ├── /dashboard
+│   │   └── Book a car button, upcoming bookings, Button to info page
+│   │
+│   ├── /vehicles
+│   │   ├── / (list view + filter and search)
+│   │   └── /{id} (detail view)
+│   │
+│   ├── /my-bookings
+│   │   ├── money spent this month and total
+│   │   ├── / (list - my bookings)
+│   │   ├── /create (new booking form)
+│   │   ├── /{id} (booking detail)
+│   │   │   └── Actions: View receipt, Check-in, Check-out, Cancel
+│   │   └── /{id}/edit (edit *PENDING* booking)
+│   │
+│   └── /profile
+│       └── password change (ligth/dark theme, language, etc)?
+│
+├── Administrator Dashboard/Home
+│   ├── /admin/dashboard
+│   │   └── upcoming OWN bookings, pending bookings
+│   │
+│   ├── /admin/vehicles
+│   │   ├── / (list with filters + search)
+│   │   ├── /create
+│   │   ├── /{id} (detail with full history)
+│   │   ├── /{id}/edit
+│   │   ├── /{id}/maintenance (dedicated maintenance page)
+│   │   │   ├── Editable service settings: when / after what mileage service is needed
+│   │   │   └── Service records list (each can be extended/opened to show full text)
+│   │   └── /{id}/delete
+│   │
+│   ├── /admin/bookings
+│   │   ├── / (all bookings list)
+│   │   ├── /{id} (booking detail)
+│   │   ├── /{id}/approve
+│   │   ├── /{id}/reject
+│   │   └── /{id}/edit
+│   │
+│   ├── /admin/employees
+│   │   ├── / (list)
+│   │   ├── /create
+│   │   ├── /{id} (detail)
+│   │   ├── /{id}/edit
+│   │   └── /{id}/delete
+│   │
+│   └── /admin/profile
+│       ├── App settings (ligth/dark theme, language, etc), password change
+│       └── System setting
+│
+└── Common
+    ├── /how-it-works
+    │   └── Shared guide for both employees and admins:
+    │       Login flow, role-based permissions, booking lifecycle, check-out/check-in, maintenance alerts, and support contacts
+    ├── /404
+    └── /unauthorized

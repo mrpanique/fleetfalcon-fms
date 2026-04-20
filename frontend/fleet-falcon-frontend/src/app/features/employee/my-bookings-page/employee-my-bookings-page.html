@@ -1,0 +1,13 @@
+<section class="my-bookings-shell" aria-labelledby="my-bookings-title">
+  <div class="my-bookings-wrap">
+    <header class="my-bookings-header">
+      <h1 id="my-bookings-title" class="my-bookings-title">My bookings</h1>
+    </header>
+
+    <article class="my-bookings-card" aria-labelledby="my-bookings-list-title">
+      <h2 id="my-bookings-list-title" class="card-title">Booking list</h2>
+
+      <app-booking-list [items]="bookings" ariaLabel="My booking list" />
+    </article>
+  </div>
+</section>
