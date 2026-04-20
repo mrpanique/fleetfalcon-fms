@@ -40,9 +40,16 @@ public class VehicleService {
         vehicle.setModel(vehicleDetails.getModel());
         vehicle.setLicensePlate(vehicleDetails.getLicensePlate());
         vehicle.setVehicleType(vehicleDetails.getVehicleType());
+        vehicle.setFuelType(vehicleDetails.getFuelType());
         vehicle.setReleaseYear(vehicleDetails.getReleaseYear());
         vehicle.setDailyPrice(vehicleDetails.getDailyPrice());
-        vehicle.setAvailable(vehicleDetails.isAvailable());
+        vehicle.setSeatingCapacity(vehicleDetails.getSeatingCapacity());
+        vehicle.setDescription(vehicleDetails.getDescription());
+        vehicle.setStatus(vehicleDetails.getStatus());
+        vehicle.setCurrentMileage(vehicleDetails.getCurrentMileage());
+        vehicle.setInspectionValidUntil(vehicleDetails.getInspectionValidUntil());
+        vehicle.setNextServiceMileage(vehicleDetails.getNextServiceMileage());
+        vehicle.setNextServiceDate(vehicleDetails.getNextServiceDate());
 
         return vehicleRepository.save(vehicle);
     }

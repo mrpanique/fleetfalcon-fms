@@ -35,7 +35,13 @@ public class BookingService {
         Employee employee = employeeRepository.findById(request.getEmployeeId())
                 .orElseThrow(() -> new RuntimeException("Employee not found with id: " + request.getEmployeeId()));
 
-        boolean conflict = bookingRepository.hasConflict(request.getVehicleId(), request.getStartDate(), request.getEndDate());
+        boolean conflict = bookingRepository.hasConflict(
+                request.getVehicleId(),
+                request.getStartDate(),
+                request.getEndDate(),
+                Booking.BookingStatus.CANCELLED,
+                Booking.BookingStatus.REJECTED
+        );
         if (conflict) {
             throw new RuntimeException("Conflict! This vehicle is already booked for the selected dates.");
         }
@@ -45,49 +51,49 @@ public class BookingService {
         booking.setEmployee(employee);
         booking.setStartDate(request.getStartDate());
         booking.setEndDate(request.getEndDate());
-        booking.setStatus("PENDING");
+        booking.setStatus(Booking.BookingStatus.PENDING);
 
         return bookingRepository.save(booking);
     }
 
     public Booking approveBooking(Long id) {
         Booking booking = bookingRepository.findById(id).orElseThrow(() -> new RuntimeException("Booking not found"));
-        if (!"PENDING".equals(booking.getStatus())) {
+        if (booking.getStatus() != Booking.BookingStatus.PENDING) {
             throw new RuntimeException("Only PENDING bookings can be approved.");
         }
-        booking.setStatus("APPROVED");
+        booking.setStatus(Booking.BookingStatus.APPROVED);
         return bookingRepository.save(booking);
     }
 
     public Booking rejectBooking(Long id) {
         Booking booking = bookingRepository.findById(id).orElseThrow(() -> new RuntimeException("Booking not found"));
-        if (!"PENDING".equals(booking.getStatus())) {
+        if (booking.getStatus() != Booking.BookingStatus.PENDING) {
             throw new RuntimeException("Only PENDING bookings can be rejected.");
         }
-        booking.setStatus("REJECTED");
+        booking.setStatus(Booking.BookingStatus.REJECTED);
         return bookingRepository.save(booking);
     }
 
     public Booking cancelBooking(Long id) {
         Booking booking = bookingRepository.findById(id).orElseThrow(() -> new RuntimeException("Booking not found"));
-        if (!("PENDING".equals(booking.getStatus()) || "APPROVED".equals(booking.getStatus()))) {
+        if (!(booking.getStatus() == Booking.BookingStatus.PENDING || booking.getStatus() == Booking.BookingStatus.APPROVED)) {
             throw new RuntimeException("Only PENDING or APPROVED bookings can be cancelled.");
         }
-        booking.setStatus("CANCELLED");
+        booking.setStatus(Booking.BookingStatus.CANCELLED);
         return bookingRepository.save(booking);
     }
 
     public Booking startRental(Long id, Integer mileage) {
         Booking booking = bookingRepository.findById(id).orElseThrow(() -> new RuntimeException("Booking not found"));
-        if (!"APPROVED".equals(booking.getStatus())) {
+        if (booking.getStatus() != Booking.BookingStatus.APPROVED) {
             throw new RuntimeException("Booking cannot be started. Must be APPROVED.");
         }
 
         booking.setStartMileage(mileage);
-        booking.setStatus("ACTIVE");
+        booking.setStatus(Booking.BookingStatus.ACTIVE);
 
         Vehicle vehicle = booking.getVehicle();
-        vehicle.setAvailable(false);
+        vehicle.setStatus(Vehicle.VehicleStatus.IN_USE);
         vehicleRepository.save(vehicle);
 
         return bookingRepository.save(booking);
@@ -95,7 +101,7 @@ public class BookingService {
 
     public Booking endRental(Long id, Integer mileage) {
         Booking booking = bookingRepository.findById(id).orElseThrow(() -> new RuntimeException("Booking not found"));
-        if (!"ACTIVE".equals(booking.getStatus())) {
+        if (booking.getStatus() != Booking.BookingStatus.ACTIVE) {
             throw new RuntimeException("Cannot end rental. Current status is: " + booking.getStatus());
         }
         if (mileage < booking.getStartMileage()) {
@@ -103,11 +109,12 @@ public class BookingService {
         }
 
         booking.setEndMileage(mileage);
-        booking.setDistanceTraveled((double) (mileage - booking.getStartMileage()));
-        booking.setStatus("COMPLETED");
+        booking.setDistanceTraveled(mileage - booking.getStartMileage());
+        booking.setStatus(Booking.BookingStatus.COMPLETED);
 
         Vehicle vehicle = booking.getVehicle();
-        vehicle.setAvailable(true);
+        vehicle.setStatus(Vehicle.VehicleStatus.AVAILABLE);
+        vehicle.setCurrentMileage(mileage);
         vehicleRepository.save(vehicle);
 
         return bookingRepository.save(booking);

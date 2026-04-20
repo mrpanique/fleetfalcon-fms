@@ -25,8 +25,9 @@ public class Employee {
     @Column(unique = true, nullable = false)
     private String employeeId;
 
-    @Column(unique = true, nullable = false)
-    private String email;
+    @OneToOne
+    @JoinColumn(name = "user_id", nullable = false, unique = true)
+    private User user;
 
     @Column(unique = true, nullable = false)
     private String phoneNumber;

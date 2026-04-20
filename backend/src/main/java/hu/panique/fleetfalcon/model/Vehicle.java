@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+
 @Entity
 @Table(name = "vehicles")
 @Data
@@ -25,13 +27,57 @@ public class Vehicle {
     @Column(unique = true, nullable = false)
     private String licensePlate;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private VehicleType vehicleType;
 
-    // change to ENUM later?
-    private String vehicleType;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private FuelType fuelType;
 
-    private int releaseYear;
+    private Integer releaseYear;
 
-    private double dailyPrice;
+    private Integer dailyPrice;
 
-    private boolean available = true;
+    private Integer seatingCapacity;
+
+    @Column(columnDefinition = "TEXT")
+    private String description;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private VehicleStatus status = VehicleStatus.AVAILABLE;
+
+    private Integer currentMileage;
+
+    private LocalDate inspectionValidUntil;
+
+    private Integer nextServiceMileage;
+
+    private LocalDate nextServiceDate;
+
+    public enum VehicleType {
+        CAR,
+        MINIVAN,
+        VAN,
+        BUS,
+        MOTORCYCLE,
+        TRUCK,
+        OTHER
+    }
+
+    public enum FuelType {
+        PETROL,
+        DIESEL,
+        ELECTRIC,
+        HYBRID,
+        OTHER
+    }
+
+    public enum VehicleStatus {
+        AVAILABLE,
+        IN_USE,
+        MAINTENANCE,
+        OUT_OF_SERVICE
+    }
 }
