@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AdminEmployeeListItemComponent } from '../employee-list-item/employee-list-item';
 import { AdminEmployeeListItem } from '../employee-list-item/employee-list-item.model';
@@ -12,4 +12,5 @@ import { AdminEmployeeListItem } from '../employee-list-item/employee-list-item.
 })
 export class AdminEmployeeListComponent {
   @Input({ required: true }) employees!: AdminEmployeeListItem[];
+  @Output() delete = new EventEmitter<string>();
 }

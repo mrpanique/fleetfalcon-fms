@@ -143,6 +143,32 @@
   filter: brightness(1.1);
 }
 
+.delete-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(255, 0, 80, 0.45);
+  color: #ffd8e4;
+  text-decoration: none;
+  padding: 0.58rem 0.95rem;
+  background: rgba(255, 0, 80, 0.14);
+  cursor: pointer;
+  transition: border-color 160ms ease, background-color 160ms ease, filter 160ms ease;
+}
+
+.delete-btn:hover {
+  border-color: rgba(255, 0, 80, 0.62);
+  background: rgba(255, 0, 80, 0.22);
+  filter: brightness(1.1);
+}
+
+.delete-btn:focus-visible {
+  outline: none;
+  border-color: rgba(255, 0, 80, 0.8);
+  box-shadow: 0 0 0 4px rgba(255, 0, 80, 0.2);
+}
+
 .book-btn {
   display: inline-flex;
   align-items: center;
