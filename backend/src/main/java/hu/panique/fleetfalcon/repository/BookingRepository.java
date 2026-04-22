@@ -12,8 +12,14 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
     // Extra querys can come here later eg.:
     // List<Booking> findByStatus(String status);
 
-    @Query("SELECT COUNT(b) > 0 FROM Booking b WHERE b.vehicle.id = :vehicleId AND b.status NOT IN ('CANCELLED', 'REJECTED') AND (b.startDate < :endDate AND b.endDate > :startDate)")
-    boolean hasConflict(@Param("vehicleId") Long vehicleId, @Param("startDate") LocalDateTime startDate, @Param("endDate") LocalDateTime endDate);
+    @Query("SELECT COUNT(b) > 0 FROM Booking b WHERE b.vehicle.id = :vehicleId AND b.status NOT IN (:cancelledStatus, :rejectedStatus) AND (b.startDate < :endDate AND b.endDate > :startDate)")
+    boolean hasConflict(
+            @Param("vehicleId") Long vehicleId,
+            @Param("startDate") LocalDateTime startDate,
+            @Param("endDate") LocalDateTime endDate,
+            @Param("cancelledStatus") Booking.BookingStatus cancelledStatus,
+            @Param("rejectedStatus") Booking.BookingStatus rejectedStatus
+    );
 
 
 
