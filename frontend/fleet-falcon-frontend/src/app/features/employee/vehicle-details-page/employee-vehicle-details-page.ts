@@ -21,4 +21,17 @@ export class EmployeeVehicleDetailsPageComponent {
   protected readonly isAdmin = computed(() => {
     return this.router.url.includes('/admin/');
   });
+
+  protected deleteVehicle(): void {
+    if (!this.isAdmin()) {
+      return;
+    }
+
+    const shouldDelete = window.confirm(`Delete vehicle ${this.vehicleId()}?`);
+    if (!shouldDelete) {
+      return;
+    }
+
+    this.router.navigate(['/admin/vehicles']);
+  }
 }

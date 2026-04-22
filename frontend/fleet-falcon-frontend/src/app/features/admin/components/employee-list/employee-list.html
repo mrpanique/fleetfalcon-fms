@@ -2,7 +2,7 @@
   @if (employees.length > 0) {
     @for (employee of employees; track employee.id) {
       <li class="employee-item">
-        <app-admin-employee-list-item [item]="employee" />
+        <app-admin-employee-list-item [item]="employee" (delete)="delete.emit($event)" />
       </li>
     }
   } @else {

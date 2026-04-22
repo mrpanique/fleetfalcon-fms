@@ -11,5 +11,8 @@
     <p class="employee-details">Driving license: {{ item.drivingLicenseNumber }}</p>
   </div>
 
-  <a [routerLink]="['/admin/employees', item.id, 'edit']" class="edit-btn">Edit</a>
+  <div class="item-actions">
+    <a [routerLink]="['/admin/employees', item.id, 'edit']" class="edit-btn">Edit</a>
+    <button type="button" class="delete-btn" (click)="onDelete($event)">Delete</button>
+  </div>
 </div>
