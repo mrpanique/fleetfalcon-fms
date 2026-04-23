@@ -2,6 +2,7 @@ package hu.panique.fleetfalcon.service;
 
 import hu.panique.fleetfalcon.model.Vehicle;
 import hu.panique.fleetfalcon.repository.VehicleRepository;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,6 +18,42 @@ public class VehicleService {
 
     public List<Vehicle> getAllVehicles() {
         return vehicleRepository.findAll();
+    }
+
+    public List<Vehicle> getVehicles(
+            String brand,
+            String model,
+            Vehicle.VehicleType vehicleType,
+            Vehicle.FuelType fuelType,
+            Integer dailyPrice,
+            Integer seatingCapacity,
+            Vehicle.VehicleStatus status
+    ) {
+        Specification<Vehicle> spec = (root, query, cb) -> cb.conjunction();
+
+        if (hasText(brand)) {
+            spec = spec.and((root, query, cb) -> cb.like(cb.lower(root.get("brand")), "%" + brand.toLowerCase() + "%"));
+        }
+        if (hasText(model)) {
+            spec = spec.and((root, query, cb) -> cb.like(cb.lower(root.get("model")), "%" + model.toLowerCase() + "%"));
+        }
+        if (vehicleType != null) {
+            spec = spec.and((root, query, cb) -> cb.equal(root.get("vehicleType"), vehicleType));
+        }
+        if (fuelType != null) {
+            spec = spec.and((root, query, cb) -> cb.equal(root.get("fuelType"), fuelType));
+        }
+        if (dailyPrice != null) {
+            spec = spec.and((root, query, cb) -> cb.equal(root.get("dailyPrice"), dailyPrice));
+        }
+        if (seatingCapacity != null) {
+            spec = spec.and((root, query, cb) -> cb.equal(root.get("seatingCapacity"), seatingCapacity));
+        }
+        if (status != null) {
+            spec = spec.and((root, query, cb) -> cb.equal(root.get("status"), status));
+        }
+
+        return vehicleRepository.findAll(spec);
     }
 
     public Vehicle createVehicle(Vehicle vehicle) {
@@ -52,5 +89,9 @@ public class VehicleService {
         vehicle.setNextServiceDate(vehicleDetails.getNextServiceDate());
 
         return vehicleRepository.save(vehicle);
+    }
+
+    private boolean hasText(String value) {
+        return value != null && !value.isBlank();
     }
 }

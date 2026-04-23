@@ -17,8 +17,11 @@ public class EmployeeController {
     }
 
     @GetMapping
-    public List<Employee> getAllEmployees() {
-        return employeeService.getAllEmployees();
+    public List<Employee> getEmployees(
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) String employeeId
+    ) {
+        return employeeService.getEmployees(name, employeeId);
     }
 
     @PostMapping

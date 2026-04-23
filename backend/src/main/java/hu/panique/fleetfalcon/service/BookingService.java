@@ -7,6 +7,7 @@ import hu.panique.fleetfalcon.model.Vehicle;
 import hu.panique.fleetfalcon.repository.BookingRepository;
 import hu.panique.fleetfalcon.repository.EmployeeRepository;
 import hu.panique.fleetfalcon.repository.VehicleRepository;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,6 +27,26 @@ public class BookingService {
 
     public List<Booking> getAllBookings() {
         return bookingRepository.findAll();
+    }
+
+    public List<Booking> getBookings(Booking.BookingStatus status, String employeeName, String employeeId) {
+        Specification<Booking> spec = (root, query, cb) -> cb.conjunction();
+
+        if (status != null) {
+            spec = spec.and((root, query, cb) -> cb.equal(root.get("status"), status));
+        }
+        if (hasText(employeeName)) {
+            String nameFilter = "%" + employeeName.toLowerCase() + "%";
+            spec = spec.and((root, query, cb) -> cb.or(
+                    cb.like(cb.lower(root.get("employee").get("firstName")), nameFilter),
+                    cb.like(cb.lower(root.get("employee").get("lastName")), nameFilter)
+            ));
+        }
+        if (hasText(employeeId)) {
+            spec = spec.and((root, query, cb) -> cb.equal(root.get("employee").get("employeeId"), employeeId));
+        }
+
+        return bookingRepository.findAll(spec);
     }
 
     public Booking createBooking(BookingRequest request) {
@@ -118,5 +139,17 @@ public class BookingService {
         vehicleRepository.save(vehicle);
 
         return bookingRepository.save(booking);
+    }
+
+    public Booking updateBookingStatus(Long id, Booking.BookingStatus status) {
+        Booking booking = bookingRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Booking not found with id: " + id));
+
+        booking.setStatus(status);
+        return bookingRepository.save(booking);
+    }
+
+    private boolean hasText(String value) {
+        return value != null && !value.isBlank();
     }
 }
