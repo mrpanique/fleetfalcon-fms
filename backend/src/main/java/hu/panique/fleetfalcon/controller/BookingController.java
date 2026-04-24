@@ -1,6 +1,7 @@
 package hu.panique.fleetfalcon.controller;
 
 import hu.panique.fleetfalcon.dto.BookingRequest;
+import hu.panique.fleetfalcon.dto.BookingStatusUpdateRequest;
 import hu.panique.fleetfalcon.model.Booking;
 import hu.panique.fleetfalcon.service.BookingService;
 import org.springframework.web.bind.annotation.*;
@@ -18,8 +19,12 @@ public class BookingController {
     }
 
     @GetMapping
-    public List<Booking> getAllBookings() {
-        return bookingService.getAllBookings();
+    public List<Booking> getBookings(
+            @RequestParam(required = false) Booking.BookingStatus status,
+            @RequestParam(required = false) String employeeName,
+            @RequestParam(required = false) String employeeId
+    ) {
+        return bookingService.getBookings(status, employeeName, employeeId);
     }
 
     @PostMapping
@@ -50,5 +55,10 @@ public class BookingController {
     @PostMapping("/{id}/end")
     public Booking endRental(@PathVariable Long id, @RequestParam Integer mileage) {
         return bookingService.endRental(id, mileage);
+    }
+
+    @PutMapping("/{id}/status")
+    public Booking updateBookingStatus(@PathVariable Long id, @RequestBody BookingStatusUpdateRequest request) {
+        return bookingService.updateBookingStatus(id, request.getStatus());
     }
 }

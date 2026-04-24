@@ -4,6 +4,7 @@ import hu.panique.fleetfalcon.model.Employee;
 import hu.panique.fleetfalcon.repository.EmployeeRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -17,6 +18,27 @@ public class EmployeeService {
 
     public List<Employee> getAllEmployees() {
         return employeeRepository.findAll();
+    }
+
+    public List<Employee> getEmployees(String name, String employeeId) {
+        boolean hasName = hasText(name);
+        boolean hasEmployeeId = hasText(employeeId);
+
+        if (!hasName && !hasEmployeeId) {
+            return employeeRepository.findAll();
+        }
+
+        if (hasEmployeeId) {
+            Employee employee = employeeRepository.findByEmployeeId(employeeId)
+                    .orElseThrow(() -> new RuntimeException("Employee not found with employeeId: " + employeeId));
+
+            if (!hasName || containsName(employee, name)) {
+                return List.of(employee);
+            }
+            return Collections.emptyList();
+        }
+
+        return employeeRepository.findByFirstNameContainingIgnoreCaseOrLastNameContainingIgnoreCase(name, name);
     }
 
     public Employee createEmployee(Employee employee) {
@@ -39,11 +61,21 @@ public class EmployeeService {
         employee.setFirstName(employeeDetails.getFirstName());
         employee.setLastName(employeeDetails.getLastName());
         employee.setEmployeeId(employeeDetails.getEmployeeId());
-        employee.setEmail(employeeDetails.getEmail());
+        employee.setUser(employeeDetails.getUser());
         employee.setPhoneNumber(employeeDetails.getPhoneNumber());
         employee.setDrivingLicenseNumber(employeeDetails.getDrivingLicenseNumber());
         employee.setDepartment(employeeDetails.getDepartment());
 
         return employeeRepository.save(employee);
+    }
+
+    private boolean hasText(String value) {
+        return value != null && !value.isBlank();
+    }
+
+    private boolean containsName(Employee employee, String name) {
+        String normalized = name.toLowerCase();
+        return employee.getFirstName().toLowerCase().contains(normalized)
+                || employee.getLastName().toLowerCase().contains(normalized);
     }
 }

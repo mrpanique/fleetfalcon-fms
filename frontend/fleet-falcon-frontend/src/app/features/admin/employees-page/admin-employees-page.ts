@@ -83,4 +83,21 @@ export class AdminEmployeesPageComponent {
   protected setEmployeeIdFilter(value: string): void {
     this.employeeIdFilter.set(value);
   }
+
+  protected deleteEmployee(employeeId: string): void {
+    const employee = this.employees().find((item) => item.id === employeeId);
+    if (!employee) {
+      return;
+    }
+
+    const shouldDelete = window.confirm(
+      `Delete employee "${employee.name}" (${employee.employeeId})?`
+    );
+
+    if (!shouldDelete) {
+      return;
+    }
+
+    this.employees.update((items) => items.filter((item) => item.id !== employeeId));
+  }
 }

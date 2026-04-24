@@ -36,16 +36,24 @@ public class Booking {
     @Column(nullable = false)
     private LocalDateTime endDate;
 
-    // can be: PENDING (waiting for approval), APPROVED, ACTIVE ,REJECTED, COMPLETED, CANCELLED
-    // Default: PENDING
-    // ENUM later?
-    private String status;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private BookingStatus status = BookingStatus.PENDING;
 
     private Integer startMileage;
 
     private Integer endMileage;
 
-    private Double distanceTraveled;
+    private Integer distanceTraveled;
 
-    private Double estimatedCost;
+    private Integer cost;
+
+    public enum BookingStatus {
+        PENDING,
+        APPROVED,
+        ACTIVE,
+        COMPLETED,
+        REJECTED,
+        CANCELLED
+    }
 }

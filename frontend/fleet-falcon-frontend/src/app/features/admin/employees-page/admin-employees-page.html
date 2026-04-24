@@ -42,7 +42,7 @@
     <article class="admin-employees-card" aria-labelledby="employees-list-title">
       <h2 id="employees-list-title" class="card-title">Employee list</h2>
 
-      <app-admin-employee-list [employees]="filteredEmployees()" />
+      <app-admin-employee-list [employees]="filteredEmployees()" (delete)="deleteEmployee($event)" />
     </article>
   </div>
 </section>

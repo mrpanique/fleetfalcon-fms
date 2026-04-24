@@ -7,7 +7,7 @@
     <article class="my-bookings-card" aria-labelledby="my-bookings-list-title">
       <h2 id="my-bookings-list-title" class="card-title">Booking list</h2>
 
-      <app-booking-list [items]="bookings" ariaLabel="My booking list" />
+      <app-booking-list [items]="(bookings$ | async) ?? []" ariaLabel="My booking list" />
     </article>
   </div>
 </section>

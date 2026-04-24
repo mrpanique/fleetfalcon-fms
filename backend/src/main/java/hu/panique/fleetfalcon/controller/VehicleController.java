@@ -17,8 +17,16 @@ public class VehicleController {
     }
 
     @GetMapping
-    public List<Vehicle> getAllVehicles() {
-        return vehicleService.getAllVehicles();
+    public List<Vehicle> getVehicles(
+            @RequestParam(required = false) String brand,
+            @RequestParam(required = false) String model,
+            @RequestParam(required = false) Vehicle.VehicleType vehicleType,
+            @RequestParam(required = false) Vehicle.FuelType fuelType,
+            @RequestParam(required = false) Integer dailyPrice,
+            @RequestParam(required = false) Integer seatingCapacity,
+            @RequestParam(required = false) Vehicle.VehicleStatus status
+    ) {
+        return vehicleService.getVehicles(brand, model, vehicleType, fuelType, dailyPrice, seatingCapacity, status);
     }
 
     @PostMapping

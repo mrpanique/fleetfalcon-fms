@@ -1,139 +1,206 @@
-### ==========================================
-### 0. ELŐKÉSZÜLETEK (Jármű és Dolgozó létrehozása)
-### ==========================================
+@baseUrl = http://localhost:8080
+@userId = 1
 
-### Kell egy autó (ID: 1 lesz)
-POST http://localhost:8080/api/vehicles
+@bookingTag = 9001
+@bookingUserId = 1
+@bookingEmployeeDbId = 1
+@bookingVehicleId = 1
+@bookingHappyId = 1
+@bookingRejectId = 2
+@bookingCancelId = 1
+
+### 19. (ELOFELTETEL) USER LETREHOZAS A BOOKING EMPLOYEE-HEZ
+### FONTOS: allitsd a felso @bookingUserId-t a valaszban kapott id-ra.
+POST {{baseUrl}}/api/users
 Content-Type: application/json
 
 {
-  "brand": "Volkswagen",
-  "model": "Passat",
-  "licensePlate": "TEST-001",
-  "vehicleType": "SEDAN",
-  "releaseYear": 2021,
-  "dailyPrice": 12000.0,
-  "available": true
+  "email": "booking.user.{{bookingTag}}@fleetfalcon.local",
+  "passwordHash": "BookingPass123!",
+  "role": "EMPLOYEE"
 }
 
-### Kell egy dolgozó (ID: 1 lesz)
-POST http://localhost:8080/api/employees
+
+### 20. (ELOFELTETEL) EMPLOYEE LETREHOZAS
+### FONTOS: allitsd a felso @bookingEmployeeDbId-t a valaszban kapott id-ra.
+POST {{baseUrl}}/api/employees
 Content-Type: application/json
 
 {
-  "firstName": "Teszt",
-  "lastName": "Elek",
-  "employeeId": "EMP-999",
-  "email": "elek.teszt@company.com",
-  "phoneNumber": "+36301234567",
-  "drivingLicenseNumber": "DL-000000",
-  "department": "IT"
+  "firstName": "Booking",
+  "lastName": "Tester",
+  "employeeId": "EMP-BOOK-{{bookingTag}}",
+  "user": {
+    "id": {{bookingUserId}}
+  },
+  "phoneNumber": "+3630222{{bookingTag}}",
+  "drivingLicenseNumber": "DL-BOOK-{{bookingTag}}",
+  "department": "QA"
 }
 
-### ==========================================
-### 1. SCENARIO: A "BOLDOG ÚT" (Teljes életciklus)
-### ==========================================
 
-### 1.1 Létrehozás (Foglalás ID: 1, Státusz: PENDING lesz)
-POST http://localhost:8080/api/bookings
+### 21. (ELOFELTETEL) VEHICLE LETREHOZAS
+### FONTOS: allitsd a felso @bookingVehicleId-t a valaszban kapott id-ra.
+POST {{baseUrl}}/api/vehicles
 Content-Type: application/json
 
 {
-  "vehicleId": 1,
-  "employeeId": 1,
-  "startDate": "2024-08-01T08:00:00",
-  "endDate": "2024-08-05T18:00:00"
+  "brand": "Skoda",
+  "model": "Octavia",
+  "licensePlate": "BOOK-{{bookingTag}}",
+  "vehicleType": "CAR",
+  "fuelType": "PETROL",
+  "releaseYear": 2022,
+  "dailyPrice": 15000,
+  "seatingCapacity": 5,
+  "description": "Booking lifecycle test vehicle",
+  "status": "AVAILABLE",
+  "currentMileage": 50000,
+  "inspectionValidUntil": "2027-12-31",
+  "nextServiceMileage": 60000,
+  "nextServiceDate": "2026-10-01"
 }
 
-### 1.2 Admin Jóváhagyás (Státusz: APPROVED lesz)
-POST http://localhost:8080/api/bookings/1/approve
 
-### 1.3 Kulcsátvétel / Check-out (Státusz: ACTIVE lesz)
-### (Nézd majd meg az adatbázisban: az autó 'available' mezője FALSE lett!)
-POST http://localhost:8080/api/bookings/1/start?mileage=120000
-
-### 1.4 Visszavétel / Check-in (Státusz: COMPLETED lesz)
-### (Távolság automatikusan 450 lesz, autó 'available' mezője újra TRUE!)
-POST http://localhost:8080/api/bookings/1/end?mileage=120450
-
-
-### ==========================================
-### 2. SCENARIO: ELUTASÍTÁS (Rejection)
-### ==========================================
-
-### 2.1 Új foglalás létrehozása (Foglalás ID: 2, Státusz: PENDING)
-POST http://localhost:8080/api/bookings
+### 22. HAPPY PATH - BOOKING LETREHOZAS (PENDING)
+### FONTOS: allitsd a felso @bookingHappyId-t a valaszban kapott id-ra.
+POST {{baseUrl}}/api/bookings
 Content-Type: application/json
 
 {
-  "vehicleId": 1,
-  "employeeId": 1,
-  "startDate": "2024-09-01T08:00:00",
-  "endDate": "2024-09-05T18:00:00"
+  "vehicleId": {{bookingVehicleId}},
+  "employeeId": {{bookingEmployeeDbId}},
+  "startDate": "2026-08-01T08:00:00",
+  "endDate": "2026-08-03T18:00:00"
 }
 
-### 2.2 Admin elutasítja (Státusz: REJECTED lesz)
-POST http://localhost:8080/api/bookings/2/reject
+
+### 23. HAPPY PATH - JOvAHAGYAS (APPROVED)
+POST {{baseUrl}}/api/bookings/{{bookingHappyId}}/approve
 
 
-### ==========================================
-### 3. SCENARIO: LEMONDÁS (Cancellation)
-### ==========================================
+### 24. HAPPY PATH - START (ACTIVE)
+POST {{baseUrl}}/api/bookings/{{bookingHappyId}}/start?mileage=50000
 
-### 3.1 Új foglalás létrehozása (Foglalás ID: 3, Státusz: PENDING)
-POST http://localhost:8080/api/bookings
+
+### 25. HAPPY PATH - END (COMPLETED)
+POST {{baseUrl}}/api/bookings/{{bookingHappyId}}/end?mileage=50220
+
+
+### 26. ELLENORZES - STATUS SZURES (COMPLETED)
+GET {{baseUrl}}/api/bookings?status=COMPLETED
+
+
+### 27. ELLENORZES - EMPLOYEE NAME SZURES
+GET {{baseUrl}}/api/bookings?employeeName=booking
+
+
+### 28. ELLENORZES - EMPLOYEE ID SZURES
+GET {{baseUrl}}/api/bookings?employeeId=EMP-BOOK-{{bookingTag}}
+
+
+### 29. REJECT AG - UJ BOOKING LETREHOZAS
+### FONTOS: allitsd a felso @bookingRejectId-t a valaszban kapott id-ra.
+POST {{baseUrl}}/api/bookings
 Content-Type: application/json
 
 {
-  "vehicleId": 1,
-  "employeeId": 1,
-  "startDate": "2024-10-01T08:00:00",
-  "endDate": "2024-10-05T18:00:00"
+  "vehicleId": {{bookingVehicleId}},
+  "employeeId": {{bookingEmployeeDbId}},
+  "startDate": "2026-08-10T08:00:00",
+  "endDate": "2026-08-12T18:00:00"
 }
 
-### 3.2 Jóváhagyás (Státusz: APPROVED lesz)
-### (Ezzel bizonyítjuk a white-listánkat, hogy APPROVED-ból is lehet cancel-ezni)
-POST http://localhost:8080/api/bookings/3/approve
 
-### 3.3 Dolgozó lemondja (Státusz: CANCELLED lesz)
-POST http://localhost:8080/api/bookings/3/cancel
+### 30. REJECT AG - ELUTASITAS (REJECTED)
+POST {{baseUrl}}/api/bookings/{{bookingRejectId}}/reject
 
 
-### ==========================================
-### 4. BÓNUSZ: VÉDELMI VONALAK TESZTELÉSE (Ezeknek HIBÁT kell dobniuk!)
-### ==========================================
-
-### 4.1 Hiba: Próbáljuk meg elindítani a lemondott foglalást!
-### -> Hibaüzenet: "Booking cannot be started. Must be APPROVED."
-POST http://localhost:8080/api/bookings/3/start?mileage=150000
-
-### 4.2 Hiba: Dupla foglalás (Conflict)
-### Csináljunk egy érvényes foglalást (Foglalás ID: 4)...
-POST http://localhost:8080/api/bookings
+### 31. CANCEL AG - UJ BOOKING LETREHOZAS
+### FONTOS: allitsd a felso @bookingCancelId-t a valaszban kapott id-ra.
+POST {{baseUrl}}/api/bookings
 Content-Type: application/json
 
 {
-  "vehicleId": 1,
-  "employeeId": 1,
-  "startDate": "2024-11-01T08:00:00",
-  "endDate": "2024-11-10T18:00:00"
+  "vehicleId": {{bookingVehicleId}},
+  "employeeId": {{bookingEmployeeDbId}},
+  "startDate": "2026-08-20T08:00:00",
+  "endDate": "2026-08-22T18:00:00"
 }
 
-### ...majd próbáljunk ráfoglalni (ugyanarra az autóra, egymásra lógó dátummal)!
-### -> Hibaüzenet: "Conflict! This vehicle is already booked..."
-POST http://localhost:8080/api/bookings
+
+### 32. CANCEL AG - JOvAHAGYAS (APPROVED)
+POST {{baseUrl}}/api/bookings/{{bookingCancelId}}/approve
+
+
+### 33. CANCEL AG - LEMONDAS (CANCELLED)
+POST {{baseUrl}}/api/bookings/{{bookingCancelId}}/cancel
+
+
+### 34. STATUS FRISSITES ENDPOINT TESZT (PUT /status)
+### FIGYELEM: Ez kozvetlen status allitas, uzleti validacio nelkul.
+PUT {{baseUrl}}/api/bookings/{{bookingRejectId}}/status
 Content-Type: application/json
 
 {
-  "vehicleId": 1,
-  "employeeId": 1,
-  "startDate": "2024-11-05T08:00:00",
-  "endDate": "2024-11-15T18:00:00"
+  "status": "PENDING"
 }
 
-### ==========================================
-### 5. VÉGSŐ ELLENŐRZÉS
-### ==========================================
 
-### Kérdezzük le az összes foglalást, és gyönyörködjünk a különböző státuszokban!
-GET http://localhost:8080/api/bookings
+### 35. VEGSO LISTA
+GET {{baseUrl}}/api/bookings
+
+### 1. FELHASZNALO LETREHOZAS
+### Elvart: 200 OK + JSON benne id/email/role
+POST {{baseUrl}}/api/users
+Content-Type: application/json
+
+{
+  "email": "user.test@fleetfalcon.local",
+  "passwordHash": "InitPass123!",
+  "role": "EMPLOYEE"
+}
+
+
+### 2. FELHASZNALO LEKERESE ID ALAPJAN
+### FONTOS: allitsd az @userId valtozot felul a letrehozott id-re.
+### Elvart: 200 OK
+GET {{baseUrl}}/api/users/{{userId}}
+
+
+### 3. JELSZO FRISSITES (HELYES AKTUALIS JELSZO)
+### Elvart: 204 No Content
+PUT {{baseUrl}}/api/users/{{userId}}/password
+Content-Type: application/json
+
+{
+  "currentPassword": "InitPass123!",
+  "newPassword": "NewPass456!"
+}
+
+
+### 4. NEGATIV TESZT - HIBAS AKTUALIS JELSZO
+### Elvart: hiba (jelenlegi implementacioban valoszinuleg 500 RuntimeException)
+PUT {{baseUrl}}/api/users/{{userId}}/password
+Content-Type: application/json
+
+{
+  "currentPassword": "WrongPass999!",
+  "newPassword": "AnotherPass789!"
+}
+
+
+### 5. FELHASZNALO TORLESE
+### Elvart: 200 OK
+DELETE {{baseUrl}}/api/users/{{userId}}
+
+
+### 6. TOROLT FELHASZNALO LEKERESE
+### Elvart: hiba (jelenlegi implementacioban valoszinuleg 500 RuntimeException)
+GET {{baseUrl}}/api/users/{{userId}}
+
+
+### 7. VEGSO LISTA
+### Elvart: 200 OK es a torolt user mar ne legyen benne.
+GET {{baseUrl}}/api/users
+

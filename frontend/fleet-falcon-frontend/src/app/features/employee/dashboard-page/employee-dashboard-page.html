@@ -17,7 +17,7 @@
           <a routerLink="/my-bookings" class="inline-link">See all</a>
         </div>
 
-        <app-booking-list [items]="upcomingBookings" ariaLabel="Upcoming booking summary" />
+        <app-booking-list [items]="(upcomingBookings$ | async) ?? []" ariaLabel="Upcoming booking summary" />
       </article>
 
       <article class="card card-info" aria-labelledby="info-title">

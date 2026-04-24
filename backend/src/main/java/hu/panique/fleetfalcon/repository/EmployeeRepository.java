@@ -4,7 +4,12 @@ import hu.panique.fleetfalcon.model.Employee;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+import java.util.Optional;
+
 @Repository
 public interface EmployeeRepository extends JpaRepository<Employee, Long> {
-    // This gives: save(), findAll(), findById(), deleteById()
+    Optional<Employee> findByEmployeeId(String employeeId);
+
+    List<Employee> findByFirstNameContainingIgnoreCaseOrLastNameContainingIgnoreCase(String firstName, String lastName);
 }

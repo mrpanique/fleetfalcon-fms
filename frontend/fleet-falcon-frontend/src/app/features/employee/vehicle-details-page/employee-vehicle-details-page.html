@@ -40,6 +40,7 @@
           <div class="admin-right-actions">
             <a [routerLink]="['/admin/vehicles', vehicleId(), 'service-log']" class="service-log-btn">Service log</a>
             <a [routerLink]="['/admin/vehicles', vehicleId(), 'edit']" class="edit-btn">Edit vehicle</a>
+            <button type="button" class="delete-btn" (click)="deleteVehicle()">Delete vehicle</button>
           </div>
         }
       </div>
