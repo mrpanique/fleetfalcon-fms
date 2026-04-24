@@ -1,10 +1,12 @@
 package hu.panique.fleetfalcon.service;
 
+import hu.panique.fleetfalcon.model.Booking;
 import hu.panique.fleetfalcon.model.Vehicle;
 import hu.panique.fleetfalcon.repository.VehicleRepository;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -27,8 +29,12 @@ public class VehicleService {
             Vehicle.FuelType fuelType,
             Integer dailyPrice,
             Integer seatingCapacity,
-            Vehicle.VehicleStatus status
+            Vehicle.VehicleStatus status,
+            LocalDateTime availableFrom,
+            LocalDateTime availableTo
     ) {
+        validateAvailabilityWindow(availableFrom, availableTo);
+
         Specification<Vehicle> spec = (root, query, cb) -> cb.conjunction();
 
         if (hasText(brand)) {
@@ -51,6 +57,28 @@ public class VehicleService {
         }
         if (status != null) {
             spec = spec.and((root, query, cb) -> cb.equal(root.get("status"), status));
+        }
+        if (availableFrom != null && availableTo != null) {
+            spec = spec.and((root, query, cb) -> {
+                var subquery = query.subquery(Long.class);
+                var bookingRoot = subquery.from(Booking.class);
+
+                subquery.select(bookingRoot.get("id"));
+                subquery.where(
+                        cb.and(
+                                cb.equal(bookingRoot.get("vehicle"), root),
+                                bookingRoot.get("status").in(
+                                        Booking.BookingStatus.PENDING,
+                                        Booking.BookingStatus.APPROVED,
+                                        Booking.BookingStatus.ACTIVE
+                                ),
+                                cb.lessThan(bookingRoot.get("startDate"), availableTo),
+                                cb.greaterThan(bookingRoot.get("endDate"), availableFrom)
+                        )
+                );
+
+                return cb.not(cb.exists(subquery));
+            });
         }
 
         return vehicleRepository.findAll(spec);
@@ -93,5 +121,14 @@ public class VehicleService {
 
     private boolean hasText(String value) {
         return value != null && !value.isBlank();
+    }
+
+    private void validateAvailabilityWindow(LocalDateTime availableFrom, LocalDateTime availableTo) {
+        if ((availableFrom == null) != (availableTo == null)) {
+            throw new RuntimeException("Both availableFrom and availableTo must be provided together.");
+        }
+        if (availableFrom != null && !availableFrom.isBefore(availableTo)) {
+            throw new RuntimeException("availableFrom must be before availableTo.");
+        }
     }
 }

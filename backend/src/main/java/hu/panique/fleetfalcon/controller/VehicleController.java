@@ -2,8 +2,10 @@ package hu.panique.fleetfalcon.controller;
 
 import hu.panique.fleetfalcon.model.Vehicle;
 import hu.panique.fleetfalcon.service.VehicleService;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -24,9 +26,21 @@ public class VehicleController {
             @RequestParam(required = false) Vehicle.FuelType fuelType,
             @RequestParam(required = false) Integer dailyPrice,
             @RequestParam(required = false) Integer seatingCapacity,
-            @RequestParam(required = false) Vehicle.VehicleStatus status
+            @RequestParam(required = false) Vehicle.VehicleStatus status,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime availableFrom,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime availableTo
     ) {
-        return vehicleService.getVehicles(brand, model, vehicleType, fuelType, dailyPrice, seatingCapacity, status);
+        return vehicleService.getVehicles(
+                brand,
+                model,
+                vehicleType,
+                fuelType,
+                dailyPrice,
+                seatingCapacity,
+                status,
+                availableFrom,
+                availableTo
+        );
     }
 
     @PostMapping

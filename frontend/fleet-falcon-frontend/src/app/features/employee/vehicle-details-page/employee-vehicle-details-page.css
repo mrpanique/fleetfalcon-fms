@@ -41,6 +41,12 @@
   font-size: clamp(1.25rem, 1.8vw, 1.8rem);
 }
 
+.vehicle-empty {
+  margin: 0;
+  color: var(--color-text-muted);
+  font-size: 0.95rem;
+}
+
 .vehicle-data-grid {
   margin: 1rem 0 0;
   display: grid;
