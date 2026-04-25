@@ -1,7 +1,9 @@
 import { Component, computed, inject, signal } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { toSignal, toObservable } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
+import { combineLatest, of } from 'rxjs';
+import { switchMap, catchError } from 'rxjs/operators';
 import { EmployeeVehiclesService, VehicleDto } from '../services/employee-vehicles.service';
 
 @Component({
@@ -15,9 +17,26 @@ export class EmployeeVehiclesPageComponent {
   private readonly employeeVehiclesService = inject(EmployeeVehiclesService);
 
   protected readonly isAdmin = computed(() => this.router.url.startsWith('/admin/'));
-  private readonly vehicles = toSignal(this.employeeVehiclesService.getVehicles(), {
-    initialValue: [] as VehicleDto[]
-  });
+  private readonly appliedAvailableFrom = signal('');
+  private readonly appliedAvailableTo = signal('');
+  private readonly vehicles = toSignal(
+    combineLatest([
+      toObservable(this.appliedAvailableFrom),
+      toObservable(this.appliedAvailableTo)
+    ]).pipe(
+      switchMap(([availableFrom, availableTo]) =>
+        this.employeeVehiclesService.getVehicles({
+          availableFrom: availableFrom || null,
+          availableTo: availableTo || null
+        })
+      ),
+      catchError((error) => {
+        console.error('Failed to load vehicles', error);
+        return of([] as VehicleDto[]);
+      })
+    ),
+    { initialValue: [] as VehicleDto[] }
+  );
 
   protected readonly draftSearchTerm = signal('');
   private readonly appliedSearchTerm = signal('');
@@ -39,8 +58,6 @@ export class EmployeeVehiclesPageComponent {
   private readonly appliedPriceMax = signal<number | null>(null);
   private readonly appliedSeatMin = signal<number | null>(null);
   private readonly appliedSeatMax = signal<number | null>(null);
-  private readonly appliedAvailableFrom = signal('');
-  private readonly appliedAvailableTo = signal('');
 
   protected readonly filteredVehicles = computed(() => {
     const vehicles = this.vehicles();

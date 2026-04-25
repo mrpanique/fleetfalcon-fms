@@ -11,10 +11,18 @@ import { BookingAdminActionsComponent } from '../booking-admin-actions/booking-a
 })
 export class BookingInfoCardComponent {
   @Input() isAdmin = false;
+  @Input() isBusy = false;
   @Input() status = 'Approved';
   @Input() cost = '54 000 Ft';
   @Input() timePeriod = '2026.03.31 09:00 - 2026.04.01 18:00';
 
+  @Output() approve = new EventEmitter<void>();
+  @Output() reject = new EventEmitter<void>();
+  @Output() cancel = new EventEmitter<void>();
   @Output() checkout = new EventEmitter<void>();
   @Output() checkin = new EventEmitter<void>();
+
+  protected statusClass(): string {
+    return this.status.trim().toLowerCase();
+  }
 }

@@ -42,11 +42,32 @@
 
 .status-pill {
   border-radius: 999px;
-  border: 1px solid rgba(0, 214, 143, 0.34);
-  color: #8ff6cf;
-  background: rgba(0, 214, 143, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: var(--color-text);
+  background: rgba(255, 255, 255, 0.06);
   padding: 0.2rem 0.55rem;
   font-size: 0.76rem;
+}
+
+.status-pill.pending {
+  border-color: rgba(255, 184, 76, 0.45);
+  color: #ffd08c;
+  background: rgba(255, 184, 76, 0.12);
+}
+
+.status-pill.approved,
+.status-pill.active,
+.status-pill.completed {
+  border-color: rgba(0, 214, 143, 0.34);
+  color: #8ff6cf;
+  background: rgba(0, 214, 143, 0.08);
+}
+
+.status-pill.rejected,
+.status-pill.cancelled {
+  border-color: rgba(255, 110, 110, 0.45);
+  color: #ffb0b0;
+  background: rgba(255, 84, 84, 0.12);
 }
 
 .cancel-btn {

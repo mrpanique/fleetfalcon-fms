@@ -39,19 +39,28 @@
             }
           </p>
 
-          <button type="button" class="book-btn">Book</button>
+          <button type="button" class="book-btn" [disabled]="isSubmitting()" (click)="createBooking()">Book</button>
+
+          @if (submitError()) {
+            <p class="price-label" role="alert">{{ submitError() }}</p>
+          }
         </form>
       </article>
 
       <article class="vehicle-card" aria-labelledby="vehicle-card-title">
-        <h2 id="vehicle-card-title" class="vehicle-title">Toyota Corolla</h2>
-        <dl class="vehicle-meta">
-          <div><dt>Vehicle type</dt><dd>CAR</dd></div>
-          <div><dt>Fuel type</dt><dd>HYBRID</dd></div>
-          <div><dt>Seats</dt><dd>5</dd></div>
-          <div><dt>Price/day</dt><dd>{{ dailyPrice.toLocaleString('hu-HU') }} Ft</dd></div>
-        </dl>
-        <a routerLink="/vehicles/1001" class="details-btn">Vehicle details</a>
+        @if (vehicle(); as selectedVehicle) {
+          <h2 id="vehicle-card-title" class="vehicle-title">{{ selectedVehicle.brand }} {{ selectedVehicle.model }}</h2>
+          <dl class="vehicle-meta">
+            <div><dt>Vehicle type</dt><dd>{{ selectedVehicle.vehicleType }}</dd></div>
+            <div><dt>Fuel type</dt><dd>{{ selectedVehicle.fuelType }}</dd></div>
+            <div><dt>Seats</dt><dd>{{ selectedVehicle.seatingCapacity ?? '-' }}</dd></div>
+            <div><dt>Price/day</dt><dd>{{ dailyPrice().toLocaleString('hu-HU') }} Ft</dd></div>
+          </dl>
+          <a [routerLink]="vehicleDetailsRoute()" class="details-btn">Vehicle details</a>
+        } @else {
+          <h2 id="vehicle-card-title" class="vehicle-title">No vehicle selected</h2>
+          <p class="price-label">Open this page from a vehicle's details page to create a booking for that vehicle.</p>
+        }
       </article>
     </div>
   </div>

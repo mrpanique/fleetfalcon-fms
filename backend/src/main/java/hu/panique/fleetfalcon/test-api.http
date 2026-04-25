@@ -157,15 +157,3 @@ Content-Type: application/json
   client.global.set("booking2Id", response.body.id);
 %}
 
-### OPTIONAL CHECKS
-GET {{baseUrl}}/api/users
-
-###
-GET {{baseUrl}}/api/employees
-
-###
-GET {{baseUrl}}/api/vehicles
-
-###
-GET {{baseUrl}}/api/bookings
-

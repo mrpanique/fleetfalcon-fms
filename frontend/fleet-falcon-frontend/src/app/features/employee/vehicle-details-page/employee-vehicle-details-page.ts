@@ -57,6 +57,10 @@ export class EmployeeVehicleDetailsPageComponent {
     return value ?? '-';
   }
 
+  protected bookingCreateRoute(): string {
+    return this.isAdmin() ? '/admin/my-bookings/create' : '/my-bookings/create';
+  }
+
   protected deleteVehicle(): void {
     if (!this.isAdmin()) {
       return;

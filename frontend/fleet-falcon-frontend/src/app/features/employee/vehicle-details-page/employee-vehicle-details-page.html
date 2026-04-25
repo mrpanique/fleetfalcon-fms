@@ -33,7 +33,7 @@
         </section>
 
         <div class="actions-row">
-          <a routerLink="/my-bookings/create" class="book-btn">Book</a>
+          <a [routerLink]="bookingCreateRoute()" [queryParams]="{ vehicleId: vehicleId() }" class="book-btn">Book</a>
           @if (isAdmin()) {
             <div class="admin-right-actions">
               <a [routerLink]="['/admin/vehicles', vehicleId(), 'service-log']" class="service-log-btn">Service log</a>

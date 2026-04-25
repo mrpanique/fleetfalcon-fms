@@ -1,8 +1,9 @@
-import { Component, computed, signal } from '@angular/core';
+import { Component, OnInit, computed, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AdminBookingListComponent } from '../components/booking-list/booking-list';
 import { AdminBookingListItem } from '../components/booking-list-item/booking-list-item.model';
+import { ApiBooking, BookingFilters, EmployeeBookingsService } from '../../employee/services/employee-bookings.service';
 
 type BookingStatus = 'pending' | 'approved' | 'active' | 'completed' | 'rejected' | 'cancelled';
 
@@ -23,7 +24,9 @@ interface AdminBookingItem {
   templateUrl: './admin-bookings-page.html',
   styleUrl: './admin-bookings-page.css'
 })
-export class AdminBookingsPageComponent {
+export class AdminBookingsPageComponent implements OnInit {
+  private readonly employeeBookingsService = inject(EmployeeBookingsService);
+
   protected readonly statusFilter = signal<'all' | BookingStatus>('all');
   protected readonly employeeNameFilter = signal('');
   protected readonly employeeIdFilter = signal('');
@@ -31,53 +34,7 @@ export class AdminBookingsPageComponent {
   protected readonly draftEmployeeNameFilter = signal('');
   protected readonly draftEmployeeIdFilter = signal('');
 
-  protected readonly bookings = signal<AdminBookingItem[]>([
-    {
-      id: '2001',
-      employeeName: 'John Smith',
-      employeeId: 'EMP-001',
-      vehicleName: 'Toyota Corolla',
-      startDate: '2026.04.02 08:30',
-      endDate: '2026.04.03 17:30',
-      status: 'pending'
-    },
-    {
-      id: '2002',
-      employeeName: 'Sarah Johnson',
-      employeeId: 'EMP-014',
-      vehicleName: 'Volkswagen ID.4',
-      startDate: '2026.04.04 09:00',
-      endDate: '2026.04.05 18:00',
-      status: 'approved'
-    },
-    {
-      id: '2003',
-      employeeName: 'Michael Brown',
-      employeeId: 'EMP-032',
-      vehicleName: 'Ford Transit',
-      startDate: '2026.04.06 07:15',
-      endDate: '2026.04.06 15:30',
-      status: 'completed'
-    },
-    {
-      id: '2004',
-      employeeName: 'Emily Davis',
-      employeeId: 'EMP-019',
-      vehicleName: 'Skoda Octavia',
-      startDate: '2026.04.08 06:45',
-      endDate: '2026.04.08 14:30',
-      status: 'active'
-    },
-    {
-      id: '2005',
-      employeeName: 'David Wilson',
-      employeeId: 'EMP-044',
-      vehicleName: 'Renault Trafic',
-      startDate: '2026.04.10 10:00',
-      endDate: '2026.04.11 19:00',
-      status: 'rejected'
-    }
-  ]);
+  protected readonly bookings = signal<AdminBookingItem[]>([]);
 
   protected readonly filteredBookings = computed(() => {
     const status = this.statusFilter();
@@ -120,8 +77,88 @@ export class AdminBookingsPageComponent {
 
   protected applyFilters(): void {
     this.statusFilter.set(this.draftStatusFilter());
-    this.employeeNameFilter.set(this.draftEmployeeNameFilter());
-    this.employeeIdFilter.set(this.draftEmployeeIdFilter());
+    this.employeeNameFilter.set(this.draftEmployeeNameFilter().trim());
+    this.employeeIdFilter.set(this.draftEmployeeIdFilter().trim());
+
+    this.loadBookings({
+      status: this.statusFilter(),
+      employeeName: this.employeeNameFilter() || null,
+      employeeId: this.employeeIdFilter() || null
+    });
+  }
+
+  ngOnInit(): void {
+    this.loadBookings();
+  }
+
+  private loadBookings(filters?: BookingFilters): void {
+    this.employeeBookingsService.getBookings(filters).subscribe({
+      next: (bookings) => {
+        this.bookings.set(bookings.map((booking) => this.toAdminBookingItem(booking)));
+      },
+      error: (error) => {
+        console.error('Failed to load admin bookings', error);
+        this.bookings.set([]);
+      }
+    });
+  }
+
+  private toAdminBookingItem(booking: ApiBooking): AdminBookingItem {
+    return {
+      id: String(booking.id),
+      employeeName: this.getEmployeeName(booking),
+      employeeId: booking.employee?.employeeId ?? '-',
+      vehicleName: this.getVehicleName(booking),
+      startDate: this.formatDateTime(booking.startDate),
+      endDate: this.formatDateTime(booking.endDate),
+      status: this.toBookingStatus(booking.status)
+    };
+  }
+
+  private getEmployeeName(booking: ApiBooking): string {
+    const firstName = booking.employee?.firstName?.trim() ?? '';
+    const lastName = booking.employee?.lastName?.trim() ?? '';
+    const fullName = `${firstName} ${lastName}`.trim();
+    return fullName || 'Unknown employee';
+  }
+
+  private getVehicleName(booking: ApiBooking): string {
+    if (!booking.vehicle) {
+      return 'Unknown vehicle';
+    }
+
+    return `${booking.vehicle.brand} ${booking.vehicle.model}`;
+  }
+
+  private toBookingStatus(status: string): BookingStatus {
+    const normalized = status.toLowerCase();
+    if (
+      normalized === 'pending' ||
+      normalized === 'approved' ||
+      normalized === 'active' ||
+      normalized === 'completed' ||
+      normalized === 'rejected' ||
+      normalized === 'cancelled'
+    ) {
+      return normalized;
+    }
+
+    return 'pending';
+  }
+
+  private formatDateTime(value: string): string {
+    const date = new Date(value);
+    if (Number.isNaN(date.getTime())) {
+      return value;
+    }
+
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+
+    return `${year}.${month}.${day} ${hours}:${minutes}`;
   }
 
 }

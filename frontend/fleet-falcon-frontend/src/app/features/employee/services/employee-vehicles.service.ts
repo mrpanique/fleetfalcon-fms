@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { catchError, Observable, of } from 'rxjs';
 
@@ -25,8 +25,17 @@ export class EmployeeVehiclesService {
   private readonly http = inject(HttpClient);
   private readonly apiBaseUrl = 'http://localhost:8080';
 
-  getVehicles(): Observable<VehicleDto[]> {
-    return this.http.get<VehicleDto[]>(`${this.apiBaseUrl}/api/vehicles`).pipe(
+  getVehicles(filters?: { availableFrom?: string | null; availableTo?: string | null }): Observable<VehicleDto[]> {
+    let params = new HttpParams();
+    if (filters?.availableFrom) {
+      params = params.set('availableFrom', filters.availableFrom);
+    }
+
+    if (filters?.availableTo) {
+      params = params.set('availableTo', filters.availableTo);
+    }
+
+    return this.http.get<VehicleDto[]>(`${this.apiBaseUrl}/api/vehicles`, { params }).pipe(
       catchError((error) => {
         console.error('Failed to load vehicles', error);
         return of([] as VehicleDto[]);
