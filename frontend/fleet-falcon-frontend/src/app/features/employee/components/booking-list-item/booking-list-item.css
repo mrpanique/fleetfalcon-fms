@@ -63,24 +63,3 @@
   font-size: 0.95rem;
   color: var(--color-text);
 }
-
-.status-pill {
-  border-radius: 999px;
-  border: 1px solid rgba(0, 214, 143, 0.34);
-  color: #8ff6cf;
-  background: rgba(0, 214, 143, 0.08);
-  padding: 0.22rem 0.55rem;
-  font-size: 0.76rem;
-}
-
-.status-pill.pending {
-  border-color: rgba(255, 178, 40, 0.45);
-  color: #ffd08c;
-  background: rgba(255, 178, 40, 0.11);
-}
-
-.status-pill.completed {
-  border-color: rgba(170, 170, 170, 0.4);
-  color: #c5c5c5;
-  background: rgba(170, 170, 170, 0.12);
-}

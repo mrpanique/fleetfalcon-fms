@@ -165,11 +165,9 @@ export class EmployeeBookingsService {
   }
 
   private toBookingListStatus(status: string): BookingListItem['status'] {
-    if (status === 'APPROVED' || status === 'PENDING' || status === 'COMPLETED') {
-      return status;
-    }
-
-    return 'PENDING';
+    const normalized = (status || '').toUpperCase();
+    const allowed: BookingListItem['status'][] = ['PENDING', 'APPROVED', 'ACTIVE', 'COMPLETED', 'REJECTED', 'CANCELLED'];
+    return allowed.includes(normalized as BookingListItem['status']) ? (normalized as BookingListItem['status']) : 'PENDING';
   }
 
   private formatDateTime(value: string): string {

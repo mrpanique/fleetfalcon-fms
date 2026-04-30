@@ -4,7 +4,7 @@
   <dl class="booking-data-grid">
     <div>
       <dt>Status</dt>
-      <dd><span class="status-pill" [ngClass]="statusClass()">{{ status }}</span></dd>
+      <dd><app-status-indicator [status]="status" /></dd>
     </div>
     <div>
       <dt>Cost</dt>

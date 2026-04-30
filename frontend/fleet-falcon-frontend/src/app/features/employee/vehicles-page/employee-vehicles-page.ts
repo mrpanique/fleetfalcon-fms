@@ -77,8 +77,7 @@ export class EmployeeVehiclesPageComponent {
     const priceMax = this.appliedPriceMax();
     const seatMin = this.appliedSeatMin();
     const seatMax = this.appliedSeatMax();
-    const availableFrom = this.parseDate(this.appliedAvailableFrom());
-    const availableTo = this.parseDate(this.appliedAvailableTo());
+
 
     return vehicles.filter((vehicle) => {
       if (brands.length > 0 && !brands.includes(vehicle.brand.toLowerCase())) {
@@ -106,16 +105,6 @@ export class EmployeeVehiclesPageComponent {
       }
 
       if (seatMax != null && (vehicle.seatingCapacity == null || vehicle.seatingCapacity > seatMax)) {
-        return false;
-      }
-
-      // "Availability window" is approximated with inspection validity date.
-      const inspectionDate = this.parseDate(vehicle.inspectionValidUntil);
-      if (availableFrom && (!inspectionDate || inspectionDate < availableFrom)) {
-        return false;
-      }
-
-      if (availableTo && (!inspectionDate || inspectionDate > availableTo)) {
         return false;
       }
 

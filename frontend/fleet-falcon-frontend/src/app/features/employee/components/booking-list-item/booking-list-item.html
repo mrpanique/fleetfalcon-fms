@@ -3,18 +3,12 @@
     [routerLink]="item.detailsRoute"
     class="booking-item-link"
     [class.completed]="item.status === 'COMPLETED'"
-    [attr.aria-label]="'Booking details for ' + item.vehicleName + ', ' + statusLabel(item.status).toLowerCase() + ' booking'"
+    [attr.aria-label]="'Booking details for ' + item.vehicleName + ', ' + getStatusLabel(item.status).toLowerCase() + ' booking'"
   >
     <div>
       <p class="booking-date">{{ item.timeRange }}</p>
       <p class="booking-vehicle">{{ item.vehicleName }}</p>
     </div>
-    <span
-      class="status-pill"
-      [class.pending]="item.status === 'PENDING'"
-      [class.completed]="item.status === 'COMPLETED'"
-    >
-      {{ statusLabel(item.status) }}
-    </span>
+    <app-status-indicator [status]="item.status" />
   </a>
 </li>

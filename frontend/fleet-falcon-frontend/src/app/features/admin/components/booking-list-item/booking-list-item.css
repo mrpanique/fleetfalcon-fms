@@ -64,40 +64,6 @@
   margin-top: 0.24rem;
 }
 
-.status-pill {
-  border-radius: 999px;
-  border: 1px solid rgba(0, 214, 143, 0.34);
-  color: #8ff6cf;
-  background: rgba(0, 214, 143, 0.08);
-  padding: 0.22rem 0.55rem;
-  font-size: 0.76rem;
-  white-space: nowrap;
-}
-
-.status-pill.status-pending {
-  border-color: rgba(255, 178, 40, 0.45);
-  color: #ffd08c;
-  background: rgba(255, 178, 40, 0.11);
-}
-
-.status-pill.status-approved {
-  border-color: rgba(0, 214, 143, 0.34);
-  color: #8ff6cf;
-  background: rgba(0, 214, 143, 0.08);
-}
-
-.status-pill.status-active {
-  border-color: rgba(74, 172, 255, 0.45);
-  color: #9fd5ff;
-  background: rgba(74, 172, 255, 0.11);
-}
-
-.status-pill.status-rejected {
-  border-color: rgba(244, 67, 54, 0.34);
-  color: #ff8a80;
-  background: rgba(244, 67, 54, 0.08);
-}
-
 .status-pill.status-completed {
   border-color: rgba(170, 170, 170, 0.4);
   color: #c5c5c5;

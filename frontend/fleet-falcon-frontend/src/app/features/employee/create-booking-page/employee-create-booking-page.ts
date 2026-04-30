@@ -88,7 +88,7 @@ export class EmployeeCreateBookingPageComponent {
     }
 
     if (this.dayCount() <= 0) {
-      this.submitError.set('Select a valid booking period. End date must be after start date.');
+      this.submitError.set('The selected period is incomplete or invalid.');
       return;
     }
 
@@ -124,7 +124,7 @@ export class EmployeeCreateBookingPageComponent {
       error: (error) => {
         this.isSubmitting.set(false);
         console.error('Failed to create booking', error);
-        this.submitError.set('Failed to create booking. Please check your selected dates and try again.');
+        this.submitError.set('This vehicle is already booked in the selected period. Please use the availability window search filter.');
       }
     });
   }

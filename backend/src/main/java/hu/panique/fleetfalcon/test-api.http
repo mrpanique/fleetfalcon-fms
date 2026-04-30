@@ -157,3 +157,6 @@ Content-Type: application/json
   client.global.set("booking2Id", response.body.id);
 %}
 
+### 9) GET VEHICLES - Filter by availability (only returns VEHICLE #1)
+### Vehicle #1 is FREE during 2026-05-04 to 2026-05-06 (Vehicle #2 is booked during this time)
+GET {{baseUrl}}/api/vehicles?availableFrom=2026-04-25T08:00:00&availableTo=2026-05-01T08:00:01

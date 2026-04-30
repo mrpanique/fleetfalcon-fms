@@ -1,0 +1,47 @@
+User
+	Create
+	Read
+	Update
+		only PasswordHash
+	(Delete)
+	
+
+Employee
+	Create
+	Read
+		by Name
+		by Employee ID
+	Update
+		Everything at once
+	Delete
+
+Vehicle
+	Create
+	Read
+		by Brand
+		by Model
+		by Type
+		by Fuel type
+		by Daily price
+		by Seating capacity
+		by Availability
+	Update
+		Everything at once
+	Delete
+
+Booking
+	Create
+	Read
+		by Status
+		by Employee name
+		by Employee ID
+	Update
+		only Status
+
+MaintenanceLog
+	Create
+	Read
+	Update
+		Everything at once
+
+These are the actions needed for the entities. Complete all of these backend layers.

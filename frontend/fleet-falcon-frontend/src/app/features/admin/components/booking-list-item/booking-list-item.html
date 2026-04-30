@@ -10,8 +10,6 @@
       <p class="booking-vehicle">{{ item.vehicleName }}</p>
       <p class="booking-date">{{ item.dateRange }}</p>
     </div>
-    <span [ngClass]="['status-pill', statusClass(item.status)]">
-      {{ statusLabel(item.status) }}
-    </span>
+    <app-status-indicator [status]="item.status" />
   </a>
 </li>
