@@ -157,10 +157,16 @@ Content-Type: application/json
   client.global.set("booking2Id", response.body.id);
 %}
 
-### 9) GET BOOKINGS - Filter by employeeId (should return BOOKING #1 only)
-GET {{baseUrl}}/api/bookings?employeeId=EMP-001
-
-### 9a) BOOKINGS - Filter by employeeName: first name only (should return BOOKING #1)
-GET {{baseUrl}}/api/bookings?employeeName=bea nagy
 
 
+### 9) GET EMPLOYEES - Filter by name (should return EMPLOYEE #1)
+GET {{baseUrl}}/api/employees?name=Adam&employeeId=EMP-001
+
+### 10) GET EMPLOYEES - Filter by name (should return EMPLOYEE #1)
+GET {{baseUrl}}/api/employees?name=Kovacs Adam
+
+### 11) GET EMPLOYEES - Filter by name (should return EMPLOYEE #1)
+GET {{baseUrl}}/api/employees?name=Adam Kovacs
+
+### 12) GET EMPLOYEES - Filter by employeeId (should return EMPLOYEE #2)
+GET {{baseUrl}}/api/employees?employeeId=EMP-002
