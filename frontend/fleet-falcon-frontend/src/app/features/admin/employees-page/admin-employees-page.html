@@ -10,7 +10,7 @@
         <a routerLink="/admin/employees/new" class="add-btn">Add new employee</a>
       </div>
 
-      <form class="filters-form" aria-label="Employee filters" novalidate>
+      <form class="filters-form" aria-label="Employee filters" novalidate (ngSubmit)="applyFilters()">
         <div class="filter-row">
           <label for="employee-name-filter" class="filter-label">Name</label>
           <input
@@ -18,7 +18,7 @@
             type="text"
             class="filter-input"
             placeholder="e.g. John Smith"
-            [ngModel]="nameFilter()"
+            [ngModel]="draftNameFilter()"
             (ngModelChange)="setNameFilter($event)"
             name="nameFilter"
           />
@@ -31,11 +31,13 @@
             type="text"
             class="filter-input"
             placeholder="e.g. EMP-001"
-            [ngModel]="employeeIdFilter()"
+            [ngModel]="draftEmployeeIdFilter()"
             (ngModelChange)="setEmployeeIdFilter($event)"
             name="employeeIdFilter"
           />
         </div>
+
+        <button type="submit" class="search-btn">Search</button>
       </form>
     </article>
 

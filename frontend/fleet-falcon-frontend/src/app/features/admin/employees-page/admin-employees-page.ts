@@ -18,6 +18,8 @@ export class AdminEmployeesPageComponent implements OnInit {
 
   protected readonly nameFilter = signal('');
   protected readonly employeeIdFilter = signal('');
+  protected readonly draftNameFilter = signal('');
+  protected readonly draftEmployeeIdFilter = signal('');
 
   protected readonly employees = signal<AdminEmployeeListItem[]>([]);
 
@@ -26,12 +28,16 @@ export class AdminEmployeesPageComponent implements OnInit {
   }
 
   protected setNameFilter(value: string): void {
-    this.nameFilter.set(value);
-    this.loadEmployees();
+    this.draftNameFilter.set(value);
   }
 
   protected setEmployeeIdFilter(value: string): void {
-    this.employeeIdFilter.set(value);
+    this.draftEmployeeIdFilter.set(value);
+  }
+
+  protected applyFilters(): void {
+    this.nameFilter.set(this.draftNameFilter().trim());
+    this.employeeIdFilter.set(this.draftEmployeeIdFilter().trim());
     this.loadEmployees();
   }
 

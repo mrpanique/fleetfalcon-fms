@@ -160,7 +160,7 @@ Content-Type: application/json
 
 
 ### 9) GET EMPLOYEES - Filter by name (should return EMPLOYEE #1)
-GET {{baseUrl}}/api/employees?name=Adam&employeeId=EMP-001
+GET {{baseUrl}}/api/employees?name=Adam&employeeId=emp-003
 
 ### 10) GET EMPLOYEES - Filter by name (should return EMPLOYEE #1)
 GET {{baseUrl}}/api/employees?name=Kovacs Adam
@@ -170,3 +170,7 @@ GET {{baseUrl}}/api/employees?name=Adam Kovacs
 
 ### 12) GET EMPLOYEES - Filter by employeeId (should return EMPLOYEE #2)
 GET {{baseUrl}}/api/employees?employeeId=EMP-002
+
+### 13) GET EMPLOYEES - Filter by employeeId lowercase (should return EMPLOYEE #1)
+GET {{baseUrl}}/api/employees?employeeId=emp-001
+

@@ -29,8 +29,12 @@ public class EmployeeService {
         }
 
         if (hasEmployeeId) {
-            Employee employee = employeeRepository.findByEmployeeId(employeeId)
-                    .orElseThrow(() -> new RuntimeException("Employee not found with employeeId: " + employeeId));
+            Employee employee = employeeRepository.findByEmployeeIdIgnoreCase(employeeId)
+                    .orElse(null);
+
+            if (employee == null) {
+                return Collections.emptyList();
+            }
 
             if (!hasName || matchesName(employee, name)) {
                 return List.of(employee);
