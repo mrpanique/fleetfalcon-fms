@@ -29,24 +29,24 @@
   background: rgba(255, 255, 255, 0.03);
 }
 
-.booking-item-link.completed {
+.booking-item-link.terminal {
   background: #171717;
   border-color: rgba(125, 125, 125, 0.26);
 }
 
-.booking-item-link.completed .booking-date,
-.booking-item-link.completed .booking-vehicle {
+.booking-item-link.terminal .booking-date,
+.booking-item-link.terminal .booking-vehicle {
   color: #9c9c9c;
 }
 
-.booking-item-link.completed:hover {
+.booking-item-link.terminal:hover {
   filter: brightness(1.03);
   border-color: rgba(160, 160, 160, 0.36);
   background: #1d1d1d;
   box-shadow: 0 0 14px rgba(130, 130, 130, 0.22);
 }
 
-.booking-item-link.completed:focus-visible {
+.booking-item-link.terminal:focus-visible {
   border-color: rgba(170, 170, 170, 0.6);
   box-shadow: 0 0 0 4px rgba(170, 170, 170, 0.18);
   background: #1d1d1d;

@@ -47,6 +47,30 @@
   background: rgba(255, 178, 40, 0.1);
 }
 
+.terminal {
+  background: #171717;
+  border-color: rgba(125, 125, 125, 0.26);
+}
+
+.terminal .booking-employee,
+.terminal .booking-vehicle,
+.terminal .booking-date {
+  color: #9c9c9c;
+}
+
+.terminal:hover {
+  filter: brightness(1.03);
+  border-color: rgba(160, 160, 160, 0.36);
+  background: #1d1d1d;
+  box-shadow: 0 0 14px rgba(130, 130, 130, 0.22);
+}
+
+.terminal:focus-visible {
+  border-color: rgba(170, 170, 170, 0.6);
+  box-shadow: 0 0 0 4px rgba(170, 170, 170, 0.18);
+  background: #1d1d1d;
+}
+
 .booking-employee,
 .booking-date {
   margin: 0;

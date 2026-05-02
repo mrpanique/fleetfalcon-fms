@@ -1,9 +1,11 @@
+// This is essentially the register page.
+
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AdminFormLayoutComponent } from '../components/form-layout/admin-form-layout';
-import { AdminEmployeeUpsertRequest, AdminManagementService } from '../services/admin-management.service';
+import { AdminEmployeeUpsertRequest, AdminManagementService, AdminUserCreateRequest } from '../services/admin-management.service';
 import { ToastService } from '../../../core/services/toast.service';
 
 @Component({
@@ -19,40 +21,68 @@ export class AdminEmployeeCreatePageComponent {
   private readonly toastService = inject(ToastService);
 
   protected employee = {
+    // user fields
+    email: '',
+    password: '',
+    role: 'EMPLOYEE',
+    // employee fields
     employeeId: '',
     firstName: '',
     lastName: '',
     department: '',
     phoneNumber: '',
-    drivingLicenseNumber: '',
-    userId: ''
+    drivingLicenseNumber: ''
   };
 
   protected saveEmployee(): void {
-    const payload = this.buildPayload();
-    if (!payload) {
-      alert('User ID is required to create an employee.');
-      return;
-    }
+    const userPayload: AdminUserCreateRequest = this.buildUserPayload();
+      // client-side required-field validation (drivingLicenseNumber is optional)
+      const required = [
+        this.employee.email,
+        this.employee.password,
+        this.employee.firstName,
+        this.employee.lastName,
+        this.employee.employeeId,
+        this.employee.department,
+        this.employee.phoneNumber
+      ];
 
-    this.adminManagementService.createEmployee(payload).subscribe({
-      next: () => {
-        this.toastService.success('Employee created successfully.');
-        this.router.navigate(['/admin/employees']);
+      const missing = required.some((v) => !v || v.trim() === '');
+      if (missing) {
+        this.toastService.error('Please fill in all required fields.');
+        return;
+      }
+
+    this.adminManagementService.createUser(userPayload).subscribe({
+      next: (user) => {
+        const payload = this.buildEmployeePayload(user.id);
+        this.adminManagementService.createEmployee(payload).subscribe({
+          next: () => {
+            this.toastService.success('Employee created successfully.');
+            this.router.navigate(['/admin/employees']);
+          },
+          error: (error) => {
+            console.error('Failed to create employee after user creation', error);
+            alert('Failed to create employee.');
+          }
+        });
       },
       error: (error) => {
-        console.error('Failed to create employee', error);
-        alert('Failed to create employee.');
+        console.error('Failed to create user', error);
+        alert('Failed to create user.');
       }
     });
   }
 
-  private buildPayload(): AdminEmployeeUpsertRequest | null {
-    const userId = this.toNullableNumber(this.employee.userId);
-    if (userId == null) {
-      return null;
-    }
+  private buildUserPayload(): AdminUserCreateRequest {
+    return {
+      email: this.employee.email.trim(),
+      passwordHash: this.employee.password,
+      role: (this.employee.role || 'EMPLOYEE') as 'ADMIN' | 'EMPLOYEE'
+    };
+  }
 
+  private buildEmployeePayload(userId: number): AdminEmployeeUpsertRequest {
     return {
       employeeId: this.employee.employeeId.trim(),
       firstName: this.employee.firstName.trim(),

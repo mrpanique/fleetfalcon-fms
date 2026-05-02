@@ -3,6 +3,7 @@
     [routerLink]="item.detailsRoute"
     class="booking-item-link"
     [class.pending-link]="item.highlightPending"
+    [class.terminal]="item.status === 'completed' || item.status === 'rejected' || item.status === 'cancelled'"
     [attr.aria-label]="item.ariaLabel"
   >
     <div>

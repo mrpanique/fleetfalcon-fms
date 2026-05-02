@@ -2,7 +2,7 @@
   <a
     [routerLink]="item.detailsRoute"
     class="booking-item-link"
-    [class.completed]="item.status === 'COMPLETED'"
+    [class.terminal]="item.status === 'COMPLETED' || item.status === 'REJECTED' || item.status === 'CANCELLED'"
     [attr.aria-label]="'Booking details for ' + item.vehicleName + ', ' + getStatusLabel(item.status).toLowerCase() + ' booking'"
   >
     <div>

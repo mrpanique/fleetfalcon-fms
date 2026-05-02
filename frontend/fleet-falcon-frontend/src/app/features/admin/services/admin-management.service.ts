@@ -8,6 +8,12 @@ export interface AdminUserRef {
   role?: string;
 }
 
+export interface AdminUserCreateRequest {
+  email: string;
+  passwordHash: string;
+  role: 'ADMIN' | 'EMPLOYEE';
+}
+
 export interface AdminEmployeeDto {
   id: number;
   firstName: string;
@@ -104,6 +110,10 @@ export class AdminManagementService {
 
   createEmployee(payload: AdminEmployeeUpsertRequest): Observable<AdminEmployeeDto> {
     return this.http.post<AdminEmployeeDto>(`${this.apiBaseUrl}/api/employees`, payload);
+  }
+
+  createUser(payload: AdminUserCreateRequest): Observable<AdminUserRef> {
+    return this.http.post<AdminUserRef>(`${this.apiBaseUrl}/api/users`, payload);
   }
 
   getEmployeeById(id: number): Observable<AdminEmployeeDto> {
