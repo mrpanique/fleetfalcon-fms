@@ -1,13 +1,5 @@
 @baseUrl = http://localhost:8080
 
-### ==========================================
-### SEED DATA: 2 records for each entity
-### - Users: 2
-### - Employees: 2
-### - Vehicles: 2
-### - Bookings: 2
-### NOTE: This is intended for a clean DB because several fields are unique.
-### ==========================================
 
 ### 1) USER #1
 POST {{baseUrl}}/api/users

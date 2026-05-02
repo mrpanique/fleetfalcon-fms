@@ -3,6 +3,7 @@ package hu.panique.fleetfalcon.controller;
 import hu.panique.fleetfalcon.model.Vehicle;
 import hu.panique.fleetfalcon.service.VehicleService;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -19,6 +20,7 @@ public class VehicleController {
     }
 
     @GetMapping
+    @PreAuthorize("isAuthenticated()")
     public List<Vehicle> getVehicles(
             @RequestParam(required = false) String brand,
             @RequestParam(required = false) String model,
@@ -44,21 +46,25 @@ public class VehicleController {
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public Vehicle createVehicle(@RequestBody Vehicle vehicle) {
         return vehicleService.createVehicle(vehicle);
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("isAuthenticated()")
     public Vehicle getVehicleById(@PathVariable Long id) {
         return vehicleService.getVehicleById(id);
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public void deleteVehicle(@PathVariable Long id) {
         vehicleService.deleteVehicle(id);
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public Vehicle updateVehicle(@PathVariable Long id, @RequestBody Vehicle vehicleDetails) {
         return vehicleService.updateVehicle(id, vehicleDetails);
     }
