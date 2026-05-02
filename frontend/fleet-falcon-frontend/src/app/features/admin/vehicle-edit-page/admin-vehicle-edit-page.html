@@ -6,13 +6,38 @@
       <form class="vehicle-form" novalidate>
         <div class="field"><label for="brand">Brand</label><input id="brand" type="text" [(ngModel)]="vehicle.brand" name="brand" /></div>
         <div class="field"><label for="model">Model</label><input id="model" type="text" [(ngModel)]="vehicle.model" name="model" /></div>
-        <div class="field"><label for="vehicleType">Vehicle type</label><input id="vehicleType" type="text" [(ngModel)]="vehicle.vehicleType" name="vehicleType" /></div>
-        <div class="field"><label for="fuelType">Fuel type</label><input id="fuelType" type="text" [(ngModel)]="vehicle.fuelType" name="fuelType" /></div>
+        <div class="field"><label for="vehicleType">Vehicle type</label>
+          <select id="vehicleType" [(ngModel)]="vehicle.vehicleType" name="vehicleType">
+            <option value="CAR">Car</option>
+            <option value="MINIVAN">Minivan</option>
+            <option value="VAN">Van</option>
+            <option value="BUS">Bus</option>
+            <option value="MOTORCYCLE">Motorcycle</option>
+            <option value="TRUCK">Truck</option>
+            <option value="OTHER">Other</option>
+          </select>
+        </div>
+        <div class="field"><label for="fuelType">Fuel type</label>
+          <select id="fuelType" [(ngModel)]="vehicle.fuelType" name="fuelType">
+            <option value="PETROL">Petrol</option>
+            <option value="DIESEL">Diesel</option>
+            <option value="ELECTRIC">Electric</option>
+            <option value="HYBRID">Hybrid</option>
+            <option value="OTHER">Other</option>
+          </select>
+        </div>
         <div class="field"><label for="releaseYear">Release year</label><input id="releaseYear" type="number" [(ngModel)]="vehicle.releaseYear" name="releaseYear" /></div>
         <div class="field"><label for="dailyPrice">Daily price (Ft)</label><input id="dailyPrice" type="number" [(ngModel)]="vehicle.dailyPrice" name="dailyPrice" /></div>
         <div class="field"><label for="seatingCapacity">Seating capacity</label><input id="seatingCapacity" type="number" [(ngModel)]="vehicle.seatingCapacity" name="seatingCapacity" /></div>
         <div class="field"><label for="licensePlate">License plate</label><input id="licensePlate" type="text" [(ngModel)]="vehicle.licensePlate" name="licensePlate" /></div>
-        <div class="field"><label for="status">Current status</label><input id="status" type="text" [(ngModel)]="vehicle.status" name="status" /></div>
+        <div class="field"><label for="status">Current status</label>
+          <select id="status" [(ngModel)]="vehicle.status" name="status">
+            <option value="AVAILABLE">Available</option>
+            <option value="IN_USE">In use</option>
+            <option value="MAINTENANCE">Maintenance</option>
+            <option value="OUT_OF_SERVICE">Out of service</option>
+          </select>
+        </div>
         <div class="field"><label for="currentMileage">Current mileage</label><input id="currentMileage" type="number" [(ngModel)]="vehicle.currentMileage" name="currentMileage" /></div>
         <div class="field"><label for="inspectionValidUntil">Inspection valid until</label><input id="inspectionValidUntil" type="date" [(ngModel)]="vehicle.inspectionValidUntil" name="inspectionValidUntil" /></div>
         <div class="field"><label for="nextServiceMileage">Next service mileage</label><input id="nextServiceMileage" type="number" [(ngModel)]="vehicle.nextServiceMileage" name="nextServiceMileage" /></div>
