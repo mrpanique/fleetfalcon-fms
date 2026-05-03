@@ -8,6 +8,11 @@ export interface AuthUser {
   role: 'ADMIN' | 'EMPLOYEE';
 }
 
+export interface LoginRequest {
+  email: string;
+  password: string;
+}
+
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   private readonly http = inject(HttpClient);
@@ -33,6 +38,38 @@ export class AuthService {
 
   private readonly isAdminSubject = new BehaviorSubject<boolean>(false);
   readonly isAdmin$ = this.isAdminSubject.asObservable();
+
+  /**
+   * Attempt to log in with email and password.
+   * On successful login, fetches the current user details.
+   */
+  login(credentials: LoginRequest): Observable<void> {
+    this._isLoading.set(true);
+    this._error.set(null);
+
+    const formBody = new URLSearchParams();
+    formBody.set('email', credentials.email);
+    formBody.set('password', credentials.password);
+
+    return this.http
+      .post<void>(`${this.apiBaseUrl}/api/auth/login`, formBody.toString(), {
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        }
+      })
+      .pipe(
+        tap({
+          next: () => {
+            // Login endpoint succeeded, now fetch the current user
+            // This is handled by the component after successful POST
+          },
+          error: (err) => {
+            this._isLoading.set(false);
+            this._error.set(err?.error?.message || 'Login failed');
+          }
+        })
+      );
+  }
 
   /**
    * Fetch the current authenticated user from the backend.
