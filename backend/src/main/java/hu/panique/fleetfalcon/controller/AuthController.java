@@ -25,29 +25,29 @@ public class AuthController {
 		this.userService = userService;
 	}
 
-	@PostMapping("/register")
-	public ResponseEntity<AuthResponse> register(@RequestBody UserRegisterRequest request) {
-		if (request.getEmail() == null || request.getEmail().isBlank()) {
-			return ResponseEntity.badRequest().body(new AuthResponse(false, "Email is required"));
-		}
-		if (request.getPassword() == null || request.getPassword().isBlank()) {
-			return ResponseEntity.badRequest().body(new AuthResponse(false, "Password is required"));
-		}
-
-		try {
-			User newUser = new User();
-			newUser.setEmail(request.getEmail());
-			newUser.setPasswordHash(request.getPassword());
-			newUser.setRole(User.UserRole.EMPLOYEE);
-
-			userService.createUser(newUser);
-
-			return ResponseEntity.status(HttpStatus.CREATED)
-				.body(new AuthResponse(true, "User registered successfully"));
-		} catch (RuntimeException e) {
-			return ResponseEntity.badRequest().body(new AuthResponse(false, e.getMessage()));
-		}
-	}
+//	@PostMapping("/register")
+//	public ResponseEntity<AuthResponse> register(@RequestBody UserRegisterRequest request) {
+//		if (request.getEmail() == null || request.getEmail().isBlank()) {
+//			return ResponseEntity.badRequest().body(new AuthResponse(false, "Email is required"));
+//		}
+//		if (request.getPassword() == null || request.getPassword().isBlank()) {
+//			return ResponseEntity.badRequest().body(new AuthResponse(false, "Password is required"));
+//		}
+//
+//		try {
+//			User newUser = new User();
+//			newUser.setEmail(request.getEmail());
+//			newUser.setPasswordHash(request.getPassword());
+//			newUser.setRole(User.UserRole.EMPLOYEE);
+//
+//			userService.createUser(newUser);
+//
+//			return ResponseEntity.status(HttpStatus.CREATED)
+//				.body(new AuthResponse(true, "User registered successfully"));
+//		} catch (RuntimeException e) {
+//			return ResponseEntity.badRequest().body(new AuthResponse(false, e.getMessage()));
+//		}
+//	}
 
 	@PostMapping("/login")
 	public ResponseEntity<AuthResponse> login(@RequestBody AuthRequest request) {
@@ -88,6 +88,23 @@ public class AuthController {
 			return ResponseEntity.ok(user);
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+		}
+	}
+
+	@PostMapping("/register-admin")
+	public ResponseEntity<AuthResponse> registerAdmin() {
+		try {
+			User adminUser = new User();
+			adminUser.setEmail("admin@admin.com");
+			adminUser.setPasswordHash("admin");
+			adminUser.setRole(User.UserRole.ADMIN);
+
+			userService.createUser(adminUser);
+
+			return ResponseEntity.status(HttpStatus.CREATED)
+				.body(new AuthResponse(true, "Default admin user created successfully"));
+		} catch (RuntimeException e) {
+			return ResponseEntity.badRequest().body(new AuthResponse(false, e.getMessage()));
 		}
 	}
 }

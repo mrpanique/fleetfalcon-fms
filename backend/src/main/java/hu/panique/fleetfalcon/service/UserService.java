@@ -23,6 +23,11 @@ public class UserService {
     }
 
     public User createUser(User user) {
+
+        System.err.println("email: " + user.getEmail());
+        System.out.println("passwordHash: " + user.getPasswordHash());
+        System.err.println("role: " + user.getRole());
+
         if (user.getPasswordHash() == null || user.getPasswordHash().isBlank()) {
             throw new RuntimeException("Password is required.");
         }
