@@ -1,5 +1,6 @@
-import { Component, computed, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
 
 type UserRole = 'EMPLOYEE' | 'ADMIN';
 
@@ -15,8 +16,9 @@ type NavItem = {
   styleUrl: './navbar.css',
 })
 export class Navbar {
+  private readonly authService = inject(AuthService);
+
   protected readonly mobileMenuOpen = signal(false);
-  protected readonly role = signal<UserRole>('EMPLOYEE');
 
   protected readonly employeeNavItems: NavItem[] = [
     { label: 'Dashboard', route: '/dashboard' },
@@ -35,18 +37,16 @@ export class Navbar {
     { label: 'Profile', route: '/admin/profile' }
   ];
 
+  /**
+   * Reactive role from AuthService
+   */
+  protected readonly role = computed<UserRole>(() => {
+    return this.authService.isAdmin() ? 'ADMIN' : 'EMPLOYEE';
+  });
+
   protected readonly navItems = computed(() =>
     this.role() === 'ADMIN' ? this.adminNavItems : this.employeeNavItems
   );
-
-  protected switchRole(nextRole: UserRole): void {
-    if (this.role() === nextRole) {
-      return;
-    }
-
-    this.role.set(nextRole);
-    this.mobileMenuOpen.set(false);
-  }
 
   protected toggleMobileMenu(): void {
     this.mobileMenuOpen.update((isOpen) => !isOpen);

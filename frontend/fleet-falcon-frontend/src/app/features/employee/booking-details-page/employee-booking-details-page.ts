@@ -10,6 +10,7 @@ import { AdminEmployeeListItemComponent } from '../../admin/components/employee-
 import { AdminEmployeeListItem } from '../../admin/components/employee-list-item/employee-list-item.model';
 import { ApiBooking, EmployeeBookingsService } from '../services/employee-bookings.service';
 import { ToastService } from '../../../core/services/toast.service';
+import { AuthService } from '../../../core/services/auth.service';
 
 type MileageModalMode = 'checkout' | 'checkin' | null;
 
@@ -24,6 +25,7 @@ export class EmployeeBookingDetailsPageComponent {
   private readonly router = inject(Router);
   private readonly employeeBookingsService = inject(EmployeeBookingsService);
   private readonly toastService = inject(ToastService);
+  private readonly authService = inject(AuthService);
 
   private readonly refreshToken = signal(0);
 
@@ -51,7 +53,10 @@ export class EmployeeBookingDetailsPageComponent {
 
   protected readonly isBusy = signal(false);
 
-  protected readonly isAdmin = computed(() => this.router.url.startsWith('/admin/'));
+  /**
+   * Get isAdmin from AuthService instead of computing from router URL
+   */
+  protected readonly isAdmin = this.authService.isAdmin;
   protected readonly mileageModalMode = signal<MileageModalMode>(null);
   protected readonly mileageInput = signal('');
   protected readonly isMileageModalOpen = computed(() => this.mileageModalMode() !== null);
