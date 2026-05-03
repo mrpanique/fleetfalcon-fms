@@ -6,6 +6,7 @@ export interface AuthUser {
   id: number;
   email: string;
   role: 'ADMIN' | 'EMPLOYEE';
+  employeeId?: string | null;
 }
 
 export interface LoginRequest {
@@ -101,12 +102,38 @@ export class AuthService {
   }
 
   /**
-   * Clear the current user (e.g., on logout).
+   * Log out the current user by calling the logout endpoint.
    */
-  logout(): void {
-    this._currentUser.set(null);
-    this.currentUserSubject.next(null);
-    this.isAdminSubject.next(false);
-    this._error.set(null);
+  logout(): Observable<void> {
+    return this.http.post<void>(`${this.apiBaseUrl}/api/auth/logout`, {}).pipe(
+      tap({
+        next: () => {
+          this._currentUser.set(null);
+          this.currentUserSubject.next(null);
+          this.isAdminSubject.next(false);
+          this._error.set(null);
+        },
+        error: (err) => {
+          this._error.set('Logout failed');
+          // Clear user state anyway on error
+          this._currentUser.set(null);
+          this.currentUserSubject.next(null);
+          this.isAdminSubject.next(false);
+        }
+      })
+    );
+  }
+
+  /**
+   * Update the password for the current user.
+   */
+  updatePassword(userId: number, currentPassword: string, newPassword: string): Observable<void> {
+    return this.http.put<void>(
+      `${this.apiBaseUrl}/api/users/${userId}/password`,
+      {
+        currentPassword,
+        newPassword
+      }
+    );
   }
 }

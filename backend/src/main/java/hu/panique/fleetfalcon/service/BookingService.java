@@ -42,8 +42,7 @@ public class BookingService {
             spec = spec.and((root, query, cb) -> buildNameFilter(cb, root, employeeName));
         }
         if (hasText(employeeId)) {
-            String employeeIdFilter = "%" + employeeId.toLowerCase() + "%";
-            spec = spec.and((root, query, cb) -> cb.like(cb.lower(root.get("employee").get("employeeId")), employeeIdFilter));
+            spec = spec.and((root, query, cb) -> cb.equal(root.get("employee").get("employeeId"), employeeId));
         }
 
         return bookingRepository.findAll(spec);

@@ -61,6 +61,13 @@
   font-size: 0.82rem;
 }
 
+.field-error {
+  margin: 0.4rem 0 0;
+  color: #ff8aa8;
+  font-size: 0.8rem;
+  line-height: 1.35;
+}
+
 .field input,
 .field select {
   width: 100%;

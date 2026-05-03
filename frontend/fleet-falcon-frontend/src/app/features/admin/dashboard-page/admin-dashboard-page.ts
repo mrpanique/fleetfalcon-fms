@@ -1,42 +1,37 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { AsyncPipe } from '@angular/common';
+import { Component, OnInit, computed, inject, signal } from '@angular/core';
+import { toObservable } from '@angular/core/rxjs-interop';
+import { of, switchMap } from 'rxjs';
 import { AdminBookingListComponent } from '../components/booking-list/booking-list';
 import { AdminBookingListItem, AdminBookingStatus } from '../components/booking-list-item/booking-list-item.model';
 import { ApiBooking, EmployeeBookingsService } from '../../employee/services/employee-bookings.service';
+import { AuthService } from '../../../core/services/auth.service';
 
 @Component({
   selector: 'app-admin-dashboard-page',
   standalone: true,
-  imports: [AdminBookingListComponent],
+  imports: [AdminBookingListComponent, AsyncPipe],
   templateUrl: './admin-dashboard-page.html',
   styleUrl: './admin-dashboard-page.css'
 })
 export class AdminDashboardPageComponent implements OnInit {
+  private readonly authService = inject(AuthService);
   private readonly employeeBookingsService = inject(EmployeeBookingsService);
 
   protected readonly pendingBookings = signal<AdminBookingListItem[]>([]);
+  protected readonly currentEmployeeId = computed(() => this.authService.currentUser()?.employeeId ?? '');
+  protected readonly myUpcomingBookings$ = toObservable(this.currentEmployeeId).pipe(
+    switchMap((employeeId) => {
+      if (!employeeId) {
+        return of([]);
+      }
 
-  protected adminBookings: AdminBookingListItem[] = [
-    {
-      id: '101',
-      detailsRoute: '/admin/my-bookings/101',
-      ariaLabel: 'Booking for Audi A4',
-      employeeName: 'Admin User',
-      employeeId: 'ADM-001',
-      vehicleName: 'Audi A4',
-      dateRange: '2026-04-10 - 2026-04-12',
-      status: 'approved'
-    },
-    {
-      id: '102',
-      detailsRoute: '/admin/my-bookings/102',
-      ariaLabel: 'Booking for Volkswagen Passat',
-      employeeName: 'Admin User',
-      employeeId: 'ADM-001',
-      vehicleName: 'Volkswagen Passat',
-      dateRange: '2026-04-15 - 2026-04-18',
-      status: 'approved'
-    }
-  ];
+      return this.employeeBookingsService.getBookings({ employeeId }).pipe(
+        // Convert bookings into the admin list item view model.
+        switchMap((bookings) => of(bookings.map((booking) => this.toAdminBookingListItem(booking))))
+      );
+    })
+  );
 
   ngOnInit(): void {
     this.employeeBookingsService.getBookings().subscribe({
@@ -48,6 +43,7 @@ export class AdminDashboardPageComponent implements OnInit {
         this.pendingBookings.set([]);
       }
     });
+
   }
 
   private toAdminBookingListItem(booking: ApiBooking): AdminBookingListItem {

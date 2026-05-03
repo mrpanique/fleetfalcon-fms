@@ -19,6 +19,10 @@ export class AdminEmployeeCreatePageComponent {
   private readonly router = inject(Router);
   private readonly adminManagementService = inject(AdminManagementService);
   private readonly toastService = inject(ToastService);
+  private readonly emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  private readonly passwordPattern = /^(?=.*[A-Z])(?=.*\d).{8,}$/;
+
+  protected showValidationErrors = false;
 
   protected employee = {
     // user fields
@@ -35,23 +39,31 @@ export class AdminEmployeeCreatePageComponent {
   };
 
   protected saveEmployee(): void {
-    const userPayload: AdminUserCreateRequest = this.buildUserPayload();
-      // client-side required-field validation (drivingLicenseNumber is optional)
-      const required = [
-        this.employee.email,
-        this.employee.password,
-        this.employee.firstName,
-        this.employee.lastName,
-        this.employee.employeeId,
-        this.employee.department,
-        this.employee.phoneNumber
-      ];
+    this.showValidationErrors = true;
 
-      const missing = required.some((v) => !v || v.trim() === '');
-      if (missing) {
-        this.toastService.error('Please fill in all required fields.');
-        return;
-      }
+    if (!this.isEmailValid()) {
+      return;
+    }
+
+    if (!this.isPasswordValid()) {
+      return;
+    }
+
+    const required = [
+      this.employee.firstName,
+      this.employee.lastName,
+      this.employee.employeeId,
+      this.employee.department,
+      this.employee.phoneNumber
+    ];
+
+    const missing = required.some((value) => !value || value.trim() === '');
+    if (missing) {
+      this.toastService.error('Please fill in all required fields.');
+      return;
+    }
+
+    const userPayload: AdminUserCreateRequest = this.buildUserPayload();
 
     this.adminManagementService.createUser(userPayload).subscribe({
       next: (user) => {
@@ -72,6 +84,30 @@ export class AdminEmployeeCreatePageComponent {
         alert('Failed to create user.');
       }
     });
+  }
+
+  protected getEmailError(): string {
+    if (!this.showValidationErrors) {
+      return '';
+    }
+
+    return this.isEmailValid() ? '' : 'Invalid email address';
+  }
+
+  protected getPasswordError(): string {
+    if (!this.showValidationErrors) {
+      return '';
+    }
+
+    return this.isPasswordValid() ? '' : 'Min. 8 characters, Min. 1 uppercase letter, Min. 1 number';
+  }
+
+  private isEmailValid(): boolean {
+    return this.emailPattern.test(this.employee.email.trim());
+  }
+
+  private isPasswordValid(): boolean {
+    return this.passwordPattern.test(this.employee.password);
   }
 
   private buildUserPayload(): AdminUserCreateRequest {

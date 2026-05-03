@@ -3,6 +3,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { of, switchMap, throwError } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { AuthService } from '../../../core/services/auth.service';
 import { EmployeeBookingsService } from '../services/employee-bookings.service';
 import { EmployeeVehiclesService } from '../services/employee-vehicles.service';
 import { ToastService } from '../../../core/services/toast.service';
@@ -16,11 +17,10 @@ import { ToastService } from '../../../core/services/toast.service';
 export class EmployeeCreateBookingPageComponent {
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
+  private readonly authService = inject(AuthService);
   private readonly employeeVehiclesService = inject(EmployeeVehiclesService);
   private readonly employeeBookingsService = inject(EmployeeBookingsService);
   private readonly toastService = inject(ToastService);
-
-  private readonly currentEmployeeCode = 'EMP-001';
 
   protected readonly vehicleId = toSignal(
     this.route.queryParamMap.pipe(map((params) => params.get('vehicleId') ?? '')),
@@ -95,12 +95,19 @@ export class EmployeeCreateBookingPageComponent {
     const startDate = this.toApiDateTime(this.startDate());
     const endDate = this.toApiDateTime(this.endDate());
 
+    const currentEmployeeCode = this.authService.currentUser()?.employeeId;
+    if (!currentEmployeeCode) {
+      this.isSubmitting.set(false);
+      this.submitError.set('Unable to determine the current employee. Please log in again.');
+      return;
+    }
+
     this.isSubmitting.set(true);
 
-    this.employeeBookingsService.resolveEmployeeDbIdByEmployeeCode(this.currentEmployeeCode).pipe(
+    this.employeeBookingsService.resolveEmployeeDbIdByEmployeeCode(currentEmployeeCode).pipe(
       switchMap((employeeId) => {
         if (employeeId == null) {
-          return throwError(() => new Error(`Employee ${this.currentEmployeeCode} was not found.`));
+          return throwError(() => new Error(`Employee ${currentEmployeeCode} was not found.`));
         }
 
         return this.employeeBookingsService.createBooking({

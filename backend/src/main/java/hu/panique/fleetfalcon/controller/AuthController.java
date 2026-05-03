@@ -2,8 +2,11 @@ package hu.panique.fleetfalcon.controller;
 
 import hu.panique.fleetfalcon.dto.AuthRequest;
 import hu.panique.fleetfalcon.dto.AuthResponse;
+import hu.panique.fleetfalcon.dto.CurrentUserResponse;
 import hu.panique.fleetfalcon.dto.UserRegisterRequest;
+import hu.panique.fleetfalcon.model.Employee;
 import hu.panique.fleetfalcon.model.User;
+import hu.panique.fleetfalcon.service.EmployeeService;
 import hu.panique.fleetfalcon.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,10 +22,12 @@ public class AuthController {
 
 	private final AuthenticationManager authenticationManager;
 	private final UserService userService;
+	private final EmployeeService employeeService;
 
-	public AuthController(AuthenticationManager authenticationManager, UserService userService) {
+	public AuthController(AuthenticationManager authenticationManager, UserService userService, EmployeeService employeeService) {
 		this.authenticationManager = authenticationManager;
 		this.userService = userService;
+		this.employeeService = employeeService;
 	}
 
 //	@PostMapping("/register")
@@ -76,7 +81,7 @@ public class AuthController {
 	}
 
 	@GetMapping("/me")
-	public ResponseEntity<User> getCurrentUser() {
+	public ResponseEntity<CurrentUserResponse> getCurrentUser() {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		if (auth == null || !auth.isAuthenticated()) {
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
@@ -85,7 +90,12 @@ public class AuthController {
 		String email = auth.getName();
 		try {
 			User user = userService.getUserByEmail(email);
-			return ResponseEntity.ok(user);
+			String employeeId = null;
+			Employee employee = userService.getEmployeeByUserEmail(email);
+			employeeId = employee.getEmployeeId();
+
+			return ResponseEntity.ok(new CurrentUserResponse(user.getId(), user.getEmail(), user.getRole(), employeeId));
+
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 		}
@@ -96,16 +106,27 @@ public class AuthController {
 		try {
 			User adminUser = new User();
 			adminUser.setEmail("admin@admin.com");
-			adminUser.setPasswordHash("admin");
+			adminUser.setPasswordHash("Admin123");
 			adminUser.setRole(User.UserRole.ADMIN);
 
 			userService.createUser(adminUser);
+
+			Employee adminEmployee = new Employee();
+			adminEmployee.setUser(adminUser);
+			adminEmployee.setFirstName("System");
+			adminEmployee.setLastName("Admin");
+			adminEmployee.setEmployeeId("-");
+			adminEmployee.setPhoneNumber("-");
+
+			employeeService.createEmployee(adminEmployee);
 
 			return ResponseEntity.status(HttpStatus.CREATED)
 				.body(new AuthResponse(true, "Default admin user created successfully"));
 		} catch (RuntimeException e) {
 			return ResponseEntity.badRequest().body(new AuthResponse(false, e.getMessage()));
 		}
+
+
 	}
 }
 

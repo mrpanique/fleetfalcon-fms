@@ -6,8 +6,20 @@
   cardAriaLabel="Editable employee data"
 >
       <form class="employee-form" novalidate>
-        <div class="field"><label for="email">Email</label><input id="email" type="email" [(ngModel)]="employee.email" name="email" /></div>
-        <div class="field"><label for="password">Password</label><input id="password" type="password" [(ngModel)]="employee.password" name="password" /></div>
+        <div class="field">
+          <label for="email">Email</label>
+          <input id="email" type="email" [(ngModel)]="employee.email" name="email" autocomplete="email" [attr.aria-invalid]="getEmailError() ? 'true' : null" />
+          @if (getEmailError(); as emailError) {
+            <p class="field-error" role="alert">{{ emailError }}</p>
+          }
+        </div>
+        <div class="field">
+          <label for="password">Password</label>
+          <input id="password" type="password" [(ngModel)]="employee.password" name="password" autocomplete="new-password" [attr.aria-invalid]="getPasswordError() ? 'true' : null" />
+          @if (getPasswordError(); as passwordError) {
+            <p class="field-error" role="alert">{{ passwordError }}</p>
+          }
+        </div>
         <div class="field"><label for="role">Role</label>
           <select id="role" [(ngModel)]="employee.role" name="role"><option value="EMPLOYEE">Employee</option><option value="ADMIN">Admin</option></select>
         </div>
