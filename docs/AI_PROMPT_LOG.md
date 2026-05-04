@@ -1,11 +1,3 @@
-FleetFalcon FMS - AI Prompt Napló
-
-Készítés dátuma: 2026. május 1.
-Projekt: FleetFalcon - Gépjárműflotta-kezelő rendszer
-Verzió: 0.9.0 (Active Development)
-
-============================================
-
 FEJLESZTÉSI PROMPTOK DOKUMENTÁLÁSA
 
 1. Projekt inicializálása - Adatmodell tervezés
@@ -327,69 +319,23 @@ Az AI nem tudott adequately a szubjektív szervezeti/humán faktorokat kezelni. 
 
 ============================================
 
-A NAPLÓ TÜKRÖZI A PROJEKT FEJLESZTÉSI ÍVÉT
+A PROJEKT FEJLESZTÉSI ÍVE
 
-Fázis 1: Projekt Inicializálása (Hét 1-2)
-Promptok: 1-3 (adatmodell, backend architecture, frontend basics)
-Fegyelem: Tervezés, döntéshozatal, technológia választás
-Státusz: Befejezett
+Fázis 1: Projekt megtervezése és inicializálása 
+Promptok: Sok kérdező/beszélgető/tudakozó promt és 3-5 olyan, amitől megír/létrehoz fájlokat
 
-Fázis 2: Backend Magja Fejlesztése (Hét 3-4)
-Promptok: 4-5 (state machine, mileage tracking)
-Fegyelem: Üzleti logika, validáció, konfliktuskezelés
-Státusz: Befejezett
+Fázis 2: Backend Mag Fejlesztés
+Promptok: 5-10 (state machine)
 
-Fázis 3: Frontend UI Fejlesztése (Hét 5-6)
-Promptok: 6 (UI komponensek)
-Fegyelem: Tailwind CSS, responsive design, Angular Components
-Státusz: Fejlesztésben
+Fázis 3: Frontend UI Fejlesztése (itt nagyon szembevágott a function creep)
+Promptok: ~20 (UI komponensek)
 
-Fázis 4: Haladó Funkciók (Hét 7-8)
-Promptok: 7-8 (karbantartási modul, notification system)
-Fegyelem: Üzleti logika bővítés, scheduled tasks
-Státusz: Tervezett
+Fázis 4: Backend és frontend összekapcsolása (rengeteg extra dologra itt jötem rá, hogy még kell mindkét oldalon)
+Promptok: ~20 
 
-Fázis 5: Tesztelés és Optimalizálás (Hét 9-10)
-Promptok: 9-10 (error handling, testing)
-Fegyelem: Quality Assurance, code coverage
-Státusz: Előkészítés
+Fázis 5: Tesztelés és javítgatás 
+Promptok: 15-20 
 
-============================================
 
-ÖSSZEFOGLALÓ STATISZTIKÁK
 
-Összes prompt: 10
-Elfogadva: 6
-Elfogadva módosítással: 3
-Tervezett (Later): 1
-Elutasítva: 1
-Tervezett feature-ök (v1.1+): 3
-Kritikus AI hibák: 2
-Javított döntések: 5
 
-============================================
-
-KÖVETKEZTETÉSEK ÉS TANULSÁGOK
-
-Az AI erősségei:
-- Szisztematikus data model tervezés
-- Szétválasztott architekturális pattern ajánlások
-- Kódpélda generálás (JPQL, Spring Boot, Angular)
-- Hibakezelési stratégiák
-
-Az AI korlátai:
-- Domain-specifikus üzleti szabályok (pl. PENDING vs APPROVED konfliktus)
-- Szervezeti kontextus (team méret, tapasztalat, deadline)
-- Szubjektív trade-off-ok kezelése (tanulási görbe vs funkcionalitás)
-- Long-term maintainability vizsgálata
-
-Ajánlások a jövőbeni AI használathoz:
-- Mindig kérdezzük meg az üzleti jellegzetességeket
-- Az AI javaslatait kritikusan gondoljuk végig
-- Szükséges a domain expert validáció
-- Az AI által generált kód kell a kódreview előtt
-
-============================================
-
-Dokumentáció szerző: FleetFalcon projekt hallgatói
-Utolsó frissítés: 2026. május 1.
