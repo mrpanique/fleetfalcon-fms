@@ -14,43 +14,51 @@
         <form class="filters-form" aria-label="Vehicle filters" novalidate>
           <div class="filter-group">
             <label for="vehicle-search" class="filter-label">Search</label>
-            <input id="vehicle-search" type="search" class="filter-input" placeholder="by brand or model" />
-            <button type="button" class="filter-action-btn filter-search-btn">Search</button>
+            <input
+              id="vehicle-search"
+              type="search"
+              class="filter-input"
+              placeholder="by brand or model"
+              [ngModel]="draftSearchTerm()"
+              (ngModelChange)="setDraftSearchTerm($event)"
+              name="draftSearchTerm"
+            />
+            <button type="button" class="filter-action-btn filter-search-btn" (click)="applySearch()">Search</button>
           </div>
 
           <fieldset class="filter-group">
             <legend class="filter-label">Brand</legend>
-            <label class="check-row"><input type="checkbox" /> Toyota</label>
-            <label class="check-row"><input type="checkbox" /> Skoda</label>
-            <label class="check-row"><input type="checkbox" /> Ford</label>
-            <label class="check-row"><input type="checkbox" /> Volkswagen</label>
+            <label class="check-row"><input type="checkbox" [checked]="isDraftBrandSelected('Toyota')" (change)="toggleDraftBrand('Toyota', $any($event.target).checked)" /> Toyota</label>
+            <label class="check-row"><input type="checkbox" [checked]="isDraftBrandSelected('Skoda')" (change)="toggleDraftBrand('Skoda', $any($event.target).checked)" /> Skoda</label>
+            <label class="check-row"><input type="checkbox" [checked]="isDraftBrandSelected('Ford')" (change)="toggleDraftBrand('Ford', $any($event.target).checked)" /> Ford</label>
+            <label class="check-row"><input type="checkbox" [checked]="isDraftBrandSelected('Volkswagen')" (change)="toggleDraftBrand('Volkswagen', $any($event.target).checked)" /> Volkswagen</label>
           </fieldset>
 
           <fieldset class="filter-group">
             <legend class="filter-label">Vehicle type</legend>
-            <label class="check-row"><input type="checkbox" /> CAR</label>
-            <label class="check-row"><input type="checkbox" /> VAN</label>
-            <label class="check-row"><input type="checkbox" /> MINIVAN</label>
-            <label class="check-row"><input type="checkbox" /> TRUCK</label>
+            <label class="check-row"><input type="checkbox" [checked]="isDraftVehicleTypeSelected('CAR')" (change)="toggleDraftVehicleType('CAR', $any($event.target).checked)" /> CAR</label>
+            <label class="check-row"><input type="checkbox" [checked]="isDraftVehicleTypeSelected('VAN')" (change)="toggleDraftVehicleType('VAN', $any($event.target).checked)" /> VAN</label>
+            <label class="check-row"><input type="checkbox" [checked]="isDraftVehicleTypeSelected('MINIVAN')" (change)="toggleDraftVehicleType('MINIVAN', $any($event.target).checked)" /> MINIVAN</label>
+            <label class="check-row"><input type="checkbox" [checked]="isDraftVehicleTypeSelected('TRUCK')" (change)="toggleDraftVehicleType('TRUCK', $any($event.target).checked)" /> TRUCK</label>
           </fieldset>
 
           <fieldset class="filter-group">
             <legend class="filter-label">Fuel type</legend>
-            <label class="check-row"><input type="checkbox" /> PETROL</label>
-            <label class="check-row"><input type="checkbox" /> DIESEL</label>
-            <label class="check-row"><input type="checkbox" /> HYBRID</label>
-            <label class="check-row"><input type="checkbox" /> ELECTRIC</label>
+            <label class="check-row"><input type="checkbox" [checked]="isDraftFuelTypeSelected('PETROL')" (change)="toggleDraftFuelType('PETROL', $any($event.target).checked)" /> PETROL</label>
+            <label class="check-row"><input type="checkbox" [checked]="isDraftFuelTypeSelected('DIESEL')" (change)="toggleDraftFuelType('DIESEL', $any($event.target).checked)" /> DIESEL</label>
+            <label class="check-row"><input type="checkbox" [checked]="isDraftFuelTypeSelected('HYBRID')" (change)="toggleDraftFuelType('HYBRID', $any($event.target).checked)" /> HYBRID</label>
+            <label class="check-row"><input type="checkbox" [checked]="isDraftFuelTypeSelected('ELECTRIC')" (change)="toggleDraftFuelType('ELECTRIC', $any($event.target).checked)" /> ELECTRIC</label>
           </fieldset>
 
           <fieldset class="filter-group two-col">
             <legend class="filter-label">Daily price</legend>
             <div>
               <label for="price-min" class="mini-label">Min</label>
-              <input id="price-min" type="number" class="filter-input" placeholder="0" />
+              <input id="price-min" type="number" class="filter-input" placeholder="0" [ngModel]="draftPriceMin()" (ngModelChange)="setDraftPriceMin($event)" name="draftPriceMin" />
             </div>
             <div>
               <label for="price-max" class="mini-label">Max</label>
-              <input id="price-max" type="number" class="filter-input" placeholder="999" />
+              <input id="price-max" type="number" class="filter-input" placeholder="999" [ngModel]="draftPriceMax()" (ngModelChange)="setDraftPriceMax($event)" name="draftPriceMax" />
             </div>
           </fieldset>
 
@@ -58,11 +66,11 @@
             <legend class="filter-label">Seating capacity</legend>
             <div>
               <label for="seat-min" class="mini-label">Min</label>
-              <input id="seat-min" type="number" class="filter-input" placeholder="1" />
+              <input id="seat-min" type="number" class="filter-input" placeholder="1" [ngModel]="draftSeatMin()" (ngModelChange)="setDraftSeatMin($event)" name="draftSeatMin" />
             </div>
             <div>
               <label for="seat-max" class="mini-label">Max</label>
-              <input id="seat-max" type="number" class="filter-input" placeholder="9" />
+              <input id="seat-max" type="number" class="filter-input" placeholder="9" [ngModel]="draftSeatMax()" (ngModelChange)="setDraftSeatMax($event)" name="draftSeatMax" />
             </div>
           </fieldset>
 
@@ -70,84 +78,35 @@
             <legend class="filter-label">Availability window</legend>
             <div>
               <label for="available-from" class="mini-label">From</label>
-              <input id="available-from" type="datetime-local" class="filter-input" />
+              <input id="available-from" type="datetime-local" class="filter-input" [ngModel]="draftAvailableFrom()" (ngModelChange)="setDraftAvailableFrom($event)" name="draftAvailableFrom" />
             </div>
             <div>
               <label for="available-to" class="mini-label">To</label>
-              <input id="available-to" type="datetime-local" class="filter-input" />
+              <input id="available-to" type="datetime-local" class="filter-input" [ngModel]="draftAvailableTo()" (ngModelChange)="setDraftAvailableTo($event)" name="draftAvailableTo" />
             </div>
           </fieldset>
 
-          <button type="button" class="filter-action-btn filter-apply-btn">Apply filters</button>
+          <button type="button" class="filter-action-btn filter-apply-btn" (click)="applyFilters()">Apply filters</button>
         </form>
       </aside>
 
       <section class="results-panel" aria-label="Vehicle cards">
-        <article class="vehicle-card">
-          <h3 class="vehicle-title">Toyota Corolla</h3>
-          <dl class="vehicle-meta">
-            <div><dt>Vehicle type</dt><dd>CAR</dd></div>
-            <div><dt>Fuel type</dt><dd>HYBRID</dd></div>
-            <div><dt>Seats</dt><dd>5</dd></div>
-            <div><dt>Price/day</dt><dd>18 000 Ft</dd></div>
-          </dl>
-          <a [routerLink]="vehicleDetailsRoute('1001')" class="details-btn">Details</a>
-        </article>
-
-        <article class="vehicle-card">
-          <h3 class="vehicle-title">Skoda Octavia</h3>
-          <dl class="vehicle-meta">
-            <div><dt>Vehicle type</dt><dd>CAR</dd></div>
-            <div><dt>Fuel type</dt><dd>DIESEL</dd></div>
-            <div><dt>Seats</dt><dd>5</dd></div>
-            <div><dt>Price/day</dt><dd>16 500 Ft</dd></div>
-          </dl>
-          <a [routerLink]="vehicleDetailsRoute('1002')" class="details-btn">Details</a>
-        </article>
-
-        <article class="vehicle-card">
-          <h3 class="vehicle-title">Ford Transit</h3>
-          <dl class="vehicle-meta">
-            <div><dt>Vehicle type</dt><dd>VAN</dd></div>
-            <div><dt>Fuel type</dt><dd>DIESEL</dd></div>
-            <div><dt>Seats</dt><dd>8</dd></div>
-            <div><dt>Price/day</dt><dd>24 000 Ft</dd></div>
-          </dl>
-          <a [routerLink]="vehicleDetailsRoute('1003')" class="details-btn">Details</a>
-        </article>
-
-        <article class="vehicle-card">
-          <h3 class="vehicle-title">Volkswagen ID.4</h3>
-          <dl class="vehicle-meta">
-            <div><dt>Vehicle type</dt><dd>CAR</dd></div>
-            <div><dt>Fuel type</dt><dd>ELECTRIC</dd></div>
-            <div><dt>Seats</dt><dd>5</dd></div>
-            <div><dt>Price/day</dt><dd>22 000 Ft</dd></div>
-          </dl>
-          <a [routerLink]="vehicleDetailsRoute('1004')" class="details-btn">Details</a>
-        </article>
-
-        <article class="vehicle-card">
-          <h3 class="vehicle-title">Renault Trafic</h3>
-          <dl class="vehicle-meta">
-            <div><dt>Vehicle type</dt><dd>MINIVAN</dd></div>
-            <div><dt>Fuel type</dt><dd>DIESEL</dd></div>
-            <div><dt>Seats</dt><dd>9</dd></div>
-            <div><dt>Price/day</dt><dd>26 000 Ft</dd></div>
-          </dl>
-          <a [routerLink]="vehicleDetailsRoute('1005')" class="details-btn">Details</a>
-        </article>
-
-        <article class="vehicle-card">
-          <h3 class="vehicle-title">Nissan Leaf</h3>
-          <dl class="vehicle-meta">
-            <div><dt>Vehicle type</dt><dd>CAR</dd></div>
-            <div><dt>Fuel type</dt><dd>ELECTRIC</dd></div>
-            <div><dt>Seats</dt><dd>5</dd></div>
-            <div><dt>Price/day</dt><dd>19 000 Ft</dd></div>
-          </dl>
-          <a [routerLink]="vehicleDetailsRoute('1006')" class="details-btn">Details</a>
-        </article>
+        @if (filteredVehicles().length > 0) {
+          @for (vehicle of filteredVehicles(); track vehicle.id) {
+            <article class="vehicle-card">
+              <h3 class="vehicle-title">{{ vehicle.brand }} {{ vehicle.model }}</h3>
+              <dl class="vehicle-meta">
+                <div><dt>Vehicle type</dt><dd>{{ vehicle.vehicleType }}</dd></div>
+                <div><dt>Fuel type</dt><dd>{{ vehicle.fuelType }}</dd></div>
+                <div><dt>Seats</dt><dd>{{ vehicle.seatingCapacity ?? '-' }}</dd></div>
+                <div><dt>Price/day</dt><dd>{{ formatPrice(vehicle.dailyPrice) }}</dd></div>
+              </dl>
+              <a [routerLink]="vehicleDetailsRoute(vehicle.id)" class="details-btn">Details</a>
+            </article>
+          }
+        } @else {
+          <p class="vehicles-empty" role="status">No vehicles found.</p>
+        }
       </section>
     </div>
   </div>

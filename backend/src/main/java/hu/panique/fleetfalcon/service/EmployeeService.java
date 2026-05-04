@@ -29,16 +29,22 @@ public class EmployeeService {
         }
 
         if (hasEmployeeId) {
-            Employee employee = employeeRepository.findByEmployeeId(employeeId)
-                    .orElseThrow(() -> new RuntimeException("Employee not found with employeeId: " + employeeId));
+            Employee employee = employeeRepository.findByEmployeeIdIgnoreCase(employeeId)
+                    .orElse(null);
 
-            if (!hasName || containsName(employee, name)) {
+            if (employee == null) {
+                return Collections.emptyList();
+            }
+
+            if (!hasName || matchesName(employee, name)) {
                 return List.of(employee);
             }
             return Collections.emptyList();
         }
 
-        return employeeRepository.findByFirstNameContainingIgnoreCaseOrLastNameContainingIgnoreCase(name, name);
+        return employeeRepository.findAll().stream()
+                .filter(employee -> matchesName(employee, name))
+                .toList();
     }
 
     public Employee createEmployee(Employee employee) {
@@ -73,9 +79,15 @@ public class EmployeeService {
         return value != null && !value.isBlank();
     }
 
-    private boolean containsName(Employee employee, String name) {
-        String normalized = name.toLowerCase();
-        return employee.getFirstName().toLowerCase().contains(normalized)
-                || employee.getLastName().toLowerCase().contains(normalized);
+    private boolean matchesName(Employee employee, String name) {
+        String[] parts = name.trim().toLowerCase().split("\\s+");
+
+        if (parts.length == 1) {
+            return employee.getFirstName().toLowerCase().contains(parts[0])
+                    || employee.getLastName().toLowerCase().contains(parts[0]);
+        }
+
+        return employee.getFirstName().toLowerCase().contains(parts[0])
+                && employee.getLastName().toLowerCase().contains(parts[1]);
     }
 }

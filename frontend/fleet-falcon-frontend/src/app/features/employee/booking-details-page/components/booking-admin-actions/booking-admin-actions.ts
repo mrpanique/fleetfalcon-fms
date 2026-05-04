@@ -7,6 +7,9 @@ import { Component, EventEmitter, Output } from '@angular/core';
   styleUrl: './booking-admin-actions.css'
 })
 export class BookingAdminActionsComponent {
+  @Output() approve = new EventEmitter<void>();
+  @Output() reject = new EventEmitter<void>();
+  @Output() cancel = new EventEmitter<void>();
   @Output() checkout = new EventEmitter<void>();
   @Output() checkin = new EventEmitter<void>();
 }

@@ -5,45 +5,48 @@
       <p class="vehicle-id">Vehicle ID: {{ vehicleId() }}</p>
     </header>
 
-    <article class="vehicle-card" aria-label="Vehicle data">
-      <h2 class="vehicle-name">Toyota Corolla</h2>
+    @if ((vehicle$ | async); as vehicle) {
+      <article class="vehicle-card" aria-label="Vehicle data">
+        <h2 class="vehicle-name">{{ vehicle.brand }} {{ vehicle.model }}</h2>
 
-      <dl class="vehicle-data-grid">
-        <div><dt>Brand</dt><dd>Toyota</dd></div>
-        <div><dt>Model</dt><dd>Corolla</dd></div>
-        <div><dt>Vehicle type</dt><dd>CAR</dd></div>
-        <div><dt>Fuel type</dt><dd>HYBRID</dd></div>
-        <div><dt>Release year</dt><dd>2022</dd></div>
-        <div><dt>Daily price</dt><dd>18 000 Ft</dd></div>
-        <div><dt>Seats</dt><dd>5</dd></div>
-        <div><dt>License plate</dt><dd>ABC-123</dd></div>
-        @if (isAdmin()) {
-          <div><dt>Current status</dt><dd>AVAILABLE</dd></div>
-          <div><dt>Current mileage</dt><dd>42 800 km</dd></div>
-          <div><dt>Inspection valid until</dt><dd>2027-03-15</dd></div>
-          <div><dt>Next service mileage</dt><dd>50 000 km</dd></div>
-          <div><dt>Next service date</dt><dd>2026-09-01</dd></div>
-        }
-      </dl>
+        <dl class="vehicle-data-grid">
+          <div><dt>Brand</dt><dd>{{ vehicle.brand }}</dd></div>
+          <div><dt>Model</dt><dd>{{ vehicle.model }}</dd></div>
+          <div><dt>Vehicle type</dt><dd>{{ vehicle.vehicleType }}</dd></div>
+          <div><dt>Fuel type</dt><dd>{{ vehicle.fuelType }}</dd></div>
+          <div><dt>Release year</dt><dd>{{ vehicle.releaseYear ?? '-' }}</dd></div>
+          <div><dt>Daily price</dt><dd>{{ formatPrice(vehicle.dailyPrice) }}</dd></div>
+          <div><dt>Seats</dt><dd>{{ vehicle.seatingCapacity ?? '-' }}</dd></div>
+          <div><dt>License plate</dt><dd>{{ vehicle.licensePlate }}</dd></div>
+          @if (isAdmin()) {
+            <div><dt>Current status</dt><dd>{{ vehicle.status }}</dd></div>
+            <div><dt>Current mileage</dt><dd>{{ formatDistance(vehicle.currentMileage) }}</dd></div>
+            <div><dt>Inspection valid until</dt><dd>{{ formatDate(vehicle.inspectionValidUntil) }}</dd></div>
+            <div><dt>Next service mileage</dt><dd>{{ formatDistance(vehicle.nextServiceMileage) }}</dd></div>
+            <div><dt>Next service date</dt><dd>{{ formatDate(vehicle.nextServiceDate) }}</dd></div>
+          }
+        </dl>
 
-      <section class="vehicle-description" aria-labelledby="description-title">
-        <h3 id="description-title" class="description-title">Description</h3>
-        <p class="description-copy">
-          Comfortable hybrid sedan for city and intercity travel.
-          Includes rear camera, parking sensors, and automatic climate control.
-        </p>
-      </section>
+        <section class="vehicle-description" aria-labelledby="description-title">
+          <h3 id="description-title" class="description-title">Description</h3>
+          <p class="description-copy">{{ vehicle.description || 'No description provided.' }}</p>
+        </section>
 
-      <div class="actions-row">
-        <a routerLink="/my-bookings/create" class="book-btn">Book</a>
-        @if (isAdmin()) {
-          <div class="admin-right-actions">
-            <a [routerLink]="['/admin/vehicles', vehicleId(), 'service-log']" class="service-log-btn">Service log</a>
-            <a [routerLink]="['/admin/vehicles', vehicleId(), 'edit']" class="edit-btn">Edit vehicle</a>
-            <button type="button" class="delete-btn" (click)="deleteVehicle()">Delete vehicle</button>
-          </div>
-        }
-      </div>
-    </article>
+        <div class="actions-row">
+          <a [routerLink]="bookingCreateRoute()" [queryParams]="{ vehicleId: vehicleId() }" class="book-btn">Book</a>
+          @if (isAdmin()) {
+            <div class="admin-right-actions">
+              <a [routerLink]="['/admin/vehicles', vehicleId(), 'service-log']" class="service-log-btn">Service log</a>
+              <a [routerLink]="['/admin/vehicles', vehicleId(), 'edit']" class="edit-btn">Edit vehicle</a>
+              <button type="button" class="delete-btn" (click)="deleteVehicle()">Delete vehicle</button>
+            </div>
+          }
+        </div>
+      </article>
+    } @else {
+      <article class="vehicle-card" aria-label="Vehicle data unavailable">
+        <p class="vehicle-empty" role="status">Vehicle not found.</p>
+      </article>
+    }
   </div>
 </section>

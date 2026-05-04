@@ -11,6 +11,9 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.Predicate;
+import jakarta.persistence.criteria.Root;
 
 @Service
 public class BookingService {
@@ -36,17 +39,41 @@ public class BookingService {
             spec = spec.and((root, query, cb) -> cb.equal(root.get("status"), status));
         }
         if (hasText(employeeName)) {
-            String nameFilter = "%" + employeeName.toLowerCase() + "%";
-            spec = spec.and((root, query, cb) -> cb.or(
-                    cb.like(cb.lower(root.get("employee").get("firstName")), nameFilter),
-                    cb.like(cb.lower(root.get("employee").get("lastName")), nameFilter)
-            ));
+            spec = spec.and((root, query, cb) -> buildNameFilter(cb, root, employeeName));
         }
         if (hasText(employeeId)) {
             spec = spec.and((root, query, cb) -> cb.equal(root.get("employee").get("employeeId"), employeeId));
         }
 
         return bookingRepository.findAll(spec);
+    }
+
+    private Predicate buildNameFilter(
+            CriteriaBuilder cb,
+            Root<Booking> root,
+            String employeeName) {
+        String[] parts = employeeName.trim().toLowerCase().split("\\s+");
+        
+        if (parts.length == 1) {
+            // Single word: search in both firstName and lastName
+            String filter = "%" + parts[0] + "%";
+            return cb.or(
+                    cb.like(cb.lower(root.get("employee").get("firstName")), filter),
+                    cb.like(cb.lower(root.get("employee").get("lastName")), filter)
+            );
+        }
+
+        // Multi-word: match only the ordered full name "firstName lastName".
+        String fullNameFilter = "%" + employeeName.trim().toLowerCase() + "%";
+        return cb.like(
+                cb.lower(
+                        cb.concat(
+                                cb.concat(root.get("employee").get("firstName"), cb.literal(" ")),
+                                root.get("employee").get("lastName")
+                        )
+                ),
+                fullNameFilter
+        );
     }
 
     public Booking createBooking(BookingRequest request) {

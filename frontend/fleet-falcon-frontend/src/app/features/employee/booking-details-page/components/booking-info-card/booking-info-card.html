@@ -4,7 +4,7 @@
   <dl class="booking-data-grid">
     <div>
       <dt>Status</dt>
-      <dd><span class="status-pill approved">{{ status }}</span></dd>
+      <dd><app-status-indicator [status]="status" /></dd>
     </div>
     <div>
       <dt>Cost</dt>
@@ -18,10 +18,13 @@
 
   @if (isAdmin) {
     <app-booking-admin-actions
+      (approve)="approve.emit()"
+      (reject)="reject.emit()"
+      (cancel)="cancel.emit()"
       (checkout)="checkout.emit()"
       (checkin)="checkin.emit()"
     />
   } @else {
-    <button type="button" class="cancel-btn">Cancel booking</button>
+    <button type="button" class="cancel-btn" [disabled]="isBusy" (click)="cancel.emit()">Cancel booking</button>
   }
 </article>

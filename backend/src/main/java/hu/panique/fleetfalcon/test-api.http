@@ -1,206 +1,168 @@
 @baseUrl = http://localhost:8080
-@userId = 1
 
-@bookingTag = 9001
-@bookingUserId = 1
-@bookingEmployeeDbId = 1
-@bookingVehicleId = 1
-@bookingHappyId = 1
-@bookingRejectId = 2
-@bookingCancelId = 1
 
-### 19. (ELOFELTETEL) USER LETREHOZAS A BOOKING EMPLOYEE-HEZ
-### FONTOS: allitsd a felso @bookingUserId-t a valaszban kapott id-ra.
+### 1) USER #1
 POST {{baseUrl}}/api/users
 Content-Type: application/json
 
 {
-  "email": "booking.user.{{bookingTag}}@fleetfalcon.local",
-  "passwordHash": "BookingPass123!",
+  "email": "seed.admin1@fleetfalcon.test",
+  "passwordHash": "AdminPass123!",
+  "role": "ADMIN"
+}
+
+> {%
+  client.global.set("user1Id", response.body.id);
+%}
+
+### 2) USER #2
+POST {{baseUrl}}/api/users
+Content-Type: application/json
+
+{
+  "email": "seed.employee1@fleetfalcon.test",
+  "passwordHash": "EmployeePass123!",
   "role": "EMPLOYEE"
 }
 
+> {%
+  client.global.set("user2Id", response.body.id);
+%}
 
-### 20. (ELOFELTETEL) EMPLOYEE LETREHOZAS
-### FONTOS: allitsd a felso @bookingEmployeeDbId-t a valaszban kapott id-ra.
+### 3) EMPLOYEE #1 (linked to USER #1)
 POST {{baseUrl}}/api/employees
 Content-Type: application/json
 
 {
-  "firstName": "Booking",
-  "lastName": "Tester",
-  "employeeId": "EMP-BOOK-{{bookingTag}}",
+  "firstName": "Adam",
+  "lastName": "Kovacs",
+  "employeeId": "EMP-001",
   "user": {
-    "id": {{bookingUserId}}
+    "id": {{user1Id}}
   },
-  "phoneNumber": "+3630222{{bookingTag}}",
-  "drivingLicenseNumber": "DL-BOOK-{{bookingTag}}",
-  "department": "QA"
+  "phoneNumber": "+36300000001",
+  "drivingLicenseNumber": "DL-SEED-001",
+  "department": "Operations"
 }
 
+> {%
+  client.global.set("employee1Id", response.body.id);
+%}
 
-### 21. (ELOFELTETEL) VEHICLE LETREHOZAS
-### FONTOS: allitsd a felso @bookingVehicleId-t a valaszban kapott id-ra.
+### 4) EMPLOYEE #2 (linked to USER #2)
+POST {{baseUrl}}/api/employees
+Content-Type: application/json
+
+{
+  "firstName": "Bea",
+  "lastName": "Nagy",
+  "employeeId": "EMP-002",
+  "user": {
+    "id": {{user2Id}}
+  },
+  "phoneNumber": "+36300000002",
+  "drivingLicenseNumber": "DL-SEED-002",
+  "department": "Sales"
+}
+
+> {%
+  client.global.set("employee2Id", response.body.id);
+%}
+
+### 5) VEHICLE #1
 POST {{baseUrl}}/api/vehicles
 Content-Type: application/json
 
 {
   "brand": "Skoda",
   "model": "Octavia",
-  "licensePlate": "BOOK-{{bookingTag}}",
+  "licensePlate": "SEED-VEH-001",
   "vehicleType": "CAR",
-  "fuelType": "PETROL",
-  "releaseYear": 2022,
+  "fuelType": "DIESEL",
+  "releaseYear": 2021,
   "dailyPrice": 15000,
   "seatingCapacity": 5,
-  "description": "Booking lifecycle test vehicle",
+  "description": "Seed vehicle 1",
   "status": "AVAILABLE",
-  "currentMileage": 50000,
-  "inspectionValidUntil": "2027-12-31",
-  "nextServiceMileage": 60000,
-  "nextServiceDate": "2026-10-01"
+  "currentMileage": 84500,
+  "inspectionValidUntil": "2027-10-31",
+  "nextServiceMileage": 90000,
+  "nextServiceDate": "2026-12-01"
 }
 
+> {%
+  client.global.set("vehicle1Id", response.body.id);
+%}
 
-### 22. HAPPY PATH - BOOKING LETREHOZAS (PENDING)
-### FONTOS: allitsd a felso @bookingHappyId-t a valaszban kapott id-ra.
+### 6) VEHICLE #2
+POST {{baseUrl}}/api/vehicles
+Content-Type: application/json
+
+{
+  "brand": "Ford",
+  "model": "Transit",
+  "licensePlate": "SEED-VEH-002",
+  "vehicleType": "VAN",
+  "fuelType": "DIESEL",
+  "releaseYear": 2020,
+  "dailyPrice": 18000,
+  "seatingCapacity": 3,
+  "description": "Seed vehicle 2",
+  "status": "AVAILABLE",
+  "currentMileage": 123000,
+  "inspectionValidUntil": "2026-11-30",
+  "nextServiceMileage": 130000,
+  "nextServiceDate": "2026-08-15"
+}
+
+> {%
+  client.global.set("vehicle2Id", response.body.id);
+%}
+
+### 7) BOOKING #1
 POST {{baseUrl}}/api/bookings
 Content-Type: application/json
 
 {
-  "vehicleId": {{bookingVehicleId}},
-  "employeeId": {{bookingEmployeeDbId}},
-  "startDate": "2026-08-01T08:00:00",
-  "endDate": "2026-08-03T18:00:00"
+  "vehicleId": {{vehicle1Id}},
+  "employeeId": {{employee1Id}},
+  "startDate": "2026-05-01T08:00:00",
+  "endDate": "2026-05-03T18:00:00"
 }
 
+> {%
+  client.global.set("booking1Id", response.body.id);
+%}
 
-### 23. HAPPY PATH - JOvAHAGYAS (APPROVED)
-POST {{baseUrl}}/api/bookings/{{bookingHappyId}}/approve
-
-
-### 24. HAPPY PATH - START (ACTIVE)
-POST {{baseUrl}}/api/bookings/{{bookingHappyId}}/start?mileage=50000
-
-
-### 25. HAPPY PATH - END (COMPLETED)
-POST {{baseUrl}}/api/bookings/{{bookingHappyId}}/end?mileage=50220
-
-
-### 26. ELLENORZES - STATUS SZURES (COMPLETED)
-GET {{baseUrl}}/api/bookings?status=COMPLETED
-
-
-### 27. ELLENORZES - EMPLOYEE NAME SZURES
-GET {{baseUrl}}/api/bookings?employeeName=booking
-
-
-### 28. ELLENORZES - EMPLOYEE ID SZURES
-GET {{baseUrl}}/api/bookings?employeeId=EMP-BOOK-{{bookingTag}}
-
-
-### 29. REJECT AG - UJ BOOKING LETREHOZAS
-### FONTOS: allitsd a felso @bookingRejectId-t a valaszban kapott id-ra.
+### 8) BOOKING #2
 POST {{baseUrl}}/api/bookings
 Content-Type: application/json
 
 {
-  "vehicleId": {{bookingVehicleId}},
-  "employeeId": {{bookingEmployeeDbId}},
-  "startDate": "2026-08-10T08:00:00",
-  "endDate": "2026-08-12T18:00:00"
+  "vehicleId": {{vehicle2Id}},
+  "employeeId": {{employee2Id}},
+  "startDate": "2026-05-04T08:00:00",
+  "endDate": "2026-05-06T18:00:00"
 }
 
-
-### 30. REJECT AG - ELUTASITAS (REJECTED)
-POST {{baseUrl}}/api/bookings/{{bookingRejectId}}/reject
-
-
-### 31. CANCEL AG - UJ BOOKING LETREHOZAS
-### FONTOS: allitsd a felso @bookingCancelId-t a valaszban kapott id-ra.
-POST {{baseUrl}}/api/bookings
-Content-Type: application/json
-
-{
-  "vehicleId": {{bookingVehicleId}},
-  "employeeId": {{bookingEmployeeDbId}},
-  "startDate": "2026-08-20T08:00:00",
-  "endDate": "2026-08-22T18:00:00"
-}
+> {%
+  client.global.set("booking2Id", response.body.id);
+%}
 
 
-### 32. CANCEL AG - JOvAHAGYAS (APPROVED)
-POST {{baseUrl}}/api/bookings/{{bookingCancelId}}/approve
 
+### 9) GET EMPLOYEES - Filter by name (should return EMPLOYEE #1)
+GET {{baseUrl}}/api/employees?name=Adam&employeeId=emp-003
 
-### 33. CANCEL AG - LEMONDAS (CANCELLED)
-POST {{baseUrl}}/api/bookings/{{bookingCancelId}}/cancel
+### 10) GET EMPLOYEES - Filter by name (should return EMPLOYEE #1)
+GET {{baseUrl}}/api/employees?name=Kovacs Adam
 
+### 11) GET EMPLOYEES - Filter by name (should return EMPLOYEE #1)
+GET {{baseUrl}}/api/employees?name=Adam Kovacs
 
-### 34. STATUS FRISSITES ENDPOINT TESZT (PUT /status)
-### FIGYELEM: Ez kozvetlen status allitas, uzleti validacio nelkul.
-PUT {{baseUrl}}/api/bookings/{{bookingRejectId}}/status
-Content-Type: application/json
+### 12) GET EMPLOYEES - Filter by employeeId (should return EMPLOYEE #2)
+GET {{baseUrl}}/api/employees?employeeId=EMP-002
 
-{
-  "status": "PENDING"
-}
-
-
-### 35. VEGSO LISTA
-GET {{baseUrl}}/api/bookings
-
-### 1. FELHASZNALO LETREHOZAS
-### Elvart: 200 OK + JSON benne id/email/role
-POST {{baseUrl}}/api/users
-Content-Type: application/json
-
-{
-  "email": "user.test@fleetfalcon.local",
-  "passwordHash": "InitPass123!",
-  "role": "EMPLOYEE"
-}
-
-
-### 2. FELHASZNALO LEKERESE ID ALAPJAN
-### FONTOS: allitsd az @userId valtozot felul a letrehozott id-re.
-### Elvart: 200 OK
-GET {{baseUrl}}/api/users/{{userId}}
-
-
-### 3. JELSZO FRISSITES (HELYES AKTUALIS JELSZO)
-### Elvart: 204 No Content
-PUT {{baseUrl}}/api/users/{{userId}}/password
-Content-Type: application/json
-
-{
-  "currentPassword": "InitPass123!",
-  "newPassword": "NewPass456!"
-}
-
-
-### 4. NEGATIV TESZT - HIBAS AKTUALIS JELSZO
-### Elvart: hiba (jelenlegi implementacioban valoszinuleg 500 RuntimeException)
-PUT {{baseUrl}}/api/users/{{userId}}/password
-Content-Type: application/json
-
-{
-  "currentPassword": "WrongPass999!",
-  "newPassword": "AnotherPass789!"
-}
-
-
-### 5. FELHASZNALO TORLESE
-### Elvart: 200 OK
-DELETE {{baseUrl}}/api/users/{{userId}}
-
-
-### 6. TOROLT FELHASZNALO LEKERESE
-### Elvart: hiba (jelenlegi implementacioban valoszinuleg 500 RuntimeException)
-GET {{baseUrl}}/api/users/{{userId}}
-
-
-### 7. VEGSO LISTA
-### Elvart: 200 OK es a torolt user mar ne legyen benne.
-GET {{baseUrl}}/api/users
+### 13) GET EMPLOYEES - Filter by employeeId lowercase (should return EMPLOYEE #1)
+GET {{baseUrl}}/api/employees?employeeId=emp-001
 

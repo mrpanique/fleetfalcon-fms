@@ -18,25 +18,6 @@
 		</nav>
 
 		<div class="navbar-actions">
-			<div class="role-switch" aria-label="Switch active role preview">
-				<button
-					type="button"
-					class="role-btn"
-					[class.is-selected]="role() === 'EMPLOYEE'"
-					(click)="switchRole('EMPLOYEE')"
-				>
-					Employee
-				</button>
-				<button
-					type="button"
-					class="role-btn"
-					[class.is-selected]="role() === 'ADMIN'"
-					(click)="switchRole('ADMIN')"
-				>
-					Admin
-				</button>
-			</div>
-
 			<button
 				type="button"
 				class="mobile-toggle"

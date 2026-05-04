@@ -8,19 +8,26 @@
     <div class="booking-details-grid">
       <app-booking-info-card
         [isAdmin]="isAdmin()"
+        [isBusy]="isBusy()"
+        [status]="bookingStatus()"
+        [cost]="bookingCost()"
+        [timePeriod]="bookingTimePeriod()"
+        (approve)="approveBooking()"
+        (reject)="rejectBooking()"
+        (cancel)="cancelBooking()"
         (checkout)="openMileageModal('checkout')"
         (checkin)="openMileageModal('checkin')"
       />
 
       <article class="vehicle-card" aria-labelledby="vehicle-card-title">
-        <h2 id="vehicle-card-title" class="vehicle-title">Toyota Corolla</h2>
+        <h2 id="vehicle-card-title" class="vehicle-title">{{ vehicleName() }}</h2>
         <dl class="vehicle-meta">
-          <div><dt>Vehicle type</dt><dd>CAR</dd></div>
-          <div><dt>Fuel type</dt><dd>HYBRID</dd></div>
-          <div><dt>Seats</dt><dd>5</dd></div>
-          <div><dt>Price/day</dt><dd>18 000 Ft</dd></div>
+          <div><dt>Vehicle type</dt><dd>{{ booking()?.vehicle?.vehicleType ?? '-' }}</dd></div>
+          <div><dt>Fuel type</dt><dd>{{ booking()?.vehicle?.fuelType ?? '-' }}</dd></div>
+          <div><dt>Seats</dt><dd>{{ booking()?.vehicle?.seatingCapacity ?? '-' }}</dd></div>
+          <div><dt>Price/day</dt><dd>{{ booking()?.vehicle?.dailyPrice != null ? booking()?.vehicle?.dailyPrice?.toLocaleString('hu-HU') + ' Ft' : '-' }}</dd></div>
         </dl>
-        <a routerLink="/vehicles/1001" class="details-btn">Vehicle details</a>
+        <a [routerLink]="vehicleDetailsRoute()" class="details-btn">Vehicle details</a>
       </article>
     </div>
 

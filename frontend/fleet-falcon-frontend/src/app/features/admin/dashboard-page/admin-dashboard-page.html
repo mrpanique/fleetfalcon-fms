@@ -4,14 +4,14 @@
       <h1 id="admin-dashboard-title" class="admin-dashboard-title">Admin Dashboard</h1>
     </header>
 
-    <!-- Pending Bookings Section -->
+    <!-- All Bookings Section -->
     <article class="admin-dashboard-card" aria-labelledby="pending-list-title">
-      <h2 id="pending-list-title" class="card-title">Pending Bookings</h2>
+      <h2 id="pending-list-title" class="card-title">All Bookings</h2>
 
       <app-admin-booking-list
-        [items]="pendingBookings"
-        ariaLabel="Pending bookings to review"
-        emptyMessage="No pending bookings at the moment"
+        [items]="pendingBookings()"
+        ariaLabel="All bookings"
+        emptyMessage="No bookings at the moment"
       />
     </article>
 
@@ -20,7 +20,7 @@
       <h2 id="my-bookings-list-title" class="card-title">My Upcoming Bookings</h2>
 
       <app-admin-booking-list
-        [items]="adminBookings"
+        [items]="(myUpcomingBookings$ | async) ?? []"
         ariaLabel="Your upcoming bookings"
         emptyMessage="No upcoming bookings scheduled"
       />

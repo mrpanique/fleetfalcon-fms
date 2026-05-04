@@ -47,6 +47,30 @@
   background: rgba(255, 178, 40, 0.1);
 }
 
+.terminal {
+  background: #171717;
+  border-color: rgba(125, 125, 125, 0.26);
+}
+
+.terminal .booking-employee,
+.terminal .booking-vehicle,
+.terminal .booking-date {
+  color: #9c9c9c;
+}
+
+.terminal:hover {
+  filter: brightness(1.03);
+  border-color: rgba(160, 160, 160, 0.36);
+  background: #1d1d1d;
+  box-shadow: 0 0 14px rgba(130, 130, 130, 0.22);
+}
+
+.terminal:focus-visible {
+  border-color: rgba(170, 170, 170, 0.6);
+  box-shadow: 0 0 0 4px rgba(170, 170, 170, 0.18);
+  background: #1d1d1d;
+}
+
 .booking-employee,
 .booking-date {
   margin: 0;
@@ -62,40 +86,6 @@
 
 .booking-date {
   margin-top: 0.24rem;
-}
-
-.status-pill {
-  border-radius: 999px;
-  border: 1px solid rgba(0, 214, 143, 0.34);
-  color: #8ff6cf;
-  background: rgba(0, 214, 143, 0.08);
-  padding: 0.22rem 0.55rem;
-  font-size: 0.76rem;
-  white-space: nowrap;
-}
-
-.status-pill.status-pending {
-  border-color: rgba(255, 178, 40, 0.45);
-  color: #ffd08c;
-  background: rgba(255, 178, 40, 0.11);
-}
-
-.status-pill.status-approved {
-  border-color: rgba(0, 214, 143, 0.34);
-  color: #8ff6cf;
-  background: rgba(0, 214, 143, 0.08);
-}
-
-.status-pill.status-active {
-  border-color: rgba(74, 172, 255, 0.45);
-  color: #9fd5ff;
-  background: rgba(74, 172, 255, 0.11);
-}
-
-.status-pill.status-rejected {
-  border-color: rgba(244, 67, 54, 0.34);
-  color: #ff8a80;
-  background: rgba(244, 67, 54, 0.08);
 }
 
 .status-pill.status-completed {

@@ -48,7 +48,8 @@
   font-size: clamp(1.15rem, 1.3vw, 1.4rem);
 }
 
-.add-btn {
+.add-btn,
+.search-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -61,9 +62,16 @@
   box-shadow: 0 10px 20px rgba(255, 0, 68, 0.24);
   transition: box-shadow 160ms ease, filter 160ms ease;
   white-space: nowrap;
+  cursor: pointer;
 }
 
-.add-btn:hover {
+.search-btn {
+  grid-column: 1 / -1;
+  justify-self: start;
+}
+
+.add-btn:hover,
+.search-btn:hover {
   filter: brightness(1.5);
   box-shadow: 0 0 26px rgba(255, 0, 68, 0.5);
 }

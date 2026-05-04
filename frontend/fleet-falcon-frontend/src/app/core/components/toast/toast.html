@@ -1,0 +1,8 @@
+@if (toast(); as message) {
+  <div class="toast-shell" role="status" aria-live="polite">
+    <article class="toast-card" [ngClass]="toastClass()">
+      <p class="toast-text">{{ message.text }}</p>
+      <button type="button" class="toast-close" (click)="dismiss()" aria-label="Dismiss notification">Close</button>
+    </article>
+  </div>
+}

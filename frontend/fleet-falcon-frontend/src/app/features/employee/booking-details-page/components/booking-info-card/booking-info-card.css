@@ -40,15 +40,6 @@
   font-weight: 600;
 }
 
-.status-pill {
-  border-radius: 999px;
-  border: 1px solid rgba(0, 214, 143, 0.34);
-  color: #8ff6cf;
-  background: rgba(0, 214, 143, 0.08);
-  padding: 0.2rem 0.55rem;
-  font-size: 0.76rem;
-}
-
 .cancel-btn {
   display: inline-flex;
   align-items: center;

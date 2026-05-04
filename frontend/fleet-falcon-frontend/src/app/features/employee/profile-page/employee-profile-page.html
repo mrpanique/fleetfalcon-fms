@@ -8,8 +8,9 @@
       <h2 id="account-info-title" class="section-title">Account</h2>
       <div class="email-block">
         <p class="label">Email</p>
-        <p class="email-value">employee@fleetfalcon.hu</p>
+        <p class="email-value">{{ currentUser()?.email ?? 'Loading...' }}</p>
       </div>
+      <button type="button" class="change-password-btn" (click)="logout()">Logout</button>
     </article>
 
     <article class="profile-card" aria-labelledby="change-password-title">
@@ -18,20 +19,23 @@
       <form class="password-form" aria-label="Change password form" novalidate>
         <div class="field-row">
           <label for="old-password" class="field-label">Old password</label>
-          <input id="old-password" type="password" class="field-input" autocomplete="current-password" />
+          <input id="old-password" type="password" class="field-input" autocomplete="current-password" [(ngModel)]="oldPassword" name="oldPassword" />
         </div>
 
         <div class="field-row">
           <label for="new-password" class="field-label">New password</label>
-          <input id="new-password" type="password" class="field-input" autocomplete="new-password" />
+          <input id="new-password" type="password" class="field-input" autocomplete="new-password" [(ngModel)]="newPassword" name="newPassword" [attr.aria-invalid]="getNewPasswordError() ? 'true' : null" />
+          @if (getNewPasswordError(); as newPasswordError) {
+            <p class="field-error" role="alert">{{ newPasswordError }}</p>
+          }
         </div>
 
         <div class="field-row">
           <label for="new-password-confirm" class="field-label">Repeat new password</label>
-          <input id="new-password-confirm" type="password" class="field-input" autocomplete="new-password" />
+          <input id="new-password-confirm" type="password" class="field-input" autocomplete="new-password" [(ngModel)]="newPasswordConfirm" name="newPasswordConfirm" />
         </div>
 
-        <button type="button" class="change-password-btn">Change password</button>
+        <button type="button" class="change-password-btn" (click)="changePassword()">Change password</button>
       </form>
     </article>
   </div>
