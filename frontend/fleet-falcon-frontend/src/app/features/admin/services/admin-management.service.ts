@@ -1,6 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from '../../../../environments/environment';
 
 export interface AdminUserRef {
   id: number;
@@ -92,7 +93,7 @@ export interface AdminMaintenanceLogUpsertRequest {
 @Injectable({ providedIn: 'root' })
 export class AdminManagementService {
   private readonly http = inject(HttpClient);
-  private readonly apiBaseUrl = 'http://localhost:8080';
+  private readonly apiBaseUrl = environment.apiUrl;
 
   getEmployees(filters?: { name?: string | null; employeeId?: string | null }): Observable<AdminEmployeeDto[]> {
     let params = new HttpParams();

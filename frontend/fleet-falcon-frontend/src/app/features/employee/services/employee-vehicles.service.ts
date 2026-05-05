@@ -1,6 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { catchError, Observable, of } from 'rxjs';
+import { environment } from '../../../../environments/environment';
 
 export interface VehicleDto {
   id: number;
@@ -23,7 +24,7 @@ export interface VehicleDto {
 @Injectable({ providedIn: 'root' })
 export class EmployeeVehiclesService {
   private readonly http = inject(HttpClient);
-  private readonly apiBaseUrl = 'http://localhost:8080';
+  private readonly apiBaseUrl = environment.apiUrl;
 
   getVehicles(filters?: { availableFrom?: string | null; availableTo?: string | null }): Observable<VehicleDto[]> {
     let params = new HttpParams();

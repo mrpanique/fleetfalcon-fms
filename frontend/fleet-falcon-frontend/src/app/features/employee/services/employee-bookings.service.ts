@@ -3,6 +3,7 @@ import { Injectable, inject } from '@angular/core';
 import { catchError, map, Observable, of } from 'rxjs';
 import { BookingListItem } from '../components/booking-list-item/booking-list-item.model';
 import { AdminBookingStatus } from '../../admin/components/booking-list-item/booking-list-item.model';
+import { environment } from '../../../../environments/environment';
 
 export interface ApiBookingVehicle {
   id: number;
@@ -61,7 +62,7 @@ export interface CreateBookingRequest {
 @Injectable({ providedIn: 'root' })
 export class EmployeeBookingsService {
   private readonly http = inject(HttpClient);
-  private readonly apiBaseUrl = 'http://localhost:8080';
+  private readonly apiBaseUrl = environment.apiUrl;
 
   getBookings(filters?: BookingFilters): Observable<ApiBooking[]> {
     let params = new HttpParams();

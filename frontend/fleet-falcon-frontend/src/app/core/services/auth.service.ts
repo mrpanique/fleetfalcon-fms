@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject, signal, computed } from '@angular/core';
 import { Observable, BehaviorSubject, tap } from 'rxjs';
+import { environment } from '../../../environments/environment';
 
 export interface AuthUser {
   id: number;
@@ -17,7 +18,7 @@ export interface LoginRequest {
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   private readonly http = inject(HttpClient);
-  private readonly apiBaseUrl = 'http://localhost:8080';
+  private readonly apiBaseUrl = environment.apiUrl;
 
   // Reactive state using Angular Signals
   private readonly _currentUser = signal<AuthUser | null>(null);
