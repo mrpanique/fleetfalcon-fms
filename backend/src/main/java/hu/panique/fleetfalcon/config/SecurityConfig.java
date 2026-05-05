@@ -14,6 +14,12 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
+import org.springframework.security.config.Customizer;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.Arrays;
 
 @Configuration
 @EnableWebSecurity
@@ -78,12 +84,27 @@ public class SecurityConfig {
 				.authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))
 			)
 			// Enable CORS
-			.cors(cors -> {})
+			.cors(Customizer.withDefaults())
 			// Disable other auth methods
 			.rememberMe(remember -> remember.disable())
 			.httpBasic(basic -> basic.disable());
 
 		return http.build();
+	}
+
+	@Bean
+	public CorsConfigurationSource corsConfigurationSource() {
+		CorsConfiguration configuration = new CorsConfiguration();
+		// IDE ÍRD BE A VERCEL LINKEDET IS (per jel nélkül a végén!):
+		configuration.setAllowedOrigins(Arrays.asList("http://localhost:4200", "https://fleetfalconfrontend.vercel.app"));
+		configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
+		configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type", "X-Requested-With", "accept", "Origin", "Access-Control-Request-Method", "Access-Control-Request-Headers"));
+		configuration.setAllowCredentials(true);
+
+		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+		// Ez azt jelenti, hogy minden végpontra (/api/...) érvényes:
+		source.registerCorsConfiguration("/**", configuration);
+		return source;
 	}
 
 	@Bean

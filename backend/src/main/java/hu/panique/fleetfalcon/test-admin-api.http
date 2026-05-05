@@ -1,2 +1,9 @@
+### lokális
+
 POST http://localhost:8080/api/auth/register-admin
+
+### render.com
+
+POST https://fleetfalcon-api.onrender.com/api/auth/register-admin
+
 
